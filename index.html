@@ -122,12 +122,45 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
 .scen-cat-item.on .scen-cat-count{background:rgba(230,57,70,0.4);color:#ffffff;}
 .scen-mob-bar{display:none;}
 @media(max-width:700px){
-  .scen-layout{grid-template-columns:1fr;}
+  .scen-layout{display:block;}
   .scen-cats{display:none;}
-  .scen-mob-bar{display:flex;gap:7px;overflow-x:auto;padding:0 0 12px 0;margin-bottom:8px;-webkit-overflow-scrolling:touch;position:relative;z-index:1;}
+  .scen-mob-bar{
+    display:flex !important;
+    flex-wrap:nowrap;
+    gap:8px;
+    overflow-x:scroll;
+    -webkit-overflow-scrolling:touch;
+    padding:4px 0 14px 0;
+    margin-bottom:12px;
+    width:100%;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+  }
   .scen-mob-bar::-webkit-scrollbar{display:none;}
-  .scen-mob-pill{flex-shrink:0;padding:8px 16px;border-radius:50px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.07);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all 0.2s;}
-  .scen-mob-pill.on{background:rgba(230,57,70,0.25);border-color:rgba(230,57,70,0.6);color:#ffffff;}
+  .scen-mob-pill{
+    flex:0 0 auto;
+    padding:9px 18px;
+    border-radius:50px;
+    border:1px solid rgba(255,255,255,0.22);
+    background:rgba(255,255,255,0.08);
+    color:#cde8ea;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+    font-family:inherit;
+    transition:all 0.2s;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+  .scen-mob-pill.on{
+    background:rgba(230,57,70,0.28);
+    border-color:rgba(230,57,70,0.65);
+    color:#ffffff;
+  }
 }
 .scen-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#ffffff;margin-bottom:5px;}
 .scen-desc{font-size:13px;color:var(--muted);margin-bottom:16px;font-weight:600;}
@@ -136,9 +169,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
 .scen-search input::placeholder{color:#6a9da0;}
 
 /* Scenario phrase card */
-.spc{background:#1a2e42;border:1px solid rgba(255,255,255,0.14);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:all 0.2s;}
+.spc{background:#1a2e42;border:1px solid rgba(255,255,255,0.14);border-radius:14px;margin-bottom:10px;overflow:hidden;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
 .spc:hover{background:#1f3650;border-color:rgba(168,218,220,0.3);}
-.spc-main{padding:16px 18px;cursor:pointer;}
+.spc:active{background:#253d57;}
+.spc-main{padding:16px 18px;cursor:pointer;touch-action:manipulation;}
 .spc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
 .spc-dutch{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:#ffffff;line-height:1.4;flex:1;}
 .spc-expand{font-size:14px;color:var(--muted);flex-shrink:0;margin-top:3px;transition:transform 0.2s;}
@@ -278,13 +312,13 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
 
       <!-- SCENARIOS TAB -->
       <div id="tab-scenarios" style="display:none;">
+        <!-- Mobile pill bar outside grid so it spans full width -->
+        <div class="scen-mob-bar" id="scen-mob-bar"></div>
         <div class="scen-layout">
           <div class="scen-cats" id="scen-cat-list"></div>
           <div>
             <div class="scen-title" id="scen-title">Accommodation</div>
             <div class="scen-desc" id="scen-desc">Tap any phrase to reveal pronunciation</div>
-            <!-- Mobile category pill bar -->
-            <div class="scen-mob-bar" id="scen-mob-bar"></div>
             <div class="scen-search">
               <span class="si">🔍</span>
               <input type="search" id="scen-search" placeholder="Search scenarios…" oninput="renderScenPhrases()" autocomplete="off"/>
@@ -584,9 +618,11 @@ function renderScenCats(){
   const cats=getAllSCats();
   const counts={};scenPhrases.forEach(s=>counts[s.c]=(counts[s.c]||0)+1);
   // Desktop sidebar
-  document.getElementById('scen-cat-list').innerHTML=
-    '<div class="scen-cat-title">Categories</div>'+
-    cats.map(c=>`<div class="scen-cat-item${c===activeScat?' on':''}" onclick="selectScat('${x(c)}')">${x(c)}<span class="scen-cat-count">${counts[c]||0}</span></div>`).join('');
+  const sidebar=document.getElementById('scen-cat-list');
+  if(sidebar){
+    sidebar.innerHTML='<div class="scen-cat-title">Categories</div>'+
+      cats.map(c=>`<div class="scen-cat-item${c===activeScat?' on':''}" onclick="selectScat('${x(c)}')">${x(c)}<span class="scen-cat-count">${counts[c]||0}</span></div>`).join('');
+  }
   // Mobile pill bar
   const mob=document.getElementById('scen-mob-bar');
   if(mob){
@@ -594,8 +630,14 @@ function renderScenCats(){
     // Scroll active pill into view
     setTimeout(()=>{
       const active=mob.querySelector('.scen-mob-pill.on');
-      if(active) active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    },50);
+      if(active){
+        const bar=mob;
+        const pillLeft=active.offsetLeft;
+        const pillWidth=active.offsetWidth;
+        const barWidth=bar.offsetWidth;
+        bar.scrollLeft=pillLeft-(barWidth/2)+(pillWidth/2);
+      }
+    },80);
   }
 }
 
