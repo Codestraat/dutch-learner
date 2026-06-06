@@ -221,6 +221,46 @@ textarea{flex:1;min-height:200px;background:#1e3248;border:1px solid rgba(255,25
 /* TOAST */
 .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);background:#182635;color:#ffffff;padding:11px 22px;border-radius:50px;font-size:13px;font-weight:700;z-index:999;transition:transform 0.3s;pointer-events:none;border:1px solid rgba(255,255,255,0.2);white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
 .toast.show{transform:translateX(-50%) translateY(0);}
+.speak-btn{background:none;border:none;cursor:pointer;font-size:17px;padding:4px 6px;border-radius:8px;opacity:0.6;transition:all 0.2s;line-height:1;-webkit-tap-highlight-color:transparent;touch-action:manipulation;flex-shrink:0;}
+.speak-btn:hover{opacity:1;background:rgba(168,218,220,0.12);}
+.speak-btn:active{transform:scale(0.88);}
+.speak-btn.speaking{opacity:1;animation:pulse-speak 0.6s infinite alternate;}
+@keyframes pulse-speak{from{opacity:0.6;}to{opacity:1;filter:drop-shadow(0 0 5px rgba(168,218,220,0.9));}}
+
+/* ── AUDIO PLAYER BAR ── */
+.audio-player{
+  display:flex;align-items:center;gap:12px;
+  background:#1a2e42;border:1px solid rgba(168,218,220,0.2);
+  border-radius:14px;padding:12px 16px;margin-bottom:16px;
+}
+.audio-play-btn{
+  width:44px;height:44px;border-radius:50%;border:none;
+  background:var(--red);color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all 0.2s;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.audio-play-btn:hover{background:var(--red2);}
+.audio-play-btn:active{transform:scale(0.92);}
+.audio-info{flex:1;min-width:0;}
+.audio-cat-name{font-size:13px;font-weight:700;color:#ffffff;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.audio-status{font-size:11px;color:var(--muted);}
+.audio-progress{
+  width:100%;height:4px;background:rgba(255,255,255,0.1);
+  border-radius:2px;margin-top:6px;cursor:pointer;
+}
+.audio-progress-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--red2),var(--red));
+  transition:width 0.3s;width:0%;
+}
+.audio-time{font-size:11px;color:var(--dim);flex-shrink:0;min-width:36px;text-align:right;}
+.audio-unavail{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.1);
+  border-radius:14px;padding:12px 16px;margin-bottom:16px;
+  font-size:12px;color:var(--dim);
+}
 .empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:15px;line-height:1.9;font-weight:600;}
 </style>
 <!-- SheetJS embedded -->
@@ -319,6 +359,8 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
           <div>
             <div class="scen-title" id="scen-title">Accommodation</div>
             <div class="scen-desc" id="scen-desc">Tap any phrase to reveal pronunciation</div>
+            <!-- Audio player -->
+            <div id="audio-player-wrap"></div>
             <div class="scen-search">
               <span class="si">🔍</span>
               <input type="search" id="scen-search" placeholder="Search scenarios…" oninput="renderScenPhrases()" autocomplete="off"/>
@@ -504,6 +546,223 @@ let filtered=[],phCat='All',favOnly=false,curTab='words';
 let rendered=0; const PAGE=100;
 let mMode='phrase',activeScat=SCEN_CATS[0];
 
+// ── AUDIO PLAYER ─────────────────────────────────────────────────────────────
+const CAT_AUDIO = {
+  "Accommodation": "audio/accommodation.mp3",
+  "Banks": "audio/banks.mp3",
+  "Booking a room": "audio/booking a room.mp3",
+  "Car hire": "audio/car hire.mp3",
+  "Communications": "audio/communications.mp3",
+  "Directions": "audio/directions.mp3",
+  "Emergencies": "audio/emergencies.mp3",
+  "Friends": "audio/friends.mp3",
+  "Health": "audio/health.mp3",
+  "Language difficulties": "audio/language difficulties.mp3",
+  "Meeting People": "audio/meeting people.mp3",
+  "Post offices": "audio/post offices.mp3",
+  "Restaurants": "audio/restaurants.mp3",
+  "Shopping": "audio/shopping.mp3",
+  "Sightseeing": "audio/sightseeing.mp3",
+  "Trains": "audio/trains.mp3",
+};
+
+let currentAudio = null;
+let audioPlaying = false;
+
+function stopAudio(){
+  if(currentAudio){
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+    audioPlaying = false;
+  }
+}
+
+function renderAudioPlayer(category){
+  const wrap = document.getElementById('audio-player-wrap');
+  if(!wrap) return;
+
+  const src = CAT_AUDIO[category];
+  if(!src){
+    wrap.innerHTML = '';
+    return;
+  }
+
+  // Stop any playing audio when switching category
+  stopAudio();
+
+  wrap.innerHTML = `
+    <div class="audio-player" id="audio-bar">
+      <button class="audio-play-btn" id="audio-btn" onclick="toggleAudio('${src.replace(/'/g,"\'")}')">▶</button>
+      <div class="audio-info">
+        <div class="audio-cat-name">🎵 ${category} — Rough Guide Audio</div>
+        <div class="audio-status" id="audio-status">Tap to play</div>
+        <div class="audio-progress" onclick="seekAudio(event)">
+          <div class="audio-progress-fill" id="audio-fill"></div>
+        </div>
+      </div>
+      <div class="audio-time" id="audio-time">0:00</div>
+    </div>`;
+
+  // Auto-play after short delay
+  setTimeout(()=>{ startAudio(src); }, 400);
+}
+
+function startAudio(src){
+  stopAudio();
+  const audio = new Audio(src);
+  currentAudio = audio;
+
+  audio.addEventListener('timeupdate', ()=>{
+    const fill = document.getElementById('audio-fill');
+    const time = document.getElementById('audio-time');
+    const status = document.getElementById('audio-status');
+    if(fill && audio.duration){
+      fill.style.width = (audio.currentTime/audio.duration*100)+'%';
+    }
+    if(time) time.textContent = fmtTime(audio.currentTime);
+    if(status) status.textContent = 'Playing…';
+  });
+
+  audio.addEventListener('ended', ()=>{
+    audioPlaying = false;
+    const btn = document.getElementById('audio-btn');
+    const status = document.getElementById('audio-status');
+    const fill = document.getElementById('audio-fill');
+    if(btn) btn.textContent = '▶';
+    if(status) status.textContent = 'Tap to replay';
+    if(fill) fill.style.width = '0%';
+    currentAudio = null;
+  });
+
+  audio.addEventListener('error', ()=>{
+    const wrap = document.getElementById('audio-player-wrap');
+    if(wrap) wrap.innerHTML = '<div class="audio-unavail">⚠️ Audio file not found — make sure the mp3 is uploaded to your <strong style="color:var(--muted)">audio/</strong> folder on GitHub</div>';
+    currentAudio = null;
+    audioPlaying = false;
+  });
+
+  audio.play().then(()=>{
+    audioPlaying = true;
+    const btn = document.getElementById('audio-btn');
+    if(btn) btn.textContent = '⏸';
+  }).catch(()=>{
+    // Autoplay blocked — show manual play button
+    const status = document.getElementById('audio-status');
+    if(status) status.textContent = 'Tap ▶ to play';
+    audioPlaying = false;
+    currentAudio = audio; // keep reference for manual play
+  });
+}
+
+function toggleAudio(src){
+  if(!currentAudio){
+    startAudio(src);
+    return;
+  }
+  if(audioPlaying){
+    currentAudio.pause();
+    audioPlaying = false;
+    const btn = document.getElementById('audio-btn');
+    if(btn) btn.textContent = '▶';
+    const status = document.getElementById('audio-status');
+    if(status) status.textContent = 'Paused';
+  } else {
+    currentAudio.play().then(()=>{
+      audioPlaying = true;
+      const btn = document.getElementById('audio-btn');
+      if(btn) btn.textContent = '⏸';
+      const status = document.getElementById('audio-status');
+      if(status) status.textContent = 'Playing…';
+    });
+  }
+}
+
+function seekAudio(e){
+  if(!currentAudio || !currentAudio.duration) return;
+  const bar = e.currentTarget;
+  const rect = bar.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  currentAudio.currentTime = pct * currentAudio.duration;
+}
+
+function fmtTime(s){
+  const m = Math.floor(s/60);
+  const sec = Math.floor(s%60);
+  return m+':'+(sec<10?'0':'')+sec;
+}
+
+// Stop audio when switching tabs
+const _origSwitchTab = typeof switchTab !== 'undefined' ? switchTab : null;
+
+// ── TEXT TO SPEECH ────────────────────────────────────────────────────────────
+let ttsVoice = null;
+let ttsSpeaking = false;
+let ttsActiveBtn = null;
+
+function loadVoices(){
+  const voices = window.speechSynthesis.getVoices();
+  // Prefer Dutch voices: nl-NL, nl-BE, nl
+  const preferred = ['nl-NL','nl-BE','nl'];
+  for(const lang of preferred){
+    const v = voices.find(v => v.lang.toLowerCase().startsWith(lang.toLowerCase()));
+    if(v){ ttsVoice = v; break; }
+  }
+  // Fallback: any voice with 'dutch' or 'neder' in name
+  if(!ttsVoice){
+    ttsVoice = voices.find(v => /dutch|neder|nl/i.test(v.name)) || null;
+  }
+}
+
+// Voices load async — try now and on voiceschanged
+if(window.speechSynthesis){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speak(text, btn){
+  if(!window.speechSynthesis){ toast('🔇 Speech not supported on this browser'); return; }
+
+  // Stop if already speaking
+  window.speechSynthesis.cancel();
+
+  // If tapping same button again — just stop
+  if(ttsActiveBtn && ttsActiveBtn === btn){
+    if(ttsActiveBtn) ttsActiveBtn.classList.remove('speaking');
+    ttsActiveBtn = null;
+    return;
+  }
+
+  if(ttsActiveBtn) ttsActiveBtn.classList.remove('speaking');
+
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'nl-NL';
+  utt.rate = 0.85;  // slightly slower for learning
+  utt.pitch = 1;
+  if(ttsVoice) utt.voice = ttsVoice;
+
+  if(btn){
+    btn.classList.add('speaking');
+    ttsActiveBtn = btn;
+  }
+
+  utt.onend = () => {
+    if(btn) btn.classList.remove('speaking');
+    ttsActiveBtn = null;
+  };
+  utt.onerror = () => {
+    if(btn) btn.classList.remove('speaking');
+    ttsActiveBtn = null;
+  };
+
+  window.speechSynthesis.speak(utt);
+}
+
+function speakEl(text, event){
+  event.stopPropagation();
+  speak(text, event.currentTarget);
+}
+
 function init(){
   const sp=localStorage.getItem(PH);phrases=sp?JSON.parse(sp):[...DP];
   const sv=localStorage.getItem(VB);verbs=sv?JSON.parse(sv):[...DV];
@@ -536,7 +795,8 @@ function switchTab(t){
   document.getElementById('topbar-title').textContent=TOPBAR[t].t;
   document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
   if(t==='favorites')renderFL();
-  if(t==='scenarios'){renderScenCats();renderScenPhrases();}
+  if(t==='scenarios'){renderScenCats();renderScenPhrases();renderAudioPlayer(activeScat);}
+  if(t!=='scenarios') stopAudio();
 }
 
 // ── WORDS ─────────────────────────────────────────────────────────────────────
@@ -584,6 +844,7 @@ function renderWordGrid(reset){
       </div>
       <div class="wc-right">
         ${p.c?`<span class="wc-cat">${x(p.c)}</span>`:''}
+        <button class="speak-btn" onclick="speakEl('${x(p.d)}',event)" title="Listen">🔊</button>
         <button class="wc-fav${isFav?' on':''}" onclick="toggleWordFav('${x(p.d)}')">${isFav?'❤️':'♡'}</button>
       </div>`;
     frag.appendChild(div);
@@ -641,7 +902,12 @@ function renderScenCats(){
   }
 }
 
-function selectScat(c){activeScat=c;renderScenCats();renderScenPhrases();}
+function selectScat(c){
+  activeScat=c;
+  renderScenCats();
+  renderScenPhrases();
+  renderAudioPlayer(c);
+}
 
 function renderScenPhrases(){
   const q=(document.getElementById('scen-search').value||'').toLowerCase().trim();
@@ -658,7 +924,8 @@ function renderScenPhrases(){
             <div class="spc-dutch">${x(s.d)}</div>
             <div class="spc-en">${x(s.e)}</div>
           </div>
-          <div style="display:flex;align-items:center;">
+          <div style="display:flex;align-items:center;gap:4px;">
+            <button class="speak-btn" onclick="event.stopPropagation();speak('${x(s.d)}',this)" title="Listen">🔊</button>
             <button class="spc-fav${favs.has(s.d)?' on':''}" onclick="event.stopPropagation();toggleScenFav('${x(s.d)}')">${favs.has(s.d)?'❤️':'♡'}</button>
             <span class="spc-expand">▾</span>
           </div>
@@ -682,7 +949,7 @@ function renderVerbs(){
   const f=verbs.filter(v=>!q||v.inf.includes(q)||v.m.toLowerCase().includes(q));
   const list=document.getElementById('vbl');
   if(!f.length){list.innerHTML='<div class="empty">No verbs found.</div>';return;}
-  list.innerHTML=f.map(v=>`<div class="vc"><div class="vg"><div><div class="vn">${x(v.inf)}</div><div class="vm">${x(v.m)}</div></div><div class="tv tp">${x(v.pres)}</div><div class="tv tpa">${x(v.past)}</div><div class="tv"><span class="tpp">${x(v.part)}</span></div></div></div>`).join('');
+  list.innerHTML=f.map(v=>`<div class="vc"><div class="vg"><div style="display:flex;align-items:flex-start;gap:6px;"><div><div class="vn">${x(v.inf)}</div><div class="vm">${x(v.m)}</div></div><button class="speak-btn" onclick="speakEl('${x(v.inf)}',event)" title="Listen" style="margin-top:2px;">🔊</button></div><div class="tv tp">${x(v.pres)}</div><div class="tv tpa">${x(v.past)}</div><div class="tv"><span class="tpp">${x(v.part)}</span></div></div></div>`).join('');
 }
 
 // ── FAVORITES ─────────────────────────────────────────────────────────────────
@@ -699,12 +966,16 @@ function renderFL(){
         ${p.typ?`<span style="font-size:10px;color:var(--purple);background:rgba(155,114,207,0.14);border-radius:50px;padding:1px 8px;">[${x(p.typ)}]</span>`:''}
       </div>
       <div style="font-size:13px;color:var(--muted);font-style:italic;">${x(p.m||'')}</div>
-    </div><button class="frm" onclick="rmFav('${x(p.d)}')">✕</button></div>`),
+    </div>
+    <button class="speak-btn" onclick="speakEl('${x(p.d)}',event)" title="Listen">🔊</button>
+    <button class="frm" onclick="rmFav('${x(p.d)}')">✕</button></div>`),
     ...sFavs.map(s=>`<div class="fli"><div style="flex:1">
       <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:700;margin-bottom:3px;">${x(s.d)}</div>
       <div style="font-size:13px;color:var(--muted);font-style:italic;">${x(s.e||'')}</div>
       <div style="font-size:10px;color:var(--dim);margin-top:3px;">${x(s.c||'')}</div>
-    </div><button class="frm" onclick="rmFav('${x(s.d)}')">✕</button></div>`),
+    </div>
+    <button class="speak-btn" onclick="speakEl('${x(s.d)}',event)" title="Listen">🔊</button>
+    <button class="frm" onclick="rmFav('${x(s.d)}')">✕</button></div>`),
   ].join('');
 }
 
