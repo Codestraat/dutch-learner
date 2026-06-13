@@ -208,6 +208,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
 .fli{padding:15px 16px;border-radius:12px;background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.25);display:flex;align-items:flex-start;gap:10px;}
 .frm{background:none;border:none;color:#ff8a93;font-size:18px;cursor:pointer;padding:4px;flex-shrink:0;margin-top:2px;}
 
+/* SEPARABLE VERBS */
+.sep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px;}
+@media(max-width:700px){.sep-grid{grid-template-columns:1fr;}}
+.sep-card{
+  background:#1a2e42;border:1px solid rgba(168,218,220,0.12);
+  border-radius:14px;padding:16px 18px;transition:all 0.2s;
+}
+.sep-card:hover{background:#1f3650;border-color:rgba(168,218,220,0.28);}
+.sep-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.sep-verb{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#ffffff;line-height:1.2;}
+.sep-prefix{color:#f4c27a;}
+.sep-base{color:#ffffff;}
+.sep-meaning{font-size:14px;color:#cde8ea;font-weight:600;margin-bottom:10px;}
+.sep-divider{width:100%;height:1px;background:rgba(255,255,255,0.08);margin-bottom:10px;}
+.sep-example-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(168,218,220,0.5);margin-bottom:5px;font-weight:700;}
+.sep-example-nl{font-family:'Playfair Display',serif;font-size:14px;color:rgba(255,255,255,0.85);font-style:italic;margin-bottom:3px;line-height:1.5;}
+.sep-example-en{font-size:12px;color:rgba(168,218,220,0.6);font-style:italic;}
+.sep-split{font-size:11px;color:var(--gold);background:rgba(244,162,97,0.1);border:1px solid rgba(244,162,97,0.25);border-radius:8px;padding:4px 10px;margin-top:8px;display:inline-block;}
+.sep-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.sep-cat{font-size:9px;padding:3px 10px;border-radius:50px;background:rgba(255,255,255,0.08);color:var(--muted);letter-spacing:1px;text-transform:uppercase;white-space:nowrap;border:1px solid rgba(255,255,255,0.1);}
+
 /* MODAL */
 .mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:300;align-items:center;justify-content:center;}
 .mbox{background:#182635;border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:26px;width:90%;max-width:500px;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.6);}
@@ -299,7 +320,7 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
       <button class="navitem active" onclick="switchTab('words')"><span class="icon">💬</span>Words & Phrases<span class="badge" id="ph-badge">—</span></button>
       <button class="navitem" onclick="switchTab('scenarios')"><span class="icon">🗺️</span>Scenarios<span class="badge" id="sc-badge">—</span></button>
       <button class="navitem" onclick="switchTab('verbs')"><span class="icon">📚</span>Verbs<span class="badge" id="vb-badge">—</span></button>
-      <button class="navitem" onclick="switchTab('favorites')"><span class="icon">❤️</span>Saved<span class="badge" id="fav-badge">0</span></button>
+      <button class="navitem" onclick="switchTab('separable')"><span class="icon">✂️</span>Separable Verbs<span class="badge" id="sep-badge">—</span></button>
     </div>
     <div class="sidebar-footer">Import CSV to add 5,000+ words.<br/>All data saved locally on your device.</div>
   </div>
@@ -316,7 +337,7 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
         <button class="mob-tab active" onclick="switchTab('words')">💬 Words</button>
         <button class="mob-tab" onclick="switchTab('scenarios')">🗺️ Scenarios</button>
         <button class="mob-tab" onclick="switchTab('verbs')">📚 Verbs</button>
-        <button class="mob-tab" onclick="switchTab('favorites')">❤️ Saved</button>
+        <button class="mob-tab" onclick="switchTab('separable')">✂️ Separable</button>
       </div>
     </div>
 
@@ -404,10 +425,30 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
         </div>
       </div>
 
-      <!-- FAVORITES TAB -->
-      <div id="tab-favorites" style="display:none;">
-        <div style="font-size:10px;color:var(--dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;">Your saved words & phrases</div>
-        <div class="fav-grid" id="fl"></div>
+      <!-- SEPARABLE VERBS TAB -->
+      <div id="tab-separable" style="display:none;">
+        <div class="row">
+          <div class="sinput"><span class="si">🔍</span><input type="search" id="sep-search" placeholder="Search separable verbs…" oninput="renderSepVerbs()" autocomplete="off"/></div>
+        </div>
+        <div class="cats" id="sep-cat-bar"></div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px;color:var(--muted);line-height:1.7;font-weight:600;">
+            Separable verbs <strong style="color:#f4c27a;">(scheidbare werkwoorden)</strong> split in simple sentences —
+            the prefix moves to the end.<br/>
+            Example: <em style="color:#ffffff;">uitgaan</em> → Ik ga vanavond <strong style="color:#f4c27a;">uit</strong>
+          </div>
+        </div>
+        <div class="sep-grid" id="sep-grid"></div>
+        <div class="ibox">
+          <div class="ititle">📥 Import Separable Verbs (CSV)</div>
+          <div class="ibox-row">
+            <button class="ibtn" onclick="document.getElementById('sepci').click()">📂 Upload File</button>
+            <button class="ibtn" onclick="openModal('separable')">📋 Paste Data</button>
+          </div>
+          <input type="file" id="sepci" accept=".csv,.txt,.xlsx,.xls" onchange="importSepCSV(event)" style="display:none"/>
+          <div class="inote">Columns: <strong style="color:var(--muted)">verb, prefix, base_verb, meaning, split_example_nl, split_example_en, category</strong><br/>
+          Example: <em style="color:var(--dim)">uitgaan, uit, gaan, to go out, Ik ga vanavond uit., I go out tonight., Going out</em></div>
+        </div>
       </div>
 
     </div>
@@ -768,7 +809,7 @@ function init(){
   const sv=localStorage.getItem(VB);verbs=sv?JSON.parse(sv):[...DV];
   const ss=localStorage.getItem(SC);scenPhrases=ss?JSON.parse(ss):[...DEFAULT_SCEN];
   const sf=localStorage.getItem(FV);favs=sf?new Set(JSON.parse(sf)):new Set();
-  applyF();renderVerbs();renderScenCats();updateCounts();
+  applyF();renderVerbs();renderScenCats();initSepVerbs();updateCounts();
   document.getElementById('main-content').addEventListener('scroll',onScroll);
 }
 
@@ -776,8 +817,8 @@ function updateCounts(){
   ['tc2','tc3'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=phrases.length+' words';});
   const pb=document.getElementById('ph-badge');if(pb)pb.textContent=phrases.length;
   const vb=document.getElementById('vb-badge');if(vb)vb.textContent=verbs.length;
-  const fb=document.getElementById('fav-badge');if(fb)fb.textContent=favs.size;
   const sb=document.getElementById('sc-badge');if(sb)sb.textContent=scenPhrases.length;
+  const sepb=document.getElementById('sep-badge');if(sepb)sepb.textContent=sepVerbs.length;
 }
 
 const TOPBAR={
@@ -789,12 +830,12 @@ const TOPBAR={
 
 function switchTab(t){
   curTab=t;
-  ['words','scenarios','verbs','favorites'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
-  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','favorites'][i]===t));
-  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','favorites'][i]===t));
+  ['words','scenarios','verbs','separable'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
+  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
   document.getElementById('topbar-title').textContent=TOPBAR[t].t;
   document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
-  if(t==='favorites')renderFL();
+  if(t==='separable'){renderSepVerbs();renderSepCatBar();}
   if(t==='scenarios'){renderScenCats();renderScenPhrases();renderAudioPlayer(activeScat);}
   if(t!=='scenarios') stopAudio();
 }
@@ -952,6 +993,156 @@ function renderVerbs(){
   list.innerHTML=f.map(v=>`<div class="vc"><div class="vg"><div style="display:flex;align-items:flex-start;gap:6px;"><div><div class="vn">${x(v.inf)}</div><div class="vm">${x(v.m)}</div></div><button class="speak-btn" onclick="speakEl('${x(v.inf)}',event)" title="Listen" style="margin-top:2px;">🔊</button></div><div class="tv tp">${x(v.pres)}</div><div class="tv tpa">${x(v.past)}</div><div class="tv"><span class="tpp">${x(v.part)}</span></div></div></div>`).join('');
 }
 
+// ── SEPARABLE VERBS ───────────────────────────────────────────────────────────
+const SEP_KEY = 'sep_v1';
+let sepVerbs = [];
+let sepCat = 'All';
+
+const DEFAULT_SEP = [
+  {v:"uitgaan",pre:"uit",base:"gaan",m:"to go out",snl:"Ik ga vanavond uit.",sen:"I go out tonight.",c:"Going out"},
+  {v:"terugkomen",pre:"terug",base:"komen",m:"to come back",snl:"Ze komt morgen terug.",sen:"She comes back tomorrow.",c:"Movement"},
+  {v:"opbellen",pre:"op",base:"bellen",m:"to call (phone)",snl:"Ik bel je straks op.",sen:"I'll call you later.",c:"Communication"},
+  {v:"aanzetten",pre:"aan",base:"zetten",m:"to turn on",snl:"Zet de televisie aan.",sen:"Turn the television on.",c:"Home"},
+  {v:"uitzetten",pre:"uit",base:"zetten",m:"to turn off",snl:"Zet het licht uit.",sen:"Turn the light off.",c:"Home"},
+  {v:"afmaken",pre:"af",base:"maken",m:"to finish",snl:"Ik maak het werk af.",sen:"I finish the work.",c:"Work"},
+  {v:"meenemen",pre:"mee",base:"nemen",m:"to take along",snl:"Neem een paraplu mee.",sen:"Take an umbrella along.",c:"Travel"},
+  {v:"invullen",pre:"in",base:"vullen",m:"to fill in",snl:"Vul het formulier in.",sen:"Fill in the form.",c:"Admin"},
+  {v:"opstaan",pre:"op",base:"staan",m:"to get up",snl:"Ik sta vroeg op.",sen:"I get up early.",c:"Daily Routine"},
+  {v:"thuiskomen",pre:"thuis",base:"komen",m:"to come home",snl:"Ik kom laat thuis.",sen:"I come home late.",c:"Daily Routine"},
+  {v:"opruimen",pre:"op",base:"ruimen",m:"to tidy up",snl:"Ruim je kamer op.",sen:"Tidy up your room.",c:"Home"},
+  {v:"afwassen",pre:"af",base:"wassen",m:"to do the washing up",snl:"Wie wast er af?",sen:"Who does the washing up?",c:"Home"},
+  {v:"aankomen",pre:"aan",base:"komen",m:"to arrive",snl:"De trein komt om tien uur aan.",sen:"The train arrives at ten.",c:"Travel"},
+  {v:"vertrekken",pre:"ver",base:"trekken",m:"to depart / leave",snl:"We vertrekken morgen vroeg.",sen:"We leave tomorrow early.",c:"Travel"},
+  {v:"instappen",pre:"in",base:"stappen",m:"to get in / board",snl:"Stap snel in!",sen:"Get in quickly!",c:"Travel"},
+  {v:"uitstappen",pre:"uit",base:"stappen",m:"to get out / alight",snl:"Stap hier uit.",sen:"Get out here.",c:"Travel"},
+  {v:"overstappen",pre:"over",base:"stappen",m:"to change (transport)",snl:"Ik stap over in Utrecht.",sen:"I change at Utrecht.",c:"Travel"},
+  {v:"aankleden",pre:"aan",base:"kleden",m:"to get dressed",snl:"Ik kleed me aan.",sen:"I get dressed.",c:"Daily Routine"},
+  {v:"uitkleden",pre:"uit",base:"kleden",m:"to get undressed",snl:"Kleed je uit.",sen:"Get undressed.",c:"Daily Routine"},
+  {v:"opeten",pre:"op",base:"eten",m:"to eat up / finish eating",snl:"Eet je bord op!",sen:"Eat up your plate!",c:"Food"},
+  {v:"opdrinken",pre:"op",base:"drinken",m:"to drink up",snl:"Drink je glas op.",sen:"Drink up your glass.",c:"Food"},
+  {v:"uitnodigen",pre:"uit",base:"nodigen",m:"to invite",snl:"Ik nodig je uit.",sen:"I invite you.",c:"Social"},
+  {v:"afspreken",pre:"af",base:"spreken",m:"to arrange / agree to meet",snl:"Laten we afspreken.",sen:"Let's arrange to meet.",c:"Social"},
+  {v:"meedoen",pre:"mee",base:"doen",m:"to join in / participate",snl:"Doe je mee?",sen:"Are you joining in?",c:"Social"},
+  {v:"teruggaan",pre:"terug",base:"gaan",m:"to go back",snl:"Ik ga morgen terug.",sen:"I go back tomorrow.",c:"Movement"},
+  {v:"voorbijgaan",pre:"voorbij",base:"gaan",m:"to pass by",snl:"De tijd gaat voorbij.",sen:"Time passes by.",c:"Movement"},
+  {v:"opzoeken",pre:"op",base:"zoeken",m:"to look up",snl:"Ik zoek het op.",sen:"I'll look it up.",c:"Communication"},
+  {v:"doorgaan",pre:"door",base:"gaan",m:"to continue / go on",snl:"We gaan door met de les.",sen:"We continue with the lesson.",c:"Work"},
+  {v:"bijhouden",pre:"bij",base:"houden",m:"to keep up with",snl:"Ik houd het bij.",sen:"I keep up with it.",c:"Work"},
+  {v:"inleveren",pre:"in",base:"leveren",m:"to hand in / submit",snl:"Lever je huiswerk in.",sen:"Hand in your homework.",c:"Education"},
+];
+
+function initSepVerbs(){
+  const ss=localStorage.getItem(SEP_KEY);
+  sepVerbs=ss?JSON.parse(ss):[...DEFAULT_SEP];
+  updateCounts();
+}
+
+function renderSepCatBar(){
+  const cats=['All',...new Set(sepVerbs.map(v=>v.c||'General'))];
+  document.getElementById('sep-cat-bar').innerHTML=cats.map(c=>`<button class="pill${c===sepCat?' on':''}" onclick="selSepCat('${x(c)}')">${c}</button>`).join('');
+}
+
+function selSepCat(c){sepCat=c;renderSepCatBar();renderSepVerbs();}
+
+function renderSepVerbs(){
+  const q=(document.getElementById('sep-search').value||'').toLowerCase().trim();
+  const filtered=sepVerbs.filter(v=>{
+    const matchCat=sepCat==='All'||(v.c||'General')===sepCat;
+    const matchQ=!q||v.v.toLowerCase().includes(q)||v.m.toLowerCase().includes(q)||(v.pre||'').toLowerCase().includes(q);
+    return matchCat&&matchQ;
+  });
+  const grid=document.getElementById('sep-grid');
+  if(!filtered.length){grid.innerHTML='<div class="empty">No separable verbs found.<br>Import a CSV to add more.</div>';return;}
+  grid.innerHTML=filtered.map(v=>{
+    // Highlight prefix in verb
+    const verbHL = v.pre && v.v.startsWith(v.pre)
+      ? `<span class="sep-prefix">${x(v.pre)}</span><span class="sep-base">${x(v.v.slice(v.pre.length))}</span>`
+      : `<span class="sep-base">${x(v.v)}</span>`;
+    // Split sentence — highlight the prefix at end
+    const splitSent = v.snl ? highlightSplit(v.snl, v.pre) : '';
+    return `
+    <div class="sep-card">
+      <div class="sep-top">
+        <div>
+          <div class="sep-verb">${verbHL}</div>
+          <div class="sep-meaning">${x(v.m)}</div>
+        </div>
+        <div class="sep-right">
+          ${v.c?`<span class="sep-cat">${x(v.c)}</span>`:''}
+          <button class="speak-btn" onclick="speakEl('${x(v.v)}',event)" title="Listen">🔊</button>
+        </div>
+      </div>
+      ${v.snl||v.sen?`
+      <div class="sep-divider"></div>
+      <div class="sep-example-label">Split in a sentence</div>
+      <div class="sep-example-nl">${splitSent}</div>
+      <div class="sep-example-en">${x(v.sen||'')}</div>
+      `:''}
+      ${v.pre?`<div class="sep-split">prefix: <strong>${x(v.pre)}-</strong> moves to end of sentence</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function highlightSplit(sentence, prefix){
+  if(!prefix) return x(sentence);
+  // Find the prefix as a standalone word at or near end of sentence
+  const words = sentence.split(' ');
+  const result = words.map(w=>{
+    const clean = w.replace(/[.,!?]/g,'');
+    const punct = w.slice(clean.length);
+    if(clean.toLowerCase()===prefix.toLowerCase()){
+      return `<strong style="color:#f4c27a;font-style:normal;">${x(clean)}</strong>${x(punct)}`;
+    }
+    return x(w);
+  });
+  return result.join(' ');
+}
+
+function importSepCSV(e){
+  const f=e.target.files[0];if(!f)return;
+  if(isExcel(f)) readExcelSep(f);
+  else{const r=new FileReader();r.onload=ev=>parseSep(ev.target.result);r.readAsText(f);}
+  e.target.value='';
+}
+
+function readExcelSep(file){
+  const r=new FileReader();
+  r.onload=function(ev){
+    try{
+      const data=new Uint8Array(ev.target.result);
+      const wb=XLSX.read(data,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      let startRow=0;
+      for(let i=0;i<rows.length;i++){
+        const a=String(rows[i][0]||'').trim();
+        const b=String(rows[i][1]||'').trim();
+        if(a&&b&&!/template|import|guide|fill|column|verb|prefix/i.test(a)){startRow=i;break;}
+      }
+      const csvText=rows.slice(startRow).filter(row=>row.some(c=>String(c||'').trim())).map(row=>row.map(c=>{const s=String(c===null?'':c).trim();return s.includes(',')? '"'+s+'"':s;}).join(',')).join('
+');
+      parseSep(csvText);
+    }catch(err){toast('Could not read file: '+err.message);}
+  };
+  r.readAsArrayBuffer(file);
+}
+
+function parseSep(text){
+  // Columns: verb, prefix, base_verb, meaning, example_nl, example_en, category
+  const ex=new Set(sepVerbs.map(v=>v.v.toLowerCase()));
+  let added=0,skip=0;
+  text.trim().split('
+').forEach(line=>{
+    const p=splitCSV(line);if(!p[0])return;
+    const v=p[0].trim(),pre=(p[1]||'').trim(),base=(p[2]||'').trim(),m=(p[3]||'').trim(),snl=(p[4]||'').trim(),sen=(p[5]||'').trim(),c=(p[6]||'General').trim();
+    if(!v)return;
+    if(ex.has(v.toLowerCase())){skip++;return;}
+    sepVerbs.push({v,pre,base,m,snl,sen,c});ex.add(v.toLowerCase());added++;
+  });
+  if(added){localStorage.setItem(SEP_KEY,JSON.stringify(sepVerbs));renderSepVerbs();renderSepCatBar();updateCounts();}
+  toast(`Added ${added} separable verb${added!==1?'s':''}${skip?' ('+skip+' skipped)':''}`);
+}
+
 // ── FAVORITES ─────────────────────────────────────────────────────────────────
 function renderFL(){
   const wFavs=phrases.filter(p=>favs.has(p.d));
@@ -1097,16 +1288,16 @@ function splitCSV(line){const r=[];let cur='',inQ=false;for(let i=0;i<line.lengt
 
 function openModal(mode){
   mMode=mode;
-  const titles={phrase:'Paste Word CSV',verb:'Paste Verb CSV',scenario:'Paste Scenario CSV'};
-  const subs={phrase:'dutch, article, type, meaning, plural, example_nl, example_en, category',verb:'infinitive, meaning, present, past, participle',scenario:'dutch, english, phonetic, category'};
-  const phs={phrase:'zon,de,noun,sun,zonnen,De zon schijnt vandaag.,The sun is shining today.,Nature',verb:'rennen,to run,ren/rent/rennen,rende/renden,gerend',scenario:'Heeft u een kamer vrij?,Do you have a room?,hayft oo uhn kahmur fry,Accommodation'};
+  const titles={phrase:'Paste Word CSV',verb:'Paste Verb CSV',scenario:'Paste Scenario CSV',separable:'Paste Separable Verbs CSV'};
+  const subs={phrase:'dutch, article, type, meaning, plural, example_nl, example_en, category',verb:'infinitive, meaning, present, past, participle',scenario:'dutch, english, phonetic, category',separable:'verb, prefix, base_verb, meaning, example_nl, example_en, category'};
+  const phs={phrase:'zon,de,noun,sun,zonnen,De zon schijnt vandaag.,The sun is shining today.,Nature',verb:'rennen,to run,ren/rent/rennen,rende/renden,gerend',scenario:'Heeft u een kamer vrij?,Do you have a room?,hayft oo uhn kahmur fry,Accommodation',separable:'uitgaan,uit,gaan,to go out,Ik ga vanavond uit.,I go out tonight.,Going out'};
   document.getElementById('mtitle').textContent=titles[mode];
   document.getElementById('msub').textContent=subs[mode];
   document.getElementById('mta').placeholder=phs[mode];
   document.getElementById('modal').style.display='flex';
 }
 function closeModal(){document.getElementById('modal').style.display='none';document.getElementById('mta').value='';}
-function processPaste(){const t=document.getElementById('mta').value;closeModal();if(mMode==='phrase')parseP(t);else if(mMode==='verb')parseV(t);else parseSC(t);}
+function processPaste(){const t=document.getElementById('mta').value;closeModal();if(mMode==='phrase')parseP(t);else if(mMode==='verb')parseV(t);else if(mMode==='scenario')parseSC(t);else parseSep(t);}
 
 function x(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 let tt;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600);}
