@@ -825,7 +825,7 @@ const TOPBAR={
   words:{t:'Words & Phrases',s:'Dutch · English · shuffle to mix them up'},
   scenarios:{t:'Scenarios',s:'Rough Guide phrasebook · tap phrase to reveal pronunciation'},
   verbs:{t:'Verb Conjugations',s:'Present · Past · Past Participle'},
-  favorites:{t:'Saved',s:'Your personal collection'},
+  separable:{t:'Separable Verbs',s:'Scheidbare werkwoorden · prefix splits to end of sentence'},
 };
 
 function switchTab(t){
@@ -833,8 +833,10 @@ function switchTab(t){
   ['words','scenarios','verbs','separable'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
   document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
   document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
-  document.getElementById('topbar-title').textContent=TOPBAR[t].t;
-  document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
+  if(TOPBAR[t]){
+    document.getElementById('topbar-title').textContent=TOPBAR[t].t;
+    document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
+  }
   if(t==='separable'){renderSepVerbs();renderSepCatBar();}
   if(t==='scenarios'){renderScenCats();renderScenPhrases();renderAudioPlayer(activeScat);}
   if(t!=='scenarios') stopAudio();
@@ -1106,33 +1108,39 @@ function importSepCSV(e){
 }
 
 function readExcelSep(file){
-  const r=new FileReader();
+  var r=new FileReader();
   r.onload=function(ev){
     try{
-      const data=new Uint8Array(ev.target.result);
-      const wb=XLSX.read(data,{type:'array'});
-      const ws=wb.Sheets[wb.SheetNames[0]];
-      const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
-      let startRow=0;
-      for(let i=0;i<rows.length;i++){
-        const a=String(rows[i][0]||'').trim();
-        const b=String(rows[i][1]||'').trim();
-        if(a&&b&&!/template|import|guide|fill|column|verb|prefix/i.test(a)){startRow=i;break;}
+      var data=new Uint8Array(ev.target.result);
+      var wb=XLSX.read(data,{type:'array'});
+      var ws=wb.Sheets[wb.SheetNames[0]];
+      var rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      var startRow=0;
+      for(var i=0;i<rows.length;i++){
+        var a=String(rows[i][0]||'').trim();
+        var b=String(rows[i][1]||'').trim();
+        var isHeader=/template|import|guide|fill|column|verb|prefix|separable/i.test(a);
+        if(a&&b&&!isHeader){startRow=i;break;}
       }
-      const csvText=rows.slice(startRow).filter(row=>row.some(c=>String(c||'').trim())).map(row=>row.map(c=>{const s=String(c===null?'':c).trim();return s.includes(',')? '"'+s+'"':s;}).join(',')).join('
-');
-      parseSep(csvText);
+      var dataRows=rows.slice(startRow).filter(function(row){
+        return row.some(function(c){return String(c||'').trim()!='';});
+      });
+      var lines=dataRows.map(function(row){
+        return row.map(function(c){
+          var s=String(c===null||c===undefined?'':c).trim();
+          return s.indexOf(',')>=0?'"'+s+'"':s;
+        }).join(',');
+      });
+      parseSep(lines.join("\n"));
     }catch(err){toast('Could not read file: '+err.message);}
   };
   r.readAsArrayBuffer(file);
 }
-
 function parseSep(text){
   // Columns: verb, prefix, base_verb, meaning, example_nl, example_en, category
   const ex=new Set(sepVerbs.map(v=>v.v.toLowerCase()));
   let added=0,skip=0;
-  text.trim().split('
-').forEach(line=>{
+  text.trim().split('\n').forEach(line=>{
     const p=splitCSV(line);if(!p[0])return;
     const v=p[0].trim(),pre=(p[1]||'').trim(),base=(p[2]||'').trim(),m=(p[3]||'').trim(),snl=(p[4]||'').trim(),sen=(p[5]||'').trim(),c=(p[6]||'General').trim();
     if(!v)return;
