@@ -437,7 +437,7 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
         <div class="row">
           <div class="sinput"><span class="si">🔍</span><input type="search" id="sep-search" placeholder="Search separable verbs…" oninput="renderSepVerbs()" autocomplete="off"/></div>
         </div>
-        <div class="cats" id="sep-cat-bar"></div>
+        <div class="alpha-bar" id="sep-cat-bar"></div>
         <div style="margin-bottom:16px;">
           <div style="font-size:12px;color:var(--muted);line-height:1.7;font-weight:600;">
             Separable verbs <strong style="color:#f4c27a;">(scheidbare werkwoorden)</strong> split in simple sentences —
@@ -1062,8 +1062,16 @@ function initSepVerbs(){
 }
 
 function renderSepCatBar(){
-  const cats=['All',...new Set(sepVerbs.map(v=>v.c||'General'))];
-  document.getElementById('sep-cat-bar').innerHTML=cats.map(c=>`<button class="pill${c===sepCat?' on':''}" onclick="selSepCat('${x(c)}')">${c}</button>`).join('');
+  const letters=['All','A','B','C','D','E','F','G','H','I','J','K','L','M',
+                 'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  const usedLetters=new Set(sepVerbs.map(v=>(v.v||'')[0].toUpperCase()));
+  const bar=document.getElementById('sep-cat-bar');
+  if(!bar) return;
+  bar.innerHTML=letters.map(l=>{
+    if(l==='All') return `<button class="alpha-btn${sepCat==='All'?' on':''}" onclick="selSepCat('All')">All</button>`;
+    const has=usedLetters.has(l);
+    return `<button class="alpha-btn${sepCat===l?' on':''}${has?'':' empty'}" ${has?`onclick="selSepCat('${l}')"`:''}>${l}</button>`;
+  }).join('');
 }
 
 function selSepCat(c){sepCat=c;renderSepCatBar();renderSepVerbs();}
@@ -1071,9 +1079,10 @@ function selSepCat(c){sepCat=c;renderSepCatBar();renderSepVerbs();}
 function renderSepVerbs(){
   const q=(document.getElementById('sep-search').value||'').toLowerCase().trim();
   const filtered=sepVerbs.filter(v=>{
-    const matchCat=sepCat==='All'||(v.c||'General')===sepCat;
+    const firstLetter=(v.v||'')[0].toUpperCase();
+    const matchLetter=sepCat==='All'||firstLetter===sepCat;
     const matchQ=!q||v.v.toLowerCase().includes(q)||v.m.toLowerCase().includes(q)||(v.pre||'').toLowerCase().includes(q);
-    return matchCat&&matchQ;
+    return matchLetter&&matchQ;
   });
   const grid=document.getElementById('sep-grid');
   if(!filtered.length){grid.innerHTML='<div class="empty">No separable verbs found.<br>Import a CSV to add more.</div>';return;}
