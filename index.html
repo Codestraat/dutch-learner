@@ -52,16 +52,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
   .sidebar{display:none;}
   .topbar{display:none;}
 
-  /* Shell: row with left mobile nav + content */
-  .shell{flex-direction:row;height:100dvh;width:100vw;overflow:hidden;}
+  /* Shell fills screen */
+  .shell{flex-direction:column;height:100dvh;width:100vw;overflow:hidden;}
+
+  /* Main becomes a row: left nav | content */
+  .main{
+    flex:1;
+    display:flex;
+    flex-direction:row;
+    overflow:hidden;
+    height:100%;
+    min-height:0;
+  }
 
   /* Mobile left nav */
   .mobile-header{
     display:flex !important;
     flex-direction:column;
-    width:64px;
-    min-width:64px;
-    height:100dvh;
+    width:68px;
+    min-width:68px;
+    max-width:68px;
+    height:100%;
     background:var(--bg2);
     border-right:1px solid rgba(255,255,255,0.1);
     padding:0;
@@ -72,12 +83,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
     display:flex;
     flex-direction:column;
     align-items:center;
-    padding:12px 0 8px 0;
+    justify-content:center;
+    padding:10px 0 8px 0;
     margin-bottom:0;
     border-bottom:1px solid rgba(255,255,255,0.08);
     flex-shrink:0;
   }
-  .mob-top span{font-size:22px;}
+  .mob-top span{font-size:24px;line-height:1;}
   #tc3{display:none;}
 
   /* Vertical tab buttons */
@@ -85,19 +97,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
     display:flex !important;
     flex-direction:column;
     gap:2px;
-    padding:8px 6px;
+    padding:6px 4px;
     overflow-y:auto;
     overflow-x:hidden;
     flex:1;
     scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
   }
   .mob-tabs::-webkit-scrollbar{display:none;}
   .mob-tab{
     flex-shrink:0;
     width:100%;
-    padding:10px 4px;
+    padding:8px 2px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
     cursor:pointer;
     font-family:inherit;
     font-size:9px;
@@ -107,32 +120,40 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:4px;
-    line-height:1.2;
+    gap:3px;
+    line-height:1.1;
     text-align:center;
     -webkit-tap-highlight-color:transparent;
     touch-action:manipulation;
-    transition:all 0.2s;
-    white-space:normal;
-    word-break:break-word;
+    transition:background 0.15s;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    box-sizing:border-box;
   }
-  .mob-tab .tab-icon{font-size:18px;line-height:1;}
-  .mob-tab.active{background:rgba(230,57,70,0.18);color:#ffffff;}
+  .mob-tab .tab-icon{font-size:20px;line-height:1;display:block;}
+  .mob-tab span:not(.tab-icon){
+    display:block;
+    width:60px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    font-size:8.5px;
+    padding:0 2px;
+  }
+  .mob-tab.active{background:rgba(230,57,70,0.2);color:#ffffff;}
   .mob-tab:active{background:rgba(255,255,255,0.08);}
 
-  /* Main content fills remaining width */
-  .main{
+  /* Content fills remaining width */
+  .content{
     flex:1;
     min-width:0;
-    height:100dvh;
-    overflow:hidden;
-    display:flex;
-    flex-direction:column;
-  }
-  .content{
-    padding:12px 12px 16px;
-    flex:1;
+    height:100%;
     overflow-y:auto;
+    overflow-x:hidden;
+    padding:12px 10px 20px;
+    -webkit-overflow-scrolling:touch;
+    box-sizing:border-box;
   }
 }
 .mobile-header{display:none;background:rgba(13,24,33,0.98);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 16px 0;flex-shrink:0;}
@@ -598,6 +619,8 @@ textarea{flex:1;min-height:200px;background:#1e3248;border:1px solid rgba(255,25
 .story-card.user-story .story-card-title::before{content:'✍️ ';font-size:14px;}
 .story-delete-btn{background:none;border:none;color:rgba(230,57,70,0.5);font-size:16px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;}
 .story-delete-btn:hover{color:#e63946;}
+.story-edit-btn{background:none;border:none;color:rgba(168,218,220,0.5);font-size:16px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;}
+.story-edit-btn:hover{color:#a8dadc;}
 
 /* ── GRAMMAR TIPS ── */
 .grammar-hero{text-align:center;padding:16px 0 20px;}
@@ -1654,7 +1677,7 @@ function renderStoriesList(){
             <div class="story-card-title">${x(s.title)}</div>
             <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
               <span class="story-level ${s.level}">${s.level}</span>
-              ${s.isUser?`<button class="story-delete-btn" onclick="event.stopPropagation();deleteUserStory('${s.id}')" title="Delete story">🗑️</button>`:''}
+              ${s.isUser?`<button class="story-edit-btn" onclick="event.stopPropagation();editUserStory('${s.id}')" title="Edit story">✏️</button><button class="story-delete-btn" onclick="event.stopPropagation();deleteUserStory('${s.id}')" title="Delete story">🗑️</button>`:''}
             </div>
           </div>
           <div class="story-card-desc">${x(s.desc)}</div>
@@ -1774,8 +1797,41 @@ function showWordPopup(word){
     el.classList.toggle('highlighted', el.textContent.replace(/[.,!?;:'"()-]/g,'').toLowerCase()===clean);
   });
 
-  // Look up in dictionary
-  const entry = phrases.find(p=>p.d.toLowerCase()===clean);
+  // Look up in dictionary — smart matching
+  let entry = null;
+
+  // 1. Exact match (lowercase)
+  entry = phrases.find(p=>p.d.toLowerCase()===clean);
+
+  // 2. Strip common verb prefixes and try stem (e.g. "werkte" → "werken")
+  if(!entry){
+    // Try removing common past tense endings
+    const stripped = clean
+      .replace(/te$|den$|ten$|de$/, '')   // past tense
+      .replace(/end$/, 'en')              // present participle
+      .replace(/(\w)$/, '$1');          // double consonant (werkte→werk)
+    entry = phrases.find(p=>p.d.toLowerCase()===stripped || p.d.toLowerCase()===stripped+'en' || p.d.toLowerCase()===stripped+'n');
+  }
+
+  // 3. Try removing plural/diminutive endings
+  if(!entry){
+    const singular = clean
+      .replace(/jes$/, 'je')      // diminutive plural
+      .replace(/tjes$/, 'tje')
+      .replace(/nen$/, 'n')       // e.g. mannen → man... try both
+      .replace(/eren$/, '')
+      .replace(/en$/, '')         // simple plural
+      .replace(/s$/, '');         // -s plural
+    if(singular && singular !== clean){
+      entry = phrases.find(p=>p.d.toLowerCase()===singular);
+    }
+  }
+
+  // 4. Partial/starts-with match as last resort
+  if(!entry && clean.length > 3){
+    entry = phrases.find(p=>p.d.toLowerCase().startsWith(clean) || clean.startsWith(p.d.toLowerCase()));
+  }
+
   currentPopupWord = entry ? entry.d : clean;
 
   const artEl = document.getElementById('wp-art');
@@ -1786,8 +1842,26 @@ function showWordPopup(word){
 
   if(artEl) artEl.textContent = entry && entry.art ? entry.art : '';
   if(dutchEl) dutchEl.textContent = entry ? entry.d : clean;
-  if(meaningEl) meaningEl.textContent = entry ? entry.m : '(not in dictionary)';
-  if(exampleEl) exampleEl.textContent = entry && entry.sn ? entry.sn + (entry.se ? ' — ' + entry.se : '') : '';
+  if(meaningEl){
+    if(entry){
+      meaningEl.textContent = entry.m;
+      meaningEl.style.color = '#2ecc71';
+    } else {
+      meaningEl.textContent = 'Not in your word list yet';
+      meaningEl.style.color = 'var(--muted)';
+    }
+  }
+  if(exampleEl){
+    if(entry && entry.sn){
+      exampleEl.textContent = entry.sn + (entry.se ? ' — ' + entry.se : '');
+      exampleEl.style.display = '';
+    } else if(!entry){
+      exampleEl.textContent = 'Import more words to build your dictionary, or add this word manually in the Words tab.';
+      exampleEl.style.display = '';
+    } else {
+      exampleEl.textContent = '';
+    }
+  }
 
   if(learnBtn){
     const isLearned = learned.has(currentPopupWord);
@@ -1854,6 +1928,12 @@ function hideStoryForm(){
     const el = document.getElementById(id);
     if(el) el.value = '';
   });
+  // Reset submit button to add mode
+  const submitBtn = document.querySelector('.story-form-submit');
+  if(submitBtn){
+    submitBtn.textContent = '✅ Add story';
+    submitBtn.onclick = submitUserStory;
+  }
 }
 
 function loadStoryFile(e){
@@ -1910,6 +1990,63 @@ function submitUserStory(){
   setTimeout(()=>openStory(id), 300);
 }
 
+function editUserStory(id){
+  const story = userStories.find(s=>s.id===id);
+  if(!story) return;
+  showStoryForm();
+  // Pre-fill form with existing story data
+  const titleEl = document.getElementById('sf-title');
+  const levelEl = document.getElementById('sf-level');
+  const dutchEl = document.getElementById('sf-dutch');
+  const engEl   = document.getElementById('sf-english');
+  if(titleEl) titleEl.value = story.title;
+  if(levelEl) levelEl.value = story.level;
+  if(dutchEl) dutchEl.value = story.dutch;
+  if(engEl)   engEl.value   = story.translation || '';
+  // Change submit button to update mode
+  const submitBtn = document.querySelector('.story-form-submit');
+  if(submitBtn){
+    submitBtn.textContent = '✅ Update story';
+    submitBtn.onclick = function(){ updateUserStory(id); };
+  }
+  // Scroll to form
+  setTimeout(()=>{
+    const form = document.getElementById('story-add-form');
+    if(form) form.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 150);
+}
+
+function updateUserStory(id){
+  const title  = (document.getElementById('sf-title').value||'').trim();
+  const level  = document.getElementById('sf-level').value || 'A2';
+  const dutch  = (document.getElementById('sf-dutch').value||'').trim();
+  const english= (document.getElementById('sf-english').value||'').trim();
+
+  if(!title){ toast('Please enter a title'); return; }
+  if(!dutch){ toast('Please enter the Dutch text'); return; }
+
+  const wordCount = dutch.split(/\s+/).filter(w=>w.length>0).length;
+
+  const idx = userStories.findIndex(s=>s.id===id);
+  if(idx === -1){ toast('Story not found'); return; }
+
+  userStories[idx] = {
+    ...userStories[idx],
+    title, level, dutch,
+    translation: english,
+    desc: dutch.substring(0,100) + (dutch.length>100?'...':''),
+    words: wordCount,
+  };
+
+  saveUserStories();
+  hideStoryForm();
+  toast('✅ Story updated!');
+  renderStoriesList();
+
+  // Re-open the story so user can see the changes
+  setTimeout(()=>openStory(id), 300);
+}
+
 function deleteUserStory(id){
   if(!confirm('Delete this story?')) return;
   userStories = userStories.filter(s=>s.id!==id);
@@ -1930,7 +2067,13 @@ let quizFlipped = false;
 let quizAnswered = false;
 
 function initQuiz(){
-  renderQuizSetup();
+  // Only show setup if no quiz is actively running
+  if(quizDeck.length === 0 || quizIdx >= quizDeck.length){
+    renderQuizSetup();
+  } else {
+    // Quiz in progress — re-render current card
+    renderQuizCard();
+  }
 }
 
 function getQuizPool(source){
@@ -1959,8 +2102,22 @@ function startQuiz(){
   quizMode   = modeEl.dataset.val;
   quizSource = srcEl.dataset.val;
   const pool = getQuizPool(quizSource);
-  if(pool.length < 2){ toast('Not enough words in this pool. Import more words first!'); return; }
+  if(pool.length < 2){
+    if(quizSource === 'unlearned'){
+      toast('No unlearned words! Mark some words as ✅ learned in the Words tab first, then "To learn" will show the rest.');
+    } else if(quizSource === 'daily'){
+      toast('No daily words yet. Open the Daily 5 tab first!');
+    } else {
+      toast('No words found. Import words in the Words tab first!');
+    }
+    return;
+  }
+  // Warn if "To learn" = "All" because nothing is marked learned yet
+  if(quizSource === 'unlearned' && learned.size === 0){
+    toast('💡 Tip: "To learn" shows all words until you mark some as ✅ learned in the Words tab!');
+  }
   quizDeck = shuffleArr(pool).slice(0, Math.min(20, pool.length));
+  if(quizDeck.length > 20) quizDeck = quizDeck.slice(0, 20);
   quizIdx = 0; quizCorrect = 0; quizWrong = 0; quizFlipped = false; quizAnswered = false;
   renderQuizCard();
 }
@@ -1968,7 +2125,9 @@ function startQuiz(){
 function renderQuizSetup(){
   const c = document.getElementById('quiz-container');
   if(!c) return;
-  const unlearnedCount = phrases.filter(p=>!learned.has(p.d)).length;
+  const learnedCount = learned.size;
+  const unlearnedCount = phrases.filter(p=>!learned.has(p.d)&&p.m).length;
+  const allCount = phrases.filter(p=>p.m).length;
   const state = loadDailyState();
   const dailyCount = state && state.words ? state.words.length : 0;
   c.innerHTML = `
@@ -1995,12 +2154,13 @@ function renderQuizSetup(){
       <div class="quiz-opt selected" data-type="src" data-val="all" onclick="selectQuizOpt(this,'src')">
         <div class="quiz-opt-icon">📚</div>
         <div class="quiz-opt-label">All words</div>
-        <div class="quiz-opt-desc">${phrases.length} words</div>
+        <div class="quiz-opt-desc">${allCount} words</div>
       </div>
       <div class="quiz-opt" data-type="src" data-val="unlearned" onclick="selectQuizOpt(this,'src')">
         <div class="quiz-opt-icon">🎯</div>
         <div class="quiz-opt-label">To learn</div>
-        <div class="quiz-opt-desc">${unlearnedCount} words</div>
+        <div class="quiz-opt-desc">${unlearnedCount} words${learnedCount===0?' · mark words ✅ first':''}
+        </div>
       </div>
       <div class="quiz-opt" data-type="src" data-val="daily" onclick="selectQuizOpt(this,'src')">
         <div class="quiz-opt-icon">🌟</div>
@@ -2021,10 +2181,12 @@ function selectQuizOpt(el, type){
 function renderQuizCard(){
   const c = document.getElementById('quiz-container');
   if(!c) return;
-  if(quizIdx >= quizDeck.length){ renderQuizResults(); return; }
+  // Safety: end at 20 cards max or end of deck
+  if(quizIdx >= quizDeck.length || quizIdx >= 20){ renderQuizResults(); return; }
 
   const p = quizDeck[quizIdx];
-  const pct = (quizIdx / quizDeck.length) * 100;
+  const total = quizDeck.length;
+  const pct = (quizIdx / total) * 100;
 
   if(quizMode === 'multichoice'){
     renderMultiChoice(p, pct);
