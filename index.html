@@ -2493,54 +2493,7 @@ function renderQuizResults(){
 // ── VIDEO TAB ─────────────────────────────────────────────────────────────────
 const VIDEO_KEY = 'user_videos_v1';
 
-// Built-in sample videos (YouTube IDs of free Dutch learning content)
-const BUILTIN_VIDEOS = [
-  {
-    id:'bv1', level:'A1', isBuiltin:true,
-    title:'Goedemorgen! — Morning Greetings',
-    desc:'Common Dutch morning greetings and responses.',
-    youtubeId:'',
-    duration:'',
-    transcript:'Goedemorgen! Hoe gaat het met jou? Het gaat goed, dank je wel. En met jou? Ook goed. Wat ga jij vandaag doen? Ik ga naar mijn werk. En daarna ga ik koffie drinken met een vriend. Klinkt gezellig! Ja, heel gezellig. Tot later! Doei!',
-    translation:'Good morning! How are you? I am fine, thank you. And you? Also good. What are you going to do today? I am going to work. And after that I am going to drink coffee with a friend. Sounds cosy! Yes, very cosy. See you later! Bye!'
-  },
-  {
-    id:'bv2', level:'A1', isBuiltin:true,
-    title:'In het café — Ordering Coffee',
-    desc:'Ordering drinks at a Dutch café — essential phrases.',
-    youtubeId:'',
-    duration:'',
-    transcript:'Goedemiddag. Wat mag het zijn? Ik wil graag een koffie, alstublieft. Met melk? Ja, graag met melk en één suiker. Wilt u ook iets eten? Ja, heeft u appeltaart? Ja, die hebben wij. Vers gebakken. Heerlijk, dan neem ik ook een stuk appeltaart. Komt eraan. Hoeveel kost het? Dat is vier euro vijftig alles samen. Hier is vijf euro. Het wisselgeld is vijftig cent. Dankuwel. Eet smakelijk!',
-    translation:'Good afternoon. What can I get you? I would like a coffee, please. With milk? Yes, please with milk and one sugar. Would you also like something to eat? Yes, do you have apple cake? Yes, we have that. Freshly baked. Lovely, then I will also take a slice of apple cake. Coming right up. How much does it cost? That is four euros fifty altogether. Here is five euros. The change is fifty cents. Thank you. Enjoy your meal!'
-  },
-  {
-    id:'bv3', level:'A2', isBuiltin:true,
-    title:'De weg vragen — Asking for Directions',
-    desc:'How to ask for and understand directions in Dutch.',
-    youtubeId:'',
-    duration:'',
-    transcript:'Pardon, kunt u mij helpen? Ik ben op zoek naar het centraal station. Ja hoor, dat is niet ver hiervandaan. U gaat hier rechtdoor tot het einde van de straat. Dan slaat u linksaf bij de verkeerslichten. Na honderd meter ziet u het station aan uw rechterhand. Het is een groot gebouw met een rode gevel. Hoelang duurt het lopen? Ongeveer tien minuten. Kunt u dat herhalen? Rechtdoor, dan linksaf bij de lichten, dan rechts. Precies! U kunt het niet missen. Hartelijk dank voor uw hulp. Graag gedaan. Goede reis!',
-    translation:'Excuse me, can you help me? I am looking for the central station. Yes of course, it is not far from here. You go straight ahead to the end of the street. Then you turn left at the traffic lights. After a hundred metres you will see the station on your right. It is a large building with a red facade. How long does it take to walk? About ten minutes. Can you repeat that? Straight ahead, then left at the lights, then right. Exactly! You cannot miss it. Thank you very much for your help. You are welcome. Have a good journey!'
-  },
-  {
-    id:'bv4', level:'A2', isBuiltin:true,
-    title:'Op het werk — At the Office',
-    desc:'Common workplace conversations in Dutch.',
-    youtubeId:'',
-    duration:'',
-    transcript:'Goedemorgen allemaal. Heeft iedereen de vergadering van gisteren kunnen bijwonen? Helaas niet. Ik had een afspraak met een klant. Geen probleem. Ik stuur de notulen wel rond. Wanneer is de volgende vergadering? Volgende week donderdag om twee uur. Kan iedereen dan? Ik heb dan een training, maar ik kan dat verzetten. Prima. En jij? Ja, voor mij is donderdag goed. Dan spreken we dat af. Vergeet niet je laptop mee te nemen. En de projectrapporten. Die moeten we bespreken.',
-    translation:"Good morning everyone. Was everyone able to attend yesterday's meeting? Unfortunately not. I had an appointment with a client. No problem. I will send around the minutes. When is the next meeting? Next Thursday at two o'clock. Can everyone make it? I have a training then, but I can reschedule that. Great. And you? Yes, Thursday works for me. Then we agree on that. Don't forget to bring your laptop. And the project reports. We need to discuss those." 
-  },
-  {
-    id:'bv5', level:'B1', isBuiltin:true,
-    title:'Nieuws: Het Klimaat — Climate News',
-    desc:'A short Dutch news-style report on climate change.',
-    youtubeId:'',
-    duration:'',
-    transcript:'Goedenavond. In het nieuws vanavond: klimaatwetenschappers waarschuwen opnieuw voor de gevolgen van de opwarming van de aarde. Volgens een nieuw rapport van de Verenigde Naties stijgt de gemiddelde temperatuur sneller dan verwacht. Nederland, dat voor een groot deel onder zeeniveau ligt, is bijzonder kwetsbaar voor de stijgende zeespiegel. De Nederlandse overheid heeft aangekondigd extra maatregelen te nemen om de kustlijn te beschermen. Er wordt geïnvesteerd in nieuwe dijken en innovatieve waterbeheersystemen. Milieuorganisaties zijn echter van mening dat dit niet genoeg is. Ze roepen de regering op tot ambitieuzere klimaatdoelstellingen. Het debat gaat door.',
-    translation:'Good evening. In the news tonight: climate scientists are warning again about the consequences of global warming. According to a new report from the United Nations, the average temperature is rising faster than expected. The Netherlands, which lies largely below sea level, is particularly vulnerable to the rising sea level. The Dutch government has announced additional measures to protect the coastline. Investment is being made in new dykes and innovative water management systems. Environmental organisations are however of the opinion that this is not enough. They are calling on the government for more ambitious climate targets. The debate continues.'
-  },
-];
+const BUILTIN_VIDEOS = [];
 
 let userVideos = [];
 let currentVideo = null;
