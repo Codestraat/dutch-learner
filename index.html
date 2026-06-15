@@ -657,6 +657,113 @@ textarea{flex:1;min-height:200px;background:#1e3248;border:1px solid rgba(255,25
 .grammar-badge.het{background:rgba(155,114,207,0.2);color:#c39bd3;border:1px solid rgba(155,114,207,0.3);}
 .grammar-badge.good{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
 .grammar-badge.bad{background:rgba(230,57,70,0.15);color:#ff8a93;border:1px solid rgba(230,57,70,0.3);}
+
+/* ── PROGRESS DASHBOARD ── */
+.dash-hero{text-align:center;padding:16px 0 20px;}
+.dash-hero-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;}
+.dash-hero-sub{font-size:13px;color:var(--muted);}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.dash-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;}
+@media(max-width:400px){.dash-grid{grid-template-columns:1fr;}.dash-grid-3{grid-template-columns:1fr 1fr;}}
+.dash-stat{background:#1a2e42;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 14px;text-align:center;}
+.dash-stat-num{font-family:'Playfair Display',serif;font-size:30px;font-weight:800;color:#ffffff;line-height:1;}
+.dash-stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:6px;font-weight:700;}
+.dash-stat.green .dash-stat-num{color:#2ecc71;}
+.dash-stat.red .dash-stat-num{color:#ff8a93;}
+.dash-stat.gold .dash-stat-num{color:#f4a261;}
+.dash-stat.blue .dash-stat-num{color:#a8dadc;}
+.dash-section-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px;margin-top:4px;}
+.dash-progress-card{background:#1a2e42;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;margin-bottom:10px;}
+.dash-prog-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.dash-prog-label{font-size:13px;font-weight:700;color:#ffffff;}
+.dash-prog-pct{font-size:13px;font-weight:700;color:#2ecc71;}
+.dash-prog-bar{width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-bottom:14px;}
+.dash-prog-fill{height:100%;border-radius:4px;transition:width 0.6s ease;}
+.dash-prog-fill.green{background:linear-gradient(90deg,#2ecc71,#27ae60);}
+.dash-prog-fill.blue{background:linear-gradient(90deg,#a8dadc,#5dade2);}
+.dash-prog-fill.gold{background:linear-gradient(90deg,#f4a261,#e08e4a);}
+.dash-prog-fill.red{background:linear-gradient(90deg,#e63946,#c1121f);}
+.dash-streak-card{background:linear-gradient(135deg,#1f3864,#2a4a7f);border:1px solid rgba(244,162,97,0.3);border-radius:14px;padding:18px;margin-bottom:10px;display:flex;align-items:center;gap:14px;}
+.dash-streak-icon{font-size:44px;flex-shrink:0;}
+.dash-streak-num{font-family:'Playfair Display',serif;font-size:36px;font-weight:800;color:#f4a261;line-height:1;}
+.dash-streak-label{font-size:12px;color:rgba(244,162,97,0.7);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+.dash-alpha-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:4px;margin-bottom:10px;}
+.dash-alpha-cell{height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;border:1px solid rgba(255,255,255,0.06);}
+.dash-alpha-cell.none{background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.15);}
+.dash-alpha-cell.low{background:rgba(46,204,113,0.1);color:rgba(46,204,113,0.5);}
+.dash-alpha-cell.mid{background:rgba(46,204,113,0.2);color:rgba(46,204,113,0.7);}
+.dash-alpha-cell.high{background:rgba(46,204,113,0.35);color:#2ecc71;}
+.dash-alpha-cell.full{background:rgba(46,204,113,0.5);color:#2ecc71;border-color:rgba(46,204,113,0.4);}
+.dash-tips{background:#131f30;border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.dash-tip-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.dash-tip-row:last-child{border-bottom:none;}
+.dash-tip-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.dash-tip-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.5;}
+.dash-tip-text strong{color:#a8dadc;}
+.dash-quiz-history{background:#1a2e42;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;margin-bottom:10px;}
+.dash-quiz-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.dash-quiz-row:last-child{border-bottom:none;}
+.dash-quiz-mode{font-size:12px;color:var(--muted);font-weight:600;}
+.dash-quiz-score{font-size:14px;font-weight:800;color:#2ecc71;}
+.dash-quiz-score.low{color:#ff8a93;}
+.dash-quiz-score.mid{color:#f4a261;}
+
+/* ── VIDEO TAB ── */
+.video-hero{text-align:center;padding:14px 0 18px;}
+.video-hero-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;}
+.video-hero-sub{font-size:13px;color:var(--muted);}
+.video-level-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+
+/* Video list cards */
+.video-card{background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;margin-bottom:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:border-color 0.2s;}
+.video-card:hover{border-color:rgba(168,218,220,0.35);}
+.video-thumb{position:relative;width:100%;aspect-ratio:16/9;background:#0f1c2e;overflow:hidden;}
+.video-thumb img{width:100%;height:100%;object-fit:cover;}
+.video-thumb-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,#1a2e42,#0f1c2e);}
+.video-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.video-play-circle{width:56px;height:56px;border-radius:50%;background:rgba(230,57,70,0.85);display:flex;align-items:center;justify-content:center;font-size:22px;padding-left:4px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.video-card-info{padding:14px 16px;}
+.video-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.video-card-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:800;color:#fff;line-height:1.3;}
+.video-card-meta{font-size:12px;color:var(--dim);margin-top:4px;}
+.video-card-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+
+/* Video player view */
+.video-back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;padding:0;margin-bottom:14px;-webkit-tap-highlight-color:transparent;}
+.video-back-btn:hover{color:#fff;}
+.video-player-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;margin-bottom:16px;}
+.video-player-wrap iframe{width:100%;height:100%;border:none;}
+.video-player-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:6px;}
+.video-player-meta{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.video-transcript-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.video-transcript-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;}
+.video-transcript-box{background:#1a2e42;border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 18px;line-height:2.4;font-size:15px;}
+.video-transcript-box .story-word{cursor:pointer;border-radius:4px;padding:1px 3px;transition:background 0.15s;display:inline;}
+.video-transcript-box .story-word:hover{background:rgba(168,218,220,0.15);}
+.video-transcript-box .story-word.highlighted{background:rgba(230,57,70,0.2);}
+.video-transcript-box .story-word.known-word{color:rgba(255,255,255,0.4);}
+.video-trans-toggle{font-size:12px;font-weight:700;color:#a8dadc;background:rgba(168,218,220,0.1);border:1px solid rgba(168,218,220,0.2);border-radius:8px;padding:6px 12px;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.video-translation-box{background:#131f30;border-radius:10px;padding:12px 16px;font-size:13px;color:rgba(168,218,220,0.7);line-height:1.8;margin-top:10px;display:none;}
+.video-translation-box.show{display:block;}
+
+/* Add video form */
+.video-add-box{background:#1a2e42;border:1px solid rgba(168,218,220,0.15);border-radius:14px;padding:16px 18px;margin-top:16px;}
+.video-add-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.video-form{background:#131f30;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.video-form.show{display:block;}
+.video-form-row{margin-bottom:10px;}
+.video-form-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.video-form-input{width:100%;background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;}
+.video-form-input:focus{outline:none;border-color:rgba(168,218,220,0.4);}
+.video-form-textarea{width:100%;background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;min-height:100px;resize:vertical;line-height:1.6;box-sizing:border-box;}
+.video-form-textarea:focus{outline:none;border-color:rgba(168,218,220,0.4);}
+.video-form-select{background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;cursor:pointer;width:100%;}
+.video-form-submit{background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;-webkit-tap-highlight-color:transparent;}
+.video-form-cancel{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;margin-left:8px;}
+.video-delete-btn{background:none;border:none;color:rgba(230,57,70,0.5);font-size:15px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;}
+.video-delete-btn:hover{color:#e63946;}
+.video-edit-btn{background:none;border:none;color:rgba(168,218,220,0.5);font-size:15px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;}
+.video-edit-btn:hover{color:#a8dadc;}
 </style>
 <!-- SheetJS embedded -->
 <script>
@@ -712,6 +819,8 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
       <button class="navitem" onclick="switchTab('quiz')"><span class="icon">🃏</span>Flashcard Quiz</button>
       <button class="navitem" onclick="switchTab('stories')"><span class="icon">📖</span>Short Stories</button>
       <button class="navitem" onclick="switchTab('grammar')"><span class="icon">📘</span>Grammar</button>
+      <button class="navitem" onclick="switchTab('dashboard')"><span class="icon">📊</span>Dashboard</button>
+      <button class="navitem" onclick="switchTab('video')"><span class="icon">📺</span>Videos</button>
     </div>
     <div class="sidebar-footer">Import CSV to add 5,000+ words.<br/>All data saved locally on your device.</div>
   </div>
@@ -732,6 +841,8 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
         <button class="mob-tab" onclick="switchTab('quiz')"><span class="tab-icon">🃏</span>Quiz</button>
         <button class="mob-tab" onclick="switchTab('stories')"><span class="tab-icon">📖</span>Stories</button>
         <button class="mob-tab" onclick="switchTab('grammar')"><span class="tab-icon">📘</span>Grammar</button>
+        <button class="mob-tab" onclick="switchTab('dashboard')"><span class="tab-icon">📊</span>Dashboard</button>
+        <button class="mob-tab" onclick="switchTab('video')"><span class="tab-icon">📺</span>Videos</button>
       </div>
     </div>
 
@@ -821,6 +932,16 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
           <div class="lgr"><div class="lgd" style="background:#f4a261"></div><div><div style="font-size:12px;font-weight:600;color:#f4a261;">Simple Past</div><div style="font-size:10px;color:rgba(255,255,255,0.32);font-style:italic;">ik werkte · wij werkten</div></div></div>
           <div class="lgr"><div class="lgd" style="background:#2a9d8f"></div><div><div style="font-size:12px;font-weight:600;color:#2a9d8f;">Past Participle</div><div style="font-size:10px;color:rgba(255,255,255,0.32);font-style:italic;">ik heb gewerkt</div></div></div>
         </div>
+      </div>
+
+      <!-- VIDEO TAB -->
+      <div id="tab-video" style="display:none;">
+        <div id="video-container"></div>
+      </div>
+
+      <!-- DASHBOARD TAB -->
+      <div id="tab-dashboard" style="display:none;">
+        <div id="dashboard-container"></div>
       </div>
 
       <!-- GRAMMAR TAB -->
@@ -1289,13 +1410,15 @@ const TOPBAR={
   quiz:{t:'Flashcard Quiz',s:'Test yourself · flip cards · track what you know'},
   stories:{t:'Short Stories',s:'Read Dutch stories · tap any word to see its meaning'},
   grammar:{t:'Grammar Guide',s:'Dutch grammar rules · de vs het · word order · verb conjugation'},
+  dashboard:{t:'My Progress',s:'Words learned · streak · quiz scores · letter coverage'},
+  video:{t:'Dutch Videos',s:'Watch short Dutch videos · tap transcript words for instant meaning'},
 };
 
 function switchTab(t){
   curTab=t;
-  ['words','scenarios','verbs','separable','daily','quiz','stories','grammar'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
-  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar'][i]===t));
-  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar'][i]===t));
+  ['words','scenarios','verbs','separable','daily','quiz','stories','grammar','dashboard','video'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar','dashboard','video'][i]===t));
+  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar','dashboard','video'][i]===t));
   if(TOPBAR[t]){
     document.getElementById('topbar-title').textContent=TOPBAR[t].t;
     document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
@@ -1305,6 +1428,8 @@ function switchTab(t){
   if(t==='quiz'){initQuiz();}
   if(t==='stories'){initStories();}
   if(t==='grammar'){initGrammar();}
+  if(t==='dashboard'){initDashboard();}
+  if(t==='video'){initVideo();}
   if(t==='scenarios'){renderScenCats();renderScenPhrases();renderAudioPlayer(activeScat);}
   if(t!=='scenarios') stopAudio();
 }
@@ -2321,6 +2446,23 @@ function renderQuizResults(){
   const c = document.getElementById('quiz-container');
   const total = quizCorrect + quizWrong;
   const pct = total > 0 ? Math.round((quizCorrect/total)*100) : 0;
+  // Save quiz result to stats
+  try{
+    const qs = localStorage.getItem(QUIZ_STATS_KEY);
+    const stats = qs ? JSON.parse(qs) : [];
+    const d = new Date();
+    stats.push({
+      mode: quizMode,
+      source: quizSource,
+      cards: quizDeck.length,
+      correct: quizCorrect,
+      wrong: quizWrong,
+      pct,
+      date: d.getDate()+'/'+(d.getMonth()+1)
+    });
+    // Keep last 20 results
+    localStorage.setItem(QUIZ_STATS_KEY, JSON.stringify(stats.slice(-20)));
+  }catch(e){}
   const icon = pct >= 80 ? '🏆' : pct >= 60 ? '⭐' : pct >= 40 ? '💪' : '📖';
   const title = pct >= 80 ? 'Uitstekend!' : pct >= 60 ? 'Goed gedaan!' : pct >= 40 ? 'Blijf oefenen!' : 'Meer oefening nodig!';
 
@@ -2345,6 +2487,550 @@ function renderQuizResults(){
       </div>
       <button class="quiz-result-again" onclick="startQuiz()">🔄 Play again</button>
       <button class="quiz-result-menu" onclick="renderQuizSetup()">← Change settings</button>
+    </div>`;
+}
+
+// ── VIDEO TAB ─────────────────────────────────────────────────────────────────
+const VIDEO_KEY = 'user_videos_v1';
+
+// Built-in sample videos (YouTube IDs of free Dutch learning content)
+const BUILTIN_VIDEOS = [
+  {
+    id:'bv1', level:'A1', isBuiltin:true,
+    title:'Goedemorgen! — Morning Greetings',
+    desc:'Common Dutch morning greetings and responses.',
+    youtubeId:'',
+    duration:'',
+    transcript:'Goedemorgen! Hoe gaat het met jou? Het gaat goed, dank je wel. En met jou? Ook goed. Wat ga jij vandaag doen? Ik ga naar mijn werk. En daarna ga ik koffie drinken met een vriend. Klinkt gezellig! Ja, heel gezellig. Tot later! Doei!',
+    translation:'Good morning! How are you? I am fine, thank you. And you? Also good. What are you going to do today? I am going to work. And after that I am going to drink coffee with a friend. Sounds cosy! Yes, very cosy. See you later! Bye!'
+  },
+  {
+    id:'bv2', level:'A1', isBuiltin:true,
+    title:'In het café — Ordering Coffee',
+    desc:'Ordering drinks at a Dutch café — essential phrases.',
+    youtubeId:'',
+    duration:'',
+    transcript:'Goedemiddag. Wat mag het zijn? Ik wil graag een koffie, alstublieft. Met melk? Ja, graag met melk en één suiker. Wilt u ook iets eten? Ja, heeft u appeltaart? Ja, die hebben wij. Vers gebakken. Heerlijk, dan neem ik ook een stuk appeltaart. Komt eraan. Hoeveel kost het? Dat is vier euro vijftig alles samen. Hier is vijf euro. Het wisselgeld is vijftig cent. Dankuwel. Eet smakelijk!',
+    translation:'Good afternoon. What can I get you? I would like a coffee, please. With milk? Yes, please with milk and one sugar. Would you also like something to eat? Yes, do you have apple cake? Yes, we have that. Freshly baked. Lovely, then I will also take a slice of apple cake. Coming right up. How much does it cost? That is four euros fifty altogether. Here is five euros. The change is fifty cents. Thank you. Enjoy your meal!'
+  },
+  {
+    id:'bv3', level:'A2', isBuiltin:true,
+    title:'De weg vragen — Asking for Directions',
+    desc:'How to ask for and understand directions in Dutch.',
+    youtubeId:'',
+    duration:'',
+    transcript:'Pardon, kunt u mij helpen? Ik ben op zoek naar het centraal station. Ja hoor, dat is niet ver hiervandaan. U gaat hier rechtdoor tot het einde van de straat. Dan slaat u linksaf bij de verkeerslichten. Na honderd meter ziet u het station aan uw rechterhand. Het is een groot gebouw met een rode gevel. Hoelang duurt het lopen? Ongeveer tien minuten. Kunt u dat herhalen? Rechtdoor, dan linksaf bij de lichten, dan rechts. Precies! U kunt het niet missen. Hartelijk dank voor uw hulp. Graag gedaan. Goede reis!',
+    translation:'Excuse me, can you help me? I am looking for the central station. Yes of course, it is not far from here. You go straight ahead to the end of the street. Then you turn left at the traffic lights. After a hundred metres you will see the station on your right. It is a large building with a red facade. How long does it take to walk? About ten minutes. Can you repeat that? Straight ahead, then left at the lights, then right. Exactly! You cannot miss it. Thank you very much for your help. You are welcome. Have a good journey!'
+  },
+  {
+    id:'bv4', level:'A2', isBuiltin:true,
+    title:'Op het werk — At the Office',
+    desc:'Common workplace conversations in Dutch.',
+    youtubeId:'',
+    duration:'',
+    transcript:'Goedemorgen allemaal. Heeft iedereen de vergadering van gisteren kunnen bijwonen? Helaas niet. Ik had een afspraak met een klant. Geen probleem. Ik stuur de notulen wel rond. Wanneer is de volgende vergadering? Volgende week donderdag om twee uur. Kan iedereen dan? Ik heb dan een training, maar ik kan dat verzetten. Prima. En jij? Ja, voor mij is donderdag goed. Dan spreken we dat af. Vergeet niet je laptop mee te nemen. En de projectrapporten. Die moeten we bespreken.',
+    translation:"Good morning everyone. Was everyone able to attend yesterday's meeting? Unfortunately not. I had an appointment with a client. No problem. I will send around the minutes. When is the next meeting? Next Thursday at two o'clock. Can everyone make it? I have a training then, but I can reschedule that. Great. And you? Yes, Thursday works for me. Then we agree on that. Don't forget to bring your laptop. And the project reports. We need to discuss those." 
+  },
+  {
+    id:'bv5', level:'B1', isBuiltin:true,
+    title:'Nieuws: Het Klimaat — Climate News',
+    desc:'A short Dutch news-style report on climate change.',
+    youtubeId:'',
+    duration:'',
+    transcript:'Goedenavond. In het nieuws vanavond: klimaatwetenschappers waarschuwen opnieuw voor de gevolgen van de opwarming van de aarde. Volgens een nieuw rapport van de Verenigde Naties stijgt de gemiddelde temperatuur sneller dan verwacht. Nederland, dat voor een groot deel onder zeeniveau ligt, is bijzonder kwetsbaar voor de stijgende zeespiegel. De Nederlandse overheid heeft aangekondigd extra maatregelen te nemen om de kustlijn te beschermen. Er wordt geïnvesteerd in nieuwe dijken en innovatieve waterbeheersystemen. Milieuorganisaties zijn echter van mening dat dit niet genoeg is. Ze roepen de regering op tot ambitieuzere klimaatdoelstellingen. Het debat gaat door.',
+    translation:'Good evening. In the news tonight: climate scientists are warning again about the consequences of global warming. According to a new report from the United Nations, the average temperature is rising faster than expected. The Netherlands, which lies largely below sea level, is particularly vulnerable to the rising sea level. The Dutch government has announced additional measures to protect the coastline. Investment is being made in new dykes and innovative water management systems. Environmental organisations are however of the opinion that this is not enough. They are calling on the government for more ambitious climate targets. The debate continues.'
+  },
+];
+
+let userVideos = [];
+let currentVideo = null;
+let videoLevelFilter = 'All';
+let videoTranslationVisible = false;
+let videoEditingId = null;
+
+function loadUserVideos(){
+  try{
+    const s = localStorage.getItem(VIDEO_KEY);
+    userVideos = s ? JSON.parse(s) : [];
+  }catch(e){ userVideos=[]; }
+}
+
+function saveUserVideos(){
+  localStorage.setItem(VIDEO_KEY, JSON.stringify(userVideos));
+}
+
+function getAllVideos(){
+  return [...BUILTIN_VIDEOS, ...userVideos];
+}
+
+function initVideo(){
+  loadUserVideos();
+  renderVideoList();
+}
+
+function renderVideoList(){
+  const c = document.getElementById('video-container');
+  if(!c) return;
+  currentVideo = null;
+  videoEditingId = null;
+
+  const all = getAllVideos();
+  const filtered = videoLevelFilter === 'All' ? all : all.filter(v=>v.level===videoLevelFilter);
+  const levels = ['All','A1','A2','B1','B2'];
+
+  c.innerHTML = `
+    <div class="video-hero">
+      <div class="video-hero-title">📺 Dutch Videos</div>
+      <div class="video-hero-sub">Watch · read transcript · tap words for meaning</div>
+    </div>
+    <div class="video-level-bar">
+      ${levels.map(l=>`<button class="pill${videoLevelFilter===l?' on':''}" onclick="filterVideoLevel('${l}')">${l==='All'?'All levels':l}</button>`).join('')}
+    </div>
+
+    ${filtered.map(v=>`
+      <div class="video-card" onclick="openVideo('${v.id}')">
+        <div class="video-thumb">
+          ${v.youtubeId
+            ? `<img src="https://img.youtube.com/vi/${x(v.youtubeId)}/mqdefault.jpg" alt="${x(v.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\'video-thumb-placeholder\'>📺</div>'">`
+            : `<div class="video-thumb-placeholder">📺</div>`}
+          <div class="video-play-btn"><div class="video-play-circle">▶</div></div>
+        </div>
+        <div class="video-card-info">
+          <div class="video-card-top">
+            <div class="video-card-title">${x(v.title)}</div>
+            <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
+              <span class="story-level ${v.level}">${v.level}</span>
+              ${!v.isBuiltin ? `
+                <button class="video-edit-btn" onclick="event.stopPropagation();editVideo('${v.id}')" title="Edit">✏️</button>
+                <button class="video-delete-btn" onclick="event.stopPropagation();deleteVideo('${v.id}')" title="Delete">🗑️</button>` : ''}
+            </div>
+          </div>
+          <div class="video-card-desc">${x(v.desc)}</div>
+          <div class="video-card-meta">${v.duration?'⏱ '+v.duration+' · ':''}${v.youtubeId?'YouTube video':'Transcript only'} · Tap words for meaning</div>
+        </div>
+      </div>`).join('')}
+
+    <!-- Add your own video -->
+    <div class="video-add-box">
+      <div class="video-add-title">➕ Add a Dutch Video</div>
+      <button class="story-upload-btn" onclick="showVideoForm()" style="margin-bottom:10px;">📺 Add YouTube video + transcript</button>
+      <div class="story-upload-note">Paste a YouTube video ID and transcript. Tap any word in the transcript for instant Dutch meaning lookup.</div>
+      <div class="video-form" id="video-add-form">
+        <div class="video-form-row">
+          <div class="video-form-label">Title</div>
+          <input type="text" class="video-form-input" id="vf-title" placeholder="e.g. Dutch lesson: numbers"/>
+        </div>
+        <div class="video-form-row">
+          <div class="video-form-label">YouTube Video ID <span style="color:var(--dim);font-weight:400;text-transform:none;">(the part after ?v= in the URL, e.g. dQw4w9WgXcQ)</span></div>
+          <input type="text" class="video-form-input" id="vf-ytid" placeholder="e.g. dQw4w9WgXcQ"/>
+        </div>
+        <div class="video-form-row" style="display:flex;gap:10px;">
+          <div style="flex:1;">
+            <div class="video-form-label">Level</div>
+            <select class="video-form-select" id="vf-level">
+              <option value="A1">A1 — Beginner</option>
+              <option value="A2" selected>A2 — Elementary</option>
+              <option value="B1">B1 — Intermediate</option>
+              <option value="B2">B2 — Upper Intermediate</option>
+            </select>
+          </div>
+          <div style="flex:1;">
+            <div class="video-form-label">Duration (optional)</div>
+            <input type="text" class="video-form-input" id="vf-duration" placeholder="e.g. 3:45"/>
+          </div>
+        </div>
+        <div class="video-form-row">
+          <div class="video-form-label">Description</div>
+          <input type="text" class="video-form-input" id="vf-desc" placeholder="Brief description of the video"/>
+        </div>
+        <div class="video-form-row">
+          <div class="video-form-label">Dutch transcript</div>
+          <textarea class="video-form-textarea" id="vf-transcript" placeholder="Paste the Dutch transcript here..."></textarea>
+        </div>
+        <div class="video-form-row">
+          <div class="video-form-label">English translation (optional)</div>
+          <textarea class="video-form-textarea" id="vf-translation" placeholder="Paste the English translation here..." style="min-height:80px;"></textarea>
+        </div>
+        <div>
+          <button class="video-form-submit" id="vf-submit-btn" onclick="submitVideo()">✅ Add video</button>
+          <button class="video-form-cancel" onclick="hideVideoForm()">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function filterVideoLevel(level){
+  videoLevelFilter = level;
+  renderVideoList();
+}
+
+function openVideo(id){
+  currentVideo = getAllVideos().find(v=>v.id===id);
+  if(!currentVideo) return;
+  videoTranslationVisible = false;
+  renderVideoPlayer();
+}
+
+function renderVideoPlayer(){
+  const c = document.getElementById('video-container');
+  if(!c || !currentVideo) return;
+  const v = currentVideo;
+
+  // Build interactive transcript
+  const tokens = (v.transcript||'').split(/(\s+|[.,!?;:'"-])/);
+  const wordHtml = tokens.map(tok => {
+    const clean = tok.replace(/[.,!?;:'"()-]/g,'').toLowerCase();
+    if(!clean || tok.trim()==='') return tok==='\n'?'<br>':x(tok);
+    const isLearned = learned.has(clean) || phrases.some(p=>p.d.toLowerCase()===clean && learned.has(p.d));
+    return `<span class="story-word${isLearned?' known-word':''}" onclick="showWordPopup('${x(tok.replace(/'/g,"\'"))}')">${x(tok)}</span>`;
+  }).join('');
+
+  c.innerHTML = `
+    <button class="video-back-btn" onclick="renderVideoList()">← Back to videos</button>
+
+    ${v.youtubeId ? `
+    <div class="video-player-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/${x(v.youtubeId)}?rel=0&modestbranding=1"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        loading="lazy">
+      </iframe>
+    </div>` : `
+    <div style="background:#131f30;border-radius:14px;padding:24px;text-align:center;margin-bottom:16px;border:1px dashed rgba(255,255,255,0.15);">
+      <div style="font-size:40px;margin-bottom:8px;">📺</div>
+      <div style="font-size:13px;color:var(--muted);">No YouTube video linked · transcript only</div>
+      <div style="font-size:12px;color:var(--dim);margin-top:4px;">Edit this video to add a YouTube ID</div>
+    </div>`}
+
+    <div class="video-player-title">${x(v.title)}</div>
+    <div class="video-player-meta">
+      <span class="story-level ${v.level}">${v.level}</span>
+      ${v.duration?`<span style="font-size:12px;color:var(--dim);">⏱ ${x(v.duration)}</span>`:''}
+      <span style="font-size:12px;color:var(--dim);">Tap words for meaning</span>
+    </div>
+
+    <div class="video-transcript-header">
+      <div class="video-transcript-title">📄 Transcript</div>
+      <div style="display:flex;gap:8px;">
+        <button class="story-ctrl-btn" onclick="speakVideoTranscript()">🔊 Read</button>
+        ${v.translation?`<button class="video-trans-toggle" id="vtrans-btn" onclick="toggleVideoTranslation()">🇬🇧 Translation</button>`:''}
+      </div>
+    </div>
+
+    <div class="video-transcript-box">${wordHtml}</div>
+
+    ${v.translation?`
+    <div class="video-translation-box" id="video-translation">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:8px;">English Translation</div>
+      ${x(v.translation)}
+    </div>`:''}`;
+}
+
+function toggleVideoTranslation(){
+  videoTranslationVisible = !videoTranslationVisible;
+  const el = document.getElementById('video-translation');
+  const btn = document.getElementById('vtrans-btn');
+  if(el) el.classList.toggle('show', videoTranslationVisible);
+  if(btn) btn.classList.toggle('on', videoTranslationVisible);
+}
+
+function speakVideoTranscript(){
+  if(currentVideo && currentVideo.transcript){
+    speak(currentVideo.transcript, null);
+    toast('🔊 Reading transcript...');
+  }
+}
+
+function showVideoForm(){
+  const form = document.getElementById('video-add-form');
+  if(form) form.classList.add('show');
+  setTimeout(()=>{ if(form) form.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+}
+
+function hideVideoForm(){
+  const form = document.getElementById('video-add-form');
+  if(form) form.classList.remove('show');
+  ['vf-title','vf-ytid','vf-desc','vf-transcript','vf-translation','vf-duration'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  const btn = document.getElementById('vf-submit-btn');
+  if(btn){ btn.textContent = '✅ Add video'; btn.onclick = submitVideo; }
+  videoEditingId = null;
+}
+
+function submitVideo(){
+  const title      = (document.getElementById('vf-title').value||'').trim();
+  const youtubeId  = (document.getElementById('vf-ytid').value||'').trim().replace(/.*v=([^&]+).*/,'$1');
+  const level      = document.getElementById('vf-level').value || 'A2';
+  const duration   = (document.getElementById('vf-duration').value||'').trim();
+  const desc       = (document.getElementById('vf-desc').value||'').trim();
+  const transcript = (document.getElementById('vf-transcript').value||'').trim();
+  const translation= (document.getElementById('vf-translation').value||'').trim();
+
+  if(!title){ toast('Please enter a title'); return; }
+  if(!transcript){ toast('Please enter a transcript'); return; }
+
+  const vid = {
+    id: 'uv_' + Date.now(),
+    level, title, desc, youtubeId, duration, transcript, translation,
+    isBuiltin: false
+  };
+
+  userVideos.push(vid);
+  saveUserVideos();
+  hideVideoForm();
+  toast('✅ Video "' + title + '" added!');
+  renderVideoList();
+  setTimeout(()=>openVideo(vid.id), 300);
+}
+
+function editVideo(id){
+  const vid = userVideos.find(v=>v.id===id);
+  if(!vid) return;
+  videoEditingId = id;
+  showVideoForm();
+  document.getElementById('vf-title').value = vid.title||'';
+  document.getElementById('vf-ytid').value = vid.youtubeId||'';
+  document.getElementById('vf-level').value = vid.level||'A2';
+  document.getElementById('vf-duration').value = vid.duration||'';
+  document.getElementById('vf-desc').value = vid.desc||'';
+  document.getElementById('vf-transcript').value = vid.transcript||'';
+  document.getElementById('vf-translation').value = vid.translation||'';
+  const btn = document.getElementById('vf-submit-btn');
+  if(btn){ btn.textContent = '✅ Update video'; btn.onclick = ()=>updateVideo(id); }
+  setTimeout(()=>{
+    const form = document.getElementById('video-add-form');
+    if(form) form.scrollIntoView({behavior:'smooth',block:'start'});
+  }, 150);
+}
+
+function updateVideo(id){
+  const title      = (document.getElementById('vf-title').value||'').trim();
+  const youtubeId  = (document.getElementById('vf-ytid').value||'').trim().replace(/.*v=([^&]+).*/,'$1');
+  const level      = document.getElementById('vf-level').value || 'A2';
+  const duration   = (document.getElementById('vf-duration').value||'').trim();
+  const desc       = (document.getElementById('vf-desc').value||'').trim();
+  const transcript = (document.getElementById('vf-transcript').value||'').trim();
+  const translation= (document.getElementById('vf-translation').value||'').trim();
+
+  if(!title){ toast('Please enter a title'); return; }
+  if(!transcript){ toast('Please enter a transcript'); return; }
+
+  const idx = userVideos.findIndex(v=>v.id===id);
+  if(idx===-1){ toast('Video not found'); return; }
+
+  userVideos[idx] = {...userVideos[idx], title, youtubeId, level, duration, desc, transcript, translation};
+  saveUserVideos();
+  hideVideoForm();
+  toast('✅ Video updated!');
+  renderVideoList();
+  setTimeout(()=>openVideo(id), 300);
+}
+
+function deleteVideo(id){
+  if(!confirm('Delete this video?')) return;
+  userVideos = userVideos.filter(v=>v.id!==id);
+  saveUserVideos();
+  renderVideoList();
+  toast('Video deleted');
+}
+
+// ── PROGRESS DASHBOARD ────────────────────────────────────────────────────────
+function initDashboard(){
+  renderDashboard();
+}
+
+function getDashData(){
+  const totalWords   = phrases.length;
+  const learnedCount = learned.size;
+  const unlearnedCount = Math.max(0, totalWords - learnedCount);
+  const learnedPct   = totalWords > 0 ? Math.round((learnedCount/totalWords)*100) : 0;
+
+  // Streak
+  const streak = getStreak();
+
+  // Daily completion
+  const dailyState = loadDailyState();
+  const dailyDone  = dailyState ? Object.keys(dailyState.results||{}).length : 0;
+  const dailyComplete = dailyState && dailyState.complete;
+
+  // Quiz stats from storage
+  let quizStats = [];
+  try{
+    const qs = localStorage.getItem(QUIZ_STATS_KEY);
+    quizStats = qs ? JSON.parse(qs) : [];
+  }catch(e){ quizStats=[]; }
+
+  // Letter coverage - how many words learned per letter
+  const letterData = {};
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(l => {
+    const total = phrases.filter(p=>(p.d||'')[0].toUpperCase()===l).length;
+    const done  = phrases.filter(p=>(p.d||'')[0].toUpperCase()===l && learned.has(p.d)).length;
+    letterData[l] = {total, done, pct: total>0 ? Math.round((done/total)*100) : 0};
+  });
+
+  // Words added over time (approximate from localStorage size)
+  const scenarios = scenPhrases.length;
+  const sepVerbsCount = sepVerbs ? sepVerbs.length : 0;
+
+  return {
+    totalWords, learnedCount, unlearnedCount, learnedPct,
+    streak: streak.count, streakDate: streak.lastDate,
+    dailyDone, dailyComplete,
+    quizStats, letterData,
+    scenarios, sepVerbsCount,
+    verbsCount: verbs.length,
+    storiesCount: (typeof userStories !== 'undefined' ? userStories.length : 0),
+  };
+}
+
+function renderDashboard(){
+  const c = document.getElementById('dashboard-container');
+  if(!c) return;
+  const d = getDashData();
+  const today = getTodayStr();
+  const isStreakToday = d.streakDate === today;
+
+  // Smart tips
+  const tips = [];
+  if(d.learnedCount === 0) tips.push({icon:'💡', text:'<strong>Start marking words!</strong> Go to Words tab → tap ☐ on words you know → they turn green.'});
+  if(d.learnedPct > 0 && d.learnedPct < 10) tips.push({icon:'🚀', text:`You've learned <strong>${d.learnedCount} words</strong>. Keep going — at 100 words you'll handle most daily conversations!`});
+  if(d.learnedPct >= 10 && d.learnedPct < 25) tips.push({icon:'⭐', text:`Great progress! <strong>${d.learnedPct}%</strong> of your words mastered. Try the Flashcard Quiz to reinforce them.`});
+  if(d.learnedPct >= 25) tips.push({icon:'🏆', text:`Impressive! <strong>${d.learnedPct}%</strong> mastered. You're building a solid Dutch vocabulary.`});
+  if(!isStreakToday) tips.push({icon:'🔥', text:`<strong>Do your Daily 5 today</strong> to keep your streak alive! You had a ${d.streak}-day streak.`});
+  if(d.streak >= 7) tips.push({icon:'🔥', text:`<strong>${d.streak}-day streak!</strong> Consistent daily practice is the fastest way to learn Dutch.`});
+  if(d.storiesCount === 0) tips.push({icon:'📖', text:'<strong>Add your own stories!</strong> Paste Dutch text from news, books or messages in the Stories tab.'});
+  if(tips.length === 0) tips.push({icon:'💪', text:'Keep up the great work! Consistency is key to learning Dutch.'});
+
+  // Average quiz score
+  const recentQuiz = d.quizStats.slice(-5);
+  const avgScore = recentQuiz.length > 0
+    ? Math.round(recentQuiz.reduce((a,b)=>a+b.pct,0)/recentQuiz.length)
+    : null;
+
+  c.innerHTML = `
+    <div class="dash-hero">
+      <div class="dash-hero-title">📊 My Progress</div>
+      <div class="dash-hero-sub">${new Date().toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long'})}</div>
+    </div>
+
+    <!-- Streak -->
+    <div class="dash-streak-card">
+      <div class="dash-streak-icon">🔥</div>
+      <div>
+        <div class="dash-streak-num">${d.streak}</div>
+        <div class="dash-streak-label">Day streak${isStreakToday ? ' · Active today ✓' : ' · Do your Daily 5!'}</div>
+      </div>
+    </div>
+
+    <!-- Key stats -->
+    <div class="dash-section-title">Vocabulary</div>
+    <div class="dash-grid">
+      <div class="dash-stat green">
+        <div class="dash-stat-num">${d.learnedCount}</div>
+        <div class="dash-stat-label">Words learned</div>
+      </div>
+      <div class="dash-stat red">
+        <div class="dash-stat-num">${d.unlearnedCount}</div>
+        <div class="dash-stat-label">To learn</div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="dash-progress-card">
+      <div class="dash-prog-row">
+        <div class="dash-prog-label">Overall vocabulary progress</div>
+        <div class="dash-prog-pct">${d.learnedPct}%</div>
+      </div>
+      <div class="dash-prog-bar"><div class="dash-prog-fill green" style="width:${d.learnedPct}%"></div></div>
+      <div class="dash-prog-row">
+        <div class="dash-prog-label">Daily 5 today</div>
+        <div class="dash-prog-pct" style="color:${d.dailyComplete?'#2ecc71':'#f4a261'}">${d.dailyComplete ? '✓ Complete' : d.dailyDone+' / 5'}</div>
+      </div>
+      <div class="dash-prog-bar"><div class="dash-prog-fill ${d.dailyComplete?'green':'gold'}" style="width:${(d.dailyDone/5)*100}%"></div></div>
+    </div>
+
+    <!-- Content stats -->
+    <div class="dash-section-title">Content</div>
+    <div class="dash-grid-3">
+      <div class="dash-stat blue">
+        <div class="dash-stat-num">${d.totalWords}</div>
+        <div class="dash-stat-label">Words</div>
+      </div>
+      <div class="dash-stat blue">
+        <div class="dash-stat-num">${d.scenarios}</div>
+        <div class="dash-stat-label">Phrases</div>
+      </div>
+      <div class="dash-stat blue">
+        <div class="dash-stat-num">${d.sepVerbsCount}</div>
+        <div class="dash-stat-label">Sep. verbs</div>
+      </div>
+      <div class="dash-stat blue">
+        <div class="dash-stat-num">${d.verbsCount}</div>
+        <div class="dash-stat-label">Verbs</div>
+      </div>
+      <div class="dash-stat gold">
+        <div class="dash-stat-num">${12 + d.storiesCount}</div>
+        <div class="dash-stat-label">Stories</div>
+      </div>
+      <div class="dash-stat gold">
+        <div class="dash-stat-num">${avgScore !== null ? avgScore+'%' : '—'}</div>
+        <div class="dash-stat-label">Avg quiz</div>
+      </div>
+    </div>
+
+    <!-- Letter coverage heatmap -->
+    <div class="dash-section-title">Letter coverage — words learned per letter</div>
+    <div class="dash-progress-card">
+      <div class="dash-alpha-grid">
+        ${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>{
+          const ld = d.letterData[l];
+          const cls = ld.total===0?'none':ld.pct===0?'none':ld.pct<25?'low':ld.pct<50?'mid':ld.pct<75?'high':'full';
+          return `<div class="dash-alpha-cell ${cls}" title="${l}: ${ld.done}/${ld.total} learned (${ld.pct}%)">${l}</div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--dim);margin-top:8px;">
+        <span>⬜ None</span>
+        <span style="color:rgba(46,204,113,0.5)">▪ &lt;25%</span>
+        <span style="color:rgba(46,204,113,0.7)">▪ 25-50%</span>
+        <span style="color:#2ecc71">▪ 50-75%</span>
+        <span style="color:#2ecc71;font-weight:700">▪ 75%+</span>
+      </div>
+    </div>
+
+    <!-- Quiz history -->
+    ${d.quizStats.length > 0 ? `
+    <div class="dash-section-title">Recent quiz scores</div>
+    <div class="dash-quiz-history">
+      ${d.quizStats.slice(-6).reverse().map(s=>`
+        <div class="dash-quiz-row">
+          <div>
+            <div style="font-size:13px;color:#fff;font-weight:700;">${s.mode==='flashcard'?'🃏 Flashcard':'🎯 Multiple choice'}</div>
+            <div class="dash-quiz-mode">${s.source==='all'?'All words':s.source==='unlearned'?'To learn':"Today's 5"} · ${s.cards} cards · ${s.date||''}</div>
+          </div>
+          <div class="dash-quiz-score ${s.pct>=70?'':s.pct>=40?'mid':'low'}">${s.pct}%</div>
+        </div>`).join('')}
+    </div>` : ''}
+
+    <!-- Tips -->
+    <div class="dash-section-title">Tips for you</div>
+    <div class="dash-tips">
+      ${tips.map(t=>`
+        <div class="dash-tip-row">
+          <span class="dash-tip-icon">${t.icon}</span>
+          <span class="dash-tip-text">${t.text}</span>
+        </div>`).join('')}
+    </div>
+
+    <!-- Quick actions -->
+    <div class="dash-section-title">Quick actions</div>
+    <div class="dash-grid">
+      <button onclick="switchTab('daily')" style="background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;">🌟 Daily 5</button>
+      <button onclick="switchTab('quiz')" style="background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;">🃏 Start Quiz</button>
+      <button onclick="switchTab('words')" style="background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;">💬 Words</button>
+      <button onclick="switchTab('stories')" style="background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;">📖 Stories</button>
     </div>`;
 }
 
