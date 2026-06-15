@@ -48,13 +48,92 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
 
 /* MOBILE */
 @media(max-width:700px){
+  /* Hide desktop sidebar & topbar */
   .sidebar{display:none;}
-  .shell{flex-direction:column;}
-  .main{height:100dvh;}
   .topbar{display:none;}
-  .content{padding:14px 14px 60px;}
-  .mobile-header{display:flex !important;}
-  .mob-tabs{display:flex !important;}
+
+  /* Shell: row with left mobile nav + content */
+  .shell{flex-direction:row;height:100dvh;width:100vw;overflow:hidden;}
+
+  /* Mobile left nav */
+  .mobile-header{
+    display:flex !important;
+    flex-direction:column;
+    width:64px;
+    min-width:64px;
+    height:100dvh;
+    background:var(--bg2);
+    border-right:1px solid rgba(255,255,255,0.1);
+    padding:0;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .mob-top{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:12px 0 8px 0;
+    margin-bottom:0;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    flex-shrink:0;
+  }
+  .mob-top span{font-size:22px;}
+  #tc3{display:none;}
+
+  /* Vertical tab buttons */
+  .mob-tabs{
+    display:flex !important;
+    flex-direction:column;
+    gap:2px;
+    padding:8px 6px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    flex:1;
+    scrollbar-width:none;
+  }
+  .mob-tabs::-webkit-scrollbar{display:none;}
+  .mob-tab{
+    flex-shrink:0;
+    width:100%;
+    padding:10px 4px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-family:inherit;
+    font-size:9px;
+    font-weight:700;
+    background:transparent;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    line-height:1.2;
+    text-align:center;
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
+    transition:all 0.2s;
+    white-space:normal;
+    word-break:break-word;
+  }
+  .mob-tab .tab-icon{font-size:18px;line-height:1;}
+  .mob-tab.active{background:rgba(230,57,70,0.18);color:#ffffff;}
+  .mob-tab:active{background:rgba(255,255,255,0.08);}
+
+  /* Main content fills remaining width */
+  .main{
+    flex:1;
+    min-width:0;
+    height:100dvh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .content{
+    padding:12px 12px 16px;
+    flex:1;
+    overflow-y:auto;
+  }
 }
 .mobile-header{display:none;background:rgba(13,24,33,0.98);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 16px 0;flex-shrink:0;}
 .mob-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
@@ -283,11 +362,283 @@ textarea{flex:1;min-height:200px;background:#1e3248;border:1px solid rgba(255,25
   font-size:12px;color:var(--dim);
 }
 .empty{text-align:center;padding:50px 20px;color:var(--muted);font-size:15px;line-height:1.9;font-weight:600;}
-.alpha-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;}
+.alpha-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;width:100%;}
 .alpha-btn{width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
 .alpha-btn:hover{background:rgba(255,255,255,0.12);color:#ffffff;}
 .alpha-btn.on{background:rgba(230,57,70,0.22);border-color:rgba(230,57,70,0.55);color:#ffffff;box-shadow:0 0 12px rgba(230,57,70,0.3);}
 .alpha-btn.empty{opacity:0.2;pointer-events:none;}
+
+/* ── DAILY WORDS ── */
+.daily-header{text-align:center;padding:20px 0 10px 0;}
+.daily-date{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:700;}
+.daily-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#ffffff;margin-bottom:4px;}
+.daily-subtitle{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.daily-progress{display:flex;align-items:center;gap:10px;margin-bottom:24px;background:#1a2e42;border-radius:14px;padding:14px 18px;}
+.daily-prog-bar{flex:1;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;}
+.daily-prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#2ecc71,#27ae60);transition:width 0.4s ease;}
+.daily-prog-text{font-size:13px;font-weight:700;color:#2ecc71;white-space:nowrap;}
+.daily-card{background:#1a2e42;border:1px solid rgba(255,255,255,0.12);border-radius:18px;padding:24px;margin-bottom:14px;position:relative;transition:all 0.3s;}
+.daily-card.known{border-color:rgba(46,204,113,0.4);background:rgba(46,204,113,0.07);}
+.daily-card.practice{border-color:rgba(230,57,70,0.4);background:rgba(230,57,70,0.07);}
+.daily-card-num{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:10px;}
+.daily-word{font-family:'Playfair Display',serif;font-size:28px;font-weight:800;color:#ffffff;margin-bottom:4px;display:flex;align-items:center;gap:10px;}
+.daily-art{font-size:14px;color:var(--gold);font-weight:700;font-family:'Calibri',sans-serif;}
+.daily-meaning{font-size:16px;color:#cde8ea;font-weight:600;margin-bottom:10px;}
+.daily-example{font-size:13px;color:rgba(255,255,255,0.6);font-style:italic;line-height:1.6;margin-bottom:16px;}
+.daily-btns{display:flex;gap:10px;}
+.daily-btn{flex:1;padding:12px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.daily-btn-know{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
+.daily-btn-know:hover{background:rgba(46,204,113,0.25);}
+.daily-btn-practice{background:rgba(230,57,70,0.12);color:#ff8a93;border:1px solid rgba(230,57,70,0.3);}
+.daily-btn-practice:hover{background:rgba(230,57,70,0.22);}
+.daily-btn-speak{background:rgba(168,218,220,0.1);color:#a8dadc;border:1px solid rgba(168,218,220,0.2);flex:0 0 auto;padding:12px 16px;}
+.daily-complete{text-align:center;padding:40px 20px;background:#1a2e42;border-radius:18px;border:1px solid rgba(46,204,113,0.3);}
+.daily-complete-icon{font-size:56px;margin-bottom:16px;}
+.daily-complete-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#ffffff;margin-bottom:8px;}
+.daily-complete-sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
+.daily-streak{display:inline-flex;align-items:center;gap:8px;background:rgba(244,162,97,0.15);border:1px solid rgba(244,162,97,0.3);border-radius:50px;padding:8px 18px;font-size:14px;font-weight:700;color:#f4a261;margin-bottom:20px;}
+.daily-new-btn{background:var(--red);color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.daily-new-btn:hover{background:var(--red2);}
+.daily-status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.daily-status-dot.known{background:#2ecc71;}
+.daily-status-dot.practice{background:#e63946;}
+.daily-status-dot.pending{background:rgba(255,255,255,0.2);}
+.daily-word-list{display:flex;gap:6px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;}
+.daily-word-chip{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:50px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:var(--muted);}
+
+/* ── MARK AS LEARNED ── */
+.wc-learned{background:none;border:none;font-size:18px;cursor:pointer;padding:2px;opacity:0.5;transition:all 0.2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;line-height:1;}
+.wc-learned:hover{opacity:1;}
+.wc-learned.on{opacity:1;}
+.wc.learned-word{border-color:rgba(46,204,113,0.3);background:rgba(46,204,113,0.05);}
+.wc.learned-word .wc-word{color:rgba(255,255,255,0.5);}
+.wc.learned-word .wc-en{color:rgba(255,255,255,0.35);}
+.learned-filter-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:50px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.05);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;white-space:nowrap;}
+.learned-filter-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.learned-filter-btn.on{background:rgba(46,204,113,0.18);border-color:rgba(46,204,113,0.45);color:#2ecc71;}
+.learned-stats{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.learned-stat{flex:1;min-width:80px;background:#1a2e42;border-radius:12px;padding:12px 14px;text-align:center;border:1px solid rgba(255,255,255,0.08);}
+.learned-stat-num{font-size:22px;font-weight:800;color:#ffffff;font-family:'Playfair Display',serif;}
+.learned-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px;font-weight:700;}
+.learned-stat.green .learned-stat-num{color:#2ecc71;}
+.learned-stat.red .learned-stat-num{color:#ff8a93;}
+.learned-prog{width:100%;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;margin-bottom:16px;overflow:hidden;}
+.learned-prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#2ecc71,#27ae60);transition:width 0.5s ease;}
+
+/* ── NOTIFICATION BANNER ── */
+.notif-banner{
+  display:none;
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:linear-gradient(135deg,#1f3864,#2a4a7f);
+  border-bottom:2px solid rgba(168,218,220,0.3);
+  padding:14px 18px;
+  animation:slideDown 0.4s ease;
+}
+@keyframes slideDown{from{transform:translateY(-100%);}to{transform:translateY(0);}}
+.notif-banner-inner{display:flex;align-items:center;gap:12px;max-width:600px;margin:0 auto;}
+.notif-banner-icon{font-size:28px;flex-shrink:0;}
+.notif-banner-text{flex:1;}
+.notif-banner-title{font-size:15px;font-weight:800;color:#ffffff;margin-bottom:2px;}
+.notif-banner-sub{font-size:12px;color:#a8dadc;}
+.notif-banner-btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.notif-banner-close{background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer;padding:4px;flex-shrink:0;line-height:1;}
+
+/* ── NOTIFICATION SETTINGS in Daily tab ── */
+.notif-setup{background:#1a2e42;border:1px solid rgba(168,218,220,0.15);border-radius:14px;padding:16px 18px;margin-bottom:18px;}
+.notif-setup-title{font-size:13px;font-weight:700;color:#ffffff;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.notif-setup-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.notif-setup-info{font-size:12px;color:var(--muted);line-height:1.5;}
+.notif-enable-btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;-webkit-tap-highlight-color:transparent;}
+.notif-enable-btn.granted{background:rgba(46,204,113,0.2);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
+.notif-time-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.notif-time-label{font-size:12px;color:var(--muted);font-weight:600;}
+.notif-time-input{background:#0f1c2e;border:1px solid rgba(255,255,255,0.15);color:#ffffff;border-radius:8px;padding:8px 12px;font-size:14px;font-family:inherit;cursor:pointer;}
+.notif-save-btn{background:rgba(168,218,220,0.1);color:#a8dadc;border:1px solid rgba(168,218,220,0.2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+.notif-save-btn:hover{background:rgba(168,218,220,0.2);}
+
+/* ── QUIZ / FLASHCARD ── */
+.quiz-setup{text-align:center;padding:20px 0;}
+.quiz-setup-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#ffffff;margin-bottom:6px;}
+.quiz-setup-sub{font-size:13px;color:var(--muted);margin-bottom:24px;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.quiz-opt{background:#1a2e42;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:16px;cursor:pointer;text-align:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.quiz-opt:hover{border-color:rgba(168,218,220,0.35);background:#1f3650;}
+.quiz-opt.selected{border-color:rgba(230,57,70,0.55);background:rgba(230,57,70,0.12);}
+.quiz-opt-icon{font-size:28px;margin-bottom:6px;}
+.quiz-opt-label{font-size:13px;font-weight:700;color:#ffffff;}
+.quiz-opt-desc{font-size:11px;color:var(--muted);margin-top:3px;}
+.quiz-start-btn{width:100%;padding:16px;background:var(--red);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.2s;}
+.quiz-start-btn:hover{background:var(--red2);}
+.quiz-start-btn:disabled{opacity:0.4;cursor:default;}
+
+/* Flashcard */
+.quiz-progress-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.quiz-prog-bar{flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;}
+.quiz-prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--red2),var(--red));transition:width 0.4s;}
+.quiz-prog-txt{font-size:12px;font-weight:700;color:var(--muted);white-space:nowrap;}
+.quiz-card-wrap{perspective:1000px;margin-bottom:18px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.quiz-card{position:relative;width:100%;min-height:220px;transform-style:preserve-3d;transition:transform 0.45s ease;border-radius:20px;}
+.quiz-card.flipped{transform:rotateY(180deg);}
+.quiz-card-front,.quiz-card-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:20px;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.quiz-card-front{background:linear-gradient(135deg,#1a2e42,#1f3a55);border:1px solid rgba(255,255,255,0.12);}
+.quiz-card-back{background:linear-gradient(135deg,#1a3830,#1f4a3f);border:1px solid rgba(46,204,113,0.25);transform:rotateY(180deg);}
+.quiz-card-hint{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px;font-weight:700;}
+.quiz-card-dutch{font-family:'Playfair Display',serif;font-size:34px;font-weight:800;color:#ffffff;margin-bottom:6px;line-height:1.2;}
+.quiz-card-art{font-size:14px;color:var(--gold);font-weight:700;margin-bottom:4px;}
+.quiz-card-type{font-size:11px;color:var(--purple);background:rgba(155,114,207,0.12);border-radius:50px;padding:2px 10px;margin-bottom:12px;}
+.quiz-card-meaning{font-size:22px;font-weight:700;color:#2ecc71;margin-bottom:8px;}
+.quiz-card-example{font-size:13px;color:rgba(168,218,220,0.7);font-style:italic;line-height:1.5;}
+.quiz-card-speak{background:rgba(168,218,220,0.1);border:1px solid rgba(168,218,220,0.2);color:#a8dadc;border-radius:50px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px;}
+.quiz-flip-hint{text-align:center;font-size:12px;color:var(--dim);margin-bottom:14px;}
+.quiz-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.quiz-btn{padding:14px;border-radius:14px;border:none;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.quiz-btn-wrong{background:rgba(230,57,70,0.15);color:#ff8a93;border:1px solid rgba(230,57,70,0.3);}
+.quiz-btn-wrong:hover{background:rgba(230,57,70,0.28);}
+.quiz-btn-right{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
+.quiz-btn-right:hover{background:rgba(46,204,113,0.28);}
+.quiz-skip{width:100%;padding:10px;background:none;border:1px solid rgba(255,255,255,0.1);color:var(--dim);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* Quiz results */
+.quiz-results{text-align:center;padding:24px 0;}
+.quiz-result-icon{font-size:60px;margin-bottom:16px;}
+.quiz-result-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:8px;}
+.quiz-result-sub{font-size:14px;color:var(--muted);margin-bottom:20px;line-height:1.6;}
+.quiz-result-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:22px;}
+.quiz-result-stat{background:#1a2e42;border-radius:12px;padding:14px 10px;border:1px solid rgba(255,255,255,0.08);}
+.quiz-result-num{font-size:24px;font-weight:800;font-family:'Playfair Display',serif;}
+.quiz-result-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-weight:700;}
+.quiz-result-again{width:100%;padding:14px;background:var(--red);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px;}
+.quiz-result-menu{width:100%;padding:12px;background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+/* Multiple choice */
+.mc-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.mc-btn{padding:14px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#ffffff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.2s;text-align:center;line-height:1.3;-webkit-tap-highlight-color:transparent;}
+.mc-btn:hover{background:rgba(255,255,255,0.1);}
+.mc-btn.correct{background:rgba(46,204,113,0.22);border-color:rgba(46,204,113,0.55);color:#2ecc71;}
+.mc-btn.wrong{background:rgba(230,57,70,0.18);border-color:rgba(230,57,70,0.5);color:#ff8a93;}
+.mc-btn.reveal{background:rgba(46,204,113,0.1);border-color:rgba(46,204,113,0.3);color:#2ecc71;}
+
+/* ── SHORT STORIES ── */
+.story-list{display:grid;gap:12px;margin-bottom:20px;}
+.story-card{background:#1a2e42;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:16px 18px;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.story-card:hover{background:#1f3650;border-color:rgba(168,218,220,0.3);}
+.story-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+.story-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:#ffffff;}
+.story-level{font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;letter-spacing:1px;text-transform:uppercase;flex-shrink:0;}
+.story-level.A1{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
+.story-level.A2{background:rgba(52,152,219,0.15);color:#5dade2;border:1px solid rgba(52,152,219,0.3);}
+.story-level.B1{background:rgba(244,162,97,0.15);color:#f4a261;border:1px solid rgba(244,162,97,0.3);}
+.story-card-desc{font-size:12px;color:var(--muted);line-height:1.5;}
+.story-card-meta{display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--dim);font-weight:600;}
+
+/* Story reader */
+.story-reader{display:none;}
+.story-reader.active{display:block;}
+.story-back-btn{display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;padding:0;margin-bottom:16px;-webkit-tap-highlight-color:transparent;}
+.story-back-btn:hover{color:#fff;}
+.story-reader-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;}
+.story-reader-meta{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.story-controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+.story-ctrl-btn{padding:8px 14px;border-radius:50px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:var(--muted);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.2s;}
+.story-ctrl-btn:hover{background:rgba(255,255,255,0.1);color:#fff;}
+.story-ctrl-btn.on{background:rgba(168,218,220,0.15);border-color:rgba(168,218,220,0.4);color:#a8dadc;}
+.story-text{background:#1a2e42;border-radius:14px;padding:20px;margin-bottom:16px;line-height:2.2;font-size:16px;}
+.story-word{cursor:pointer;border-radius:4px;padding:1px 2px;transition:background 0.15s;display:inline;-webkit-tap-highlight-color:transparent;}
+.story-word:hover{background:rgba(168,218,220,0.18);}
+.story-word.highlighted{background:rgba(230,57,70,0.2);color:#ffffff;}
+.story-word.known-word{color:rgba(255,255,255,0.5);}
+.story-translation{background:#131f30;border-radius:14px;padding:16px 18px;font-size:14px;color:rgba(168,218,220,0.75);line-height:1.8;margin-bottom:16px;display:none;}
+.story-translation.show{display:block;}
+.story-translation-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);font-weight:700;margin-bottom:8px;}
+
+/* Word popup */
+.word-popup{
+  position:fixed;bottom:0;left:0;right:0;z-index:500;
+  background:#1a2e42;border-top:2px solid rgba(168,218,220,0.2);
+  padding:18px 20px 28px;
+  transform:translateY(100%);
+  transition:transform 0.3s ease;
+  border-radius:20px 20px 0 0;
+}
+.word-popup.show{transform:translateY(0);}
+.word-popup-dutch{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;}
+.word-popup-art{font-size:13px;color:var(--gold);font-weight:700;margin-bottom:2px;}
+.word-popup-meaning{font-size:16px;color:#2ecc71;font-weight:700;margin-bottom:8px;}
+.word-popup-example{font-size:13px;color:rgba(168,218,220,0.6);font-style:italic;line-height:1.5;margin-bottom:14px;}
+.word-popup-btns{display:flex;gap:8px;}
+.word-popup-btn{flex:1;padding:11px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;}
+.word-popup-speak{background:rgba(168,218,220,0.1);color:#a8dadc;border:1px solid rgba(168,218,220,0.2)!important;}
+.word-popup-learn{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3)!important;}
+.word-popup-close{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.1)!important;}
+.word-popup-overlay{position:fixed;inset:0;z-index:499;display:none;}
+.word-popup-overlay.show{display:block;}
+
+/* Level filter pills */
+.story-level-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+
+/* ── STORY UPLOAD ── */
+.story-upload-box{background:#1a2e42;border:1px solid rgba(168,218,220,0.15);border-radius:14px;padding:16px 18px;margin-top:20px;}
+.story-upload-title{font-size:13px;font-weight:700;color:#ffffff;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.story-upload-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.story-upload-btn{padding:10px 16px;border-radius:10px;border:1px solid rgba(168,218,220,0.2);background:rgba(168,218,220,0.08);color:#a8dadc;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:all 0.2s;}
+.story-upload-btn:hover{background:rgba(168,218,220,0.16);border-color:rgba(168,218,220,0.4);}
+.story-upload-note{font-size:11px;color:var(--dim);line-height:1.6;}
+.story-form{background:#131f30;border-radius:12px;padding:14px;margin-top:10px;display:none;}
+.story-form.show{display:block;}
+.story-form-row{margin-bottom:10px;}
+.story-form-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.story-form-input{width:100%;background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#ffffff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;box-sizing:border-box;}
+.story-form-input:focus{outline:none;border-color:rgba(168,218,220,0.4);}
+.story-form-textarea{width:100%;background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#ffffff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;min-height:120px;resize:vertical;line-height:1.6;box-sizing:border-box;}
+.story-form-textarea:focus{outline:none;border-color:rgba(168,218,220,0.4);}
+.story-form-select{background:#0f1c2e;border:1px solid rgba(255,255,255,0.12);color:#ffffff;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;cursor:pointer;}
+.story-form-submit{background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;-webkit-tap-highlight-color:transparent;}
+.story-form-cancel{background:rgba(255,255,255,0.06);color:var(--muted);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;margin-left:8px;}
+.story-card.user-story{border-color:rgba(244,162,97,0.25);background:rgba(244,162,97,0.05);}
+.story-card.user-story .story-card-title::before{content:'✍️ ';font-size:14px;}
+.story-delete-btn{background:none;border:none;color:rgba(230,57,70,0.5);font-size:16px;cursor:pointer;padding:2px 6px;-webkit-tap-highlight-color:transparent;}
+.story-delete-btn:hover{color:#e63946;}
+
+/* ── GRAMMAR TIPS ── */
+.grammar-hero{text-align:center;padding:16px 0 20px;}
+.grammar-hero-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;}
+.grammar-hero-sub{font-size:13px;color:var(--muted);}
+.grammar-cat-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.grammar-section{margin-bottom:14px;}
+.grammar-card{background:#1a2e42;border:1px solid rgba(255,255,255,0.1);border-radius:16px;overflow:hidden;margin-bottom:10px;}
+.grammar-card-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;}
+.grammar-card-header:hover{background:rgba(255,255,255,0.04);}
+.grammar-card-title{font-size:15px;font-weight:800;color:#ffffff;display:flex;align-items:center;gap:10px;}
+.grammar-card-icon{font-size:20px;flex-shrink:0;}
+.grammar-card-arrow{font-size:14px;color:var(--dim);transition:transform 0.25s;}
+.grammar-card.open .grammar-card-arrow{transform:rotate(90deg);}
+.grammar-card-body{display:none;padding:0 18px 18px;border-top:1px solid rgba(255,255,255,0.06);}
+.grammar-card.open .grammar-card-body{display:block;}
+.grammar-rule{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.8;margin-bottom:14px;}
+.grammar-rule strong{color:#a8dadc;}
+.grammar-rule em{color:#f4a261;font-style:normal;font-weight:700;}
+.grammar-examples{background:#131f30;border-radius:10px;padding:12px 14px;margin-bottom:12px;}
+.grammar-example-row{display:flex;gap:10px;align-items:flex-start;margin-bottom:8px;}
+.grammar-example-row:last-child{margin-bottom:0;}
+.grammar-nl{font-family:'Playfair Display',serif;font-size:14px;color:#ffffff;font-style:italic;flex:1;}
+.grammar-en{font-size:12px;color:rgba(168,218,220,0.6);flex:1;}
+.grammar-speak{background:none;border:none;font-size:14px;cursor:pointer;padding:0 2px;flex-shrink:0;opacity:0.6;}
+.grammar-speak:hover{opacity:1;}
+.grammar-tip{background:rgba(244,162,97,0.1);border:1px solid rgba(244,162,97,0.25);border-radius:10px;padding:10px 14px;font-size:13px;color:#f4c27a;line-height:1.6;margin-bottom:10px;}
+.grammar-tip::before{content:'💡 ';}
+.grammar-warning{background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.25);border-radius:10px;padding:10px 14px;font-size:13px;color:#ff8a93;line-height:1.6;margin-bottom:10px;}
+.grammar-warning::before{content:'⚠️ ';}
+.grammar-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:13px;}
+.grammar-table th{background:rgba(168,218,220,0.1);color:#a8dadc;padding:8px 10px;text-align:left;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;}
+.grammar-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.8);vertical-align:top;}
+.grammar-table tr:last-child td{border-bottom:none;}
+.grammar-table .nl{font-style:italic;color:#ffffff;}
+.grammar-table .en{color:rgba(168,218,220,0.6);}
+.grammar-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;margin-left:8px;vertical-align:middle;}
+.grammar-badge.de{background:rgba(52,152,219,0.2);color:#5dade2;border:1px solid rgba(52,152,219,0.3);}
+.grammar-badge.het{background:rgba(155,114,207,0.2);color:#c39bd3;border:1px solid rgba(155,114,207,0.3);}
+.grammar-badge.good{background:rgba(46,204,113,0.15);color:#2ecc71;border:1px solid rgba(46,204,113,0.3);}
+.grammar-badge.bad{background:rgba(230,57,70,0.15);color:#ff8a93;border:1px solid rgba(230,57,70,0.3);}
 </style>
 <!-- SheetJS embedded -->
 <script>
@@ -312,6 +663,19 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
 <body>
 <div class="shell">
 
+<!-- In-app daily reminder banner -->
+<div class="notif-banner" id="notif-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#1f3864,#2a4a7f);border-bottom:2px solid rgba(168,218,220,0.3);padding:14px 18px;animation:slideDown 0.4s ease;">
+  <div style="display:flex;align-items:center;gap:12px;max-width:600px;margin:0 auto;">
+    <span style="font-size:28px;flex-shrink:0;">🌟</span>
+    <div style="flex:1;">
+      <div style="font-size:15px;font-weight:800;color:#ffffff;margin-bottom:2px;">Time to learn your 5 words for the day!</div>
+      <div style="font-size:12px;color:#a8dadc;">Your daily Dutch practice is waiting 🇳🇱</div>
+    </div>
+    <button onclick="goDailyFromBanner()" style="background:#e63946;color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;flex-shrink:0;">Start →</button>
+    <button onclick="dismissBanner()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer;padding:4px;flex-shrink:0;line-height:1;">✕</button>
+  </div>
+</div>
+
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-head">
@@ -326,6 +690,10 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
       <button class="navitem" onclick="switchTab('scenarios')"><span class="icon">🗺️</span>Scenarios<span class="badge" id="sc-badge">—</span></button>
       <button class="navitem" onclick="switchTab('verbs')"><span class="icon">📚</span>Verbs<span class="badge" id="vb-badge">—</span></button>
       <button class="navitem" onclick="switchTab('separable')"><span class="icon">✂️</span>Separable Verbs<span class="badge" id="sep-badge">—</span></button>
+      <button class="navitem" onclick="switchTab('daily')"><span class="icon">🌟</span>Daily 5<span class="badge" id="daily-badge">—</span></button>
+      <button class="navitem" onclick="switchTab('quiz')"><span class="icon">🃏</span>Flashcard Quiz</button>
+      <button class="navitem" onclick="switchTab('stories')"><span class="icon">📖</span>Short Stories</button>
+      <button class="navitem" onclick="switchTab('grammar')"><span class="icon">📘</span>Grammar</button>
     </div>
     <div class="sidebar-footer">Import CSV to add 5,000+ words.<br/>All data saved locally on your device.</div>
   </div>
@@ -334,15 +702,18 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
   <div class="main">
     <div class="mobile-header">
       <div class="mob-top">
-        <span style="font-size:20px;">🇳🇱</span>
-        <div><div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:800;color:#ffffff;">Dutch Learner</div><div style="font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-weight:600;">Persoonlijke gids</div></div>
-        <div style="margin-left:auto;font-size:10px;color:var(--dim);" id="tc3"></div>
+        <span style="font-size:26px;">🇳🇱</span>
+        <div id="tc3" style="font-size:9px;color:var(--dim);margin-top:2px;"></div>
       </div>
       <div class="mob-tabs">
-        <button class="mob-tab active" onclick="switchTab('words')">💬 Words</button>
-        <button class="mob-tab" onclick="switchTab('scenarios')">🗺️ Scenarios</button>
-        <button class="mob-tab" onclick="switchTab('verbs')">📚 Verbs</button>
-        <button class="mob-tab" onclick="switchTab('separable')">✂️ Separable</button>
+        <button class="mob-tab active" onclick="switchTab('words')"><span class="tab-icon">💬</span>Words</button>
+        <button class="mob-tab" onclick="switchTab('scenarios')"><span class="tab-icon">🗺️</span>Scenarios</button>
+        <button class="mob-tab" onclick="switchTab('verbs')"><span class="tab-icon">📚</span>Verbs</button>
+        <button class="mob-tab" onclick="switchTab('separable')"><span class="tab-icon">✂️</span>Separable</button>
+        <button class="mob-tab" onclick="switchTab('daily')"><span class="tab-icon">🌟</span>Daily 5</button>
+        <button class="mob-tab" onclick="switchTab('quiz')"><span class="tab-icon">🃏</span>Quiz</button>
+        <button class="mob-tab" onclick="switchTab('stories')"><span class="tab-icon">📖</span>Stories</button>
+        <button class="mob-tab" onclick="switchTab('grammar')"><span class="tab-icon">📘</span>Grammar</button>
       </div>
     </div>
 
@@ -362,10 +733,12 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
         <div class="alpha-bar" id="cb"></div>
         <div class="words-toolbar">
           <span class="words-info" id="words-info">— words</span>
-          <div style="display:flex;gap:8px;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="learned-filter-btn" id="hide-learned-btn" onclick="toggleHideLearned()" title="Hide words you've marked as learned">☐ Hide learned</button>
             <button class="shuf-btn" onclick="shuffleWords()">🔀 Shuffle</button>
           </div>
         </div>
+        <div id="learned-stats-bar"></div>
         <div class="words-grid" id="words-grid"></div>
         <div class="ibox">
           <div class="ititle">📥 Import Words (CSV)</div>
@@ -430,6 +803,60 @@ if(xr(e,"index.xml"))throw new Error("Unsupported NUMBERS 09 file");throw new Er
           <div class="lgr"><div class="lgd" style="background:#f4a261"></div><div><div style="font-size:12px;font-weight:600;color:#f4a261;">Simple Past</div><div style="font-size:10px;color:rgba(255,255,255,0.32);font-style:italic;">ik werkte · wij werkten</div></div></div>
           <div class="lgr"><div class="lgd" style="background:#2a9d8f"></div><div><div style="font-size:12px;font-weight:600;color:#2a9d8f;">Past Participle</div><div style="font-size:10px;color:rgba(255,255,255,0.32);font-style:italic;">ik heb gewerkt</div></div></div>
         </div>
+      </div>
+
+      <!-- GRAMMAR TAB -->
+      <div id="tab-grammar" style="display:none;">
+        <div id="grammar-container"></div>
+      </div>
+
+      <!-- STORIES TAB -->
+      <div id="tab-stories" style="display:none;">
+        <div id="stories-container"></div>
+        <div class="word-popup-overlay" id="word-overlay" onclick="closeWordPopup()"></div>
+        <div class="word-popup" id="word-popup">
+          <div class="word-popup-art" id="wp-art"></div>
+          <div class="word-popup-dutch" id="wp-dutch"></div>
+          <div class="word-popup-meaning" id="wp-meaning"></div>
+          <div class="word-popup-example" id="wp-example"></div>
+          <div class="word-popup-btns">
+            <button class="word-popup-btn word-popup-speak" id="wp-speak" onclick="speakPopupWord()">🔊 Listen</button>
+            <button class="word-popup-btn word-popup-learn" id="wp-learn" onclick="learnPopupWord()">✅ Mark learned</button>
+            <button class="word-popup-btn word-popup-close" onclick="closeWordPopup()">✕ Close</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUIZ TAB -->
+      <div id="tab-quiz" style="display:none;">
+        <div id="quiz-container"></div>
+      </div>
+
+      <!-- DAILY 5 TAB -->
+      <div id="tab-daily" style="display:none;">
+        <div class="daily-header">
+          <div class="daily-date" id="daily-date"></div>
+          <div class="daily-title">🌟 Daily 5 Words</div>
+          <div class="daily-subtitle">Learn 5 new Dutch words today</div>
+        </div>
+        <!-- Notification setup -->
+        <div class="notif-setup" id="notif-setup-box">
+          <div class="notif-setup-title">🔔 Daily Reminder</div>
+          <div class="notif-setup-row">
+            <div class="notif-setup-info" id="notif-status-text">Get a daily reminder to learn your 5 words.</div>
+            <button class="notif-enable-btn" id="notif-enable-btn" onclick="requestNotifPermission()">Enable reminder</button>
+          </div>
+          <div class="notif-time-row" id="notif-time-row" style="display:none;">
+            <span class="notif-time-label">Remind me at:</span>
+            <input type="time" class="notif-time-input" id="notif-time" value="09:00"/>
+            <button class="notif-save-btn" onclick="saveNotifTime()">Save</button>
+          </div>
+        </div>
+        <div class="daily-progress">
+          <div class="daily-prog-bar"><div class="daily-prog-fill" id="daily-prog-fill" style="width:0%"></div></div>
+          <div class="daily-prog-text" id="daily-prog-text">0 / 5</div>
+        </div>
+        <div id="daily-content"></div>
       </div>
 
       <!-- SEPARABLE VERBS TAB -->
@@ -589,8 +1016,9 @@ const DV=[
   {inf:"slapen",m:"to sleep",pres:"slaap/slaapt/slapen",past:"sliep/sliepen",part:"geslapen"},
 ];
 
-let phrases=[],verbs=[],scenPhrases=[],favs=new Set();
-let filtered=[],phCat='All',favOnly=false,curTab='words';
+let phrases=[],verbs=[],scenPhrases=[],favs=new Set(),learned=new Set();
+const LRN_KEY='learned_v1';
+let filtered=[],phCat='All',favOnly=false,learnedOnly=false,hideLearnedMode=false,curTab='words';
 let rendered=0; const PAGE=100;
 let mMode='phrase',activeScat=SCEN_CATS[0];
 
@@ -816,7 +1244,11 @@ function init(){
   const sv=localStorage.getItem(VB);verbs=sv?JSON.parse(sv):[...DV];
   const ss=localStorage.getItem(SC);scenPhrases=ss?JSON.parse(ss):[...DEFAULT_SCEN];
   const sf=localStorage.getItem(FV);favs=sf?new Set(JSON.parse(sf)):new Set();
-  applyF();renderVerbs();renderScenCats();initSepVerbs();updateCounts();
+  // Load learned words
+  try{const ls=localStorage.getItem(LRN_KEY);if(ls)learned=new Set(JSON.parse(ls));}catch(e){}
+  // Init notifications after slight delay
+  setTimeout(initNotifications, 1500);
+  applyF();renderVerbs();renderScenCats();initSepVerbs();updateCounts();updateLearnedStats();
   document.getElementById('main-content').addEventListener('scroll',onScroll);
 }
 
@@ -833,18 +1265,26 @@ const TOPBAR={
   scenarios:{t:'Scenarios',s:'Rough Guide phrasebook · tap phrase to reveal pronunciation'},
   verbs:{t:'Verb Conjugations',s:'Present · Past · Past Participle'},
   separable:{t:'Separable Verbs',s:'Scheidbare werkwoorden · prefix splits to end of sentence'},
+  daily:{t:'Daily 5 Words',s:'5 new Dutch words every day · build your vocabulary step by step'},
+  quiz:{t:'Flashcard Quiz',s:'Test yourself · flip cards · track what you know'},
+  stories:{t:'Short Stories',s:'Read Dutch stories · tap any word to see its meaning'},
+  grammar:{t:'Grammar Guide',s:'Dutch grammar rules · de vs het · word order · verb conjugation'},
 };
 
 function switchTab(t){
   curTab=t;
-  ['words','scenarios','verbs','separable'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
-  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
-  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable'][i]===t));
+  ['words','scenarios','verbs','separable','daily','quiz','stories','grammar'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');
+  document.querySelectorAll('.navitem').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar'][i]===t));
+  document.querySelectorAll('.mob-tab').forEach((el,i)=>el.classList.toggle('active',['words','scenarios','verbs','separable','daily','quiz','stories','grammar'][i]===t));
   if(TOPBAR[t]){
     document.getElementById('topbar-title').textContent=TOPBAR[t].t;
     document.getElementById('topbar-sub').textContent=TOPBAR[t].s;
   }
   if(t==='separable'){renderSepVerbs();renderSepCatBar();}
+  if(t==='daily'){initDaily();updateNotifUI();}
+  if(t==='quiz'){initQuiz();}
+  if(t==='stories'){initStories();}
+  if(t==='grammar'){initGrammar();}
   if(t==='scenarios'){renderScenCats();renderScenPhrases();renderAudioPlayer(activeScat);}
   if(t!=='scenarios') stopAudio();
 }
@@ -856,8 +1296,9 @@ function applyF(){
     const firstLetter=(p.d||'')[0].toUpperCase();
     const matchLetter=phCat==='All'||firstLetter===phCat;
     const matchFav=!favOnly||favs.has(p.d);
+    const matchHideL=!hideLearnedMode||!learned.has(p.d);
     const matchQ=!q||p.d.toLowerCase().includes(q)||(p.m||'').toLowerCase().includes(q);
-    return matchLetter&&matchFav&&matchQ;
+    return matchLetter&&matchFav&&matchHideL&&matchQ;
   });
   rendered=0;
   renderCB();renderWordGrid(true);
@@ -894,8 +1335,9 @@ function renderWordGrid(reset){
   for(let i=rendered;i<end;i++){
     const p=filtered[i];
     const isFav=favs.has(p.d);
+    const isLearned=learned.has(p.d);
     const div=document.createElement('div');
-    div.className='wc';
+    div.className='wc'+(isLearned?' learned-word':'');
     div.innerHTML=`
       <div class="wc-left">
         <div class="wc-dutch-row">
@@ -910,6 +1352,7 @@ function renderWordGrid(reset){
       <div class="wc-right">
         ${p.c?`<span class="wc-cat">${x(p.c)}</span>`:''}
         <button class="speak-btn" onclick="speakEl('${x(p.d)}',event)" title="Listen">🔊</button>
+        <button class="wc-learned${isLearned?' on':''}" onclick="toggleLearned('${x(p.d)}')" title="${isLearned?'Mark as unlearned':'Mark as learned'}">${isLearned?'✅':'☐'}</button>
         <button class="wc-fav${isFav?' on':''}" onclick="toggleWordFav('${x(p.d)}')">${isFav?'❤️':'♡'}</button>
       </div>`;
     frag.appendChild(div);
@@ -917,6 +1360,58 @@ function renderWordGrid(reset){
   grid.appendChild(frag);
   rendered=end;
   document.getElementById('words-info').textContent=filtered.length+' word'+(filtered.length!==1?'s':'');
+}
+
+function toggleLearned(d){
+  if(learned.has(d)) learned.delete(d);
+  else learned.add(d);
+  localStorage.setItem(LRN_KEY, JSON.stringify([...learned]));
+  updateLearnedStats();
+  // Re-render just the changed card
+  const allCards = document.querySelectorAll('.wc');
+  allCards.forEach(card => {
+    const wordEl = card.querySelector('.wc-word');
+    if(wordEl && wordEl.textContent === d){
+      const isL = learned.has(d);
+      card.classList.toggle('learned-word', isL);
+      const btn = card.querySelector('.wc-learned');
+      if(btn){btn.classList.toggle('on',isL);btn.textContent=isL?'✅':'☐';btn.title=isL?'Mark as unlearned':'Mark as learned';}
+    }
+  });
+  // If hiding learned, re-apply filter
+  if(hideLearnedMode) applyF();
+}
+
+function toggleHideLearned(){
+  hideLearnedMode = !hideLearnedMode;
+  const btn = document.getElementById('hide-learned-btn');
+  if(btn){btn.classList.toggle('on', hideLearnedMode);btn.textContent = hideLearnedMode ? '✅ Hiding learned' : '☐ Hide learned';}
+  applyF();
+}
+
+function updateLearnedStats(){
+  const bar = document.getElementById('learned-stats-bar');
+  if(!bar || !phrases.length) return;
+  const total = phrases.length;
+  const lCount = learned.size;
+  const pct = total > 0 ? Math.round((lCount/total)*100) : 0;
+  if(lCount === 0){bar.innerHTML='';return;}
+  bar.innerHTML = `
+    <div class="learned-stats">
+      <div class="learned-stat green">
+        <div class="learned-stat-num">${lCount}</div>
+        <div class="learned-stat-label">Learned</div>
+      </div>
+      <div class="learned-stat red">
+        <div class="learned-stat-num">${total-lCount}</div>
+        <div class="learned-stat-label">To learn</div>
+      </div>
+      <div class="learned-stat">
+        <div class="learned-stat-num">${pct}%</div>
+        <div class="learned-stat-label">Progress</div>
+      </div>
+    </div>
+    <div class="learned-prog"><div class="learned-prog-fill" style="width:${pct}%"></div></div>`;
 }
 
 function toggleWordFav(d){
@@ -1015,6 +1510,1512 @@ function renderVerbs(){
   const list=document.getElementById('vbl');
   if(!f.length){list.innerHTML='<div class="empty">No verbs found.</div>';return;}
   list.innerHTML=f.map(v=>`<div class="vc"><div class="vg"><div style="display:flex;align-items:flex-start;gap:6px;"><div><div class="vn">${x(v.inf)}</div><div class="vm">${x(v.m)}</div></div><button class="speak-btn" onclick="speakEl('${x(v.inf)}',event)" title="Listen" style="margin-top:2px;">🔊</button></div><div class="tv tp">${x(v.pres)}</div><div class="tv tpa">${x(v.past)}</div><div class="tv"><span class="tpp">${x(v.part)}</span></div></div></div>`).join('');
+}
+
+// ── SHORT STORIES ─────────────────────────────────────────────────────────────
+const STORIES = [
+  // ── A1 LEVEL ──────────────────────────────────────────────────────────────
+  {
+    id:'a1_1', level:'A1', title:'Een dag in Amsterdam',
+    desc:'A simple day in the city — morning routine and a walk.',
+    words: 52,
+    dutch:`Jan woont in Amsterdam. Elke ochtend staat hij vroeg op. Hij drinkt een kop koffie en eet een boterham met kaas. Daarna fietst hij naar het park. Het park is groot en mooi. Er zijn veel bomen en bloemen. Jan zit op een bankje en leest een boek. De zon schijnt. Het is een mooie dag. Om twaalf uur gaat hij naar huis. Hij kookt soep voor de lunch. Na de lunch slaapt hij even. 's Avonds belt hij zijn moeder. Ze praten over de dag. Jan is blij.`,
+    translation:`Jan lives in Amsterdam. Every morning he gets up early. He drinks a cup of coffee and eats a slice of bread with cheese. Then he cycles to the park. The park is large and beautiful. There are many trees and flowers. Jan sits on a bench and reads a book. The sun is shining. It is a beautiful day. At twelve o'clock he goes home. He cooks soup for lunch. After lunch he sleeps for a while. In the evening he calls his mother. They talk about the day. Jan is happy.`
+  },
+  {
+    id:'a1_2', level:'A1', title:'In de supermarkt',
+    desc:'Shopping for groceries — numbers and food vocabulary.',
+    words: 48,
+    dutch:`Maria gaat naar de supermarkt. Ze heeft een lijst. Op de lijst staan: melk, brood, appels, kaas en koffie. Ze pakt een mandje. Eerst gaat ze naar de groenten. Ze koopt vijf appels en een zak wortels. Dan gaat ze naar de zuivel. Ze pakt twee pakken melk en een stuk kaas. Bij de bakker koopt ze een brood. Aan de kassa wacht ze even. Er staat één persoon voor haar. Ze betaalt met haar pinpas. De boodschappen kosten twaalf euro. Ze bedankt de kassamedewerker. Buiten regent het. Ze rijdt snel naar huis.`,
+    translation:`Maria goes to the supermarket. She has a list. On the list are: milk, bread, apples, cheese and coffee. She takes a basket. First she goes to the vegetables. She buys five apples and a bag of carrots. Then she goes to the dairy section. She takes two cartons of milk and a piece of cheese. At the baker she buys a bread. At the checkout she waits a moment. There is one person in front of her. She pays with her debit card. The groceries cost twelve euros. She thanks the cashier. Outside it is raining. She drives quickly home.`
+  },
+  {
+    id:'a1_3', level:'A1', title:'De familie',
+    desc:'Meet the de Vries family — introducing family members.',
+    words: 55,
+    dutch:`Dit is de familie De Vries. De vader heet Peter. Hij is veertig jaar oud. De moeder heet Anna. Zij is achtendertig jaar oud. Ze hebben drie kinderen. De oudste heet Emma. Ze is veertien jaar. Ze houdt van lezen en muziek. De tweede heet Tom. Hij is tien jaar. Tom speelt graag voetbal. De jongste is Lisa. Ze is zeven jaar en gaat naar de basisschool. Op zondag eten ze samen. Oma en opa komen ook. Ze eten stamppot en vlees. Na het eten spelen de kinderen buiten. De ouders drinken koffie en praten. Het is een fijne dag voor de familie.`,
+    translation:`This is the De Vries family. The father is called Peter. He is forty years old. The mother is called Anna. She is thirty-eight years old. They have three children. The oldest is called Emma. She is fourteen years. She loves reading and music. The second is called Tom. He is ten years old. Tom loves playing football. The youngest is Lisa. She is seven years old and goes to primary school. On Sunday they eat together. Grandma and grandpa come too. They eat stamppot and meat. After eating the children play outside. The parents drink coffee and talk. It is a lovely day for the family.`
+  },
+  {
+    id:'a1_4', level:'A1', title:'Mijn huis',
+    desc:'Describing a home — rooms and furniture vocabulary.',
+    words: 50,
+    dutch:`Ik woon in een klein huis in Utrecht. Mijn huis heeft vijf kamers. Beneden is de woonkamer, de keuken en een toilet. Boven zijn twee slaapkamers en de badkamer. De woonkamer is groot. Er staat een bank, een tafel en een televisie. In de keuken staat een grote koelkast en een oven. Mijn slaapkamer is blauw. Er staat een bed, een kast en een bureau. Ik heb ook een kleine tuin. In de tuin groeien rozen en tulpen. In de zomer zit ik graag buiten. Mijn buren zijn aardig. We praten soms over de tuin. Ik ben blij met mijn huis.`,
+    translation:`I live in a small house in Utrecht. My house has five rooms. Downstairs is the living room, the kitchen and a toilet. Upstairs are two bedrooms and the bathroom. The living room is large. There is a sofa, a table and a television. In the kitchen there is a large fridge and an oven. My bedroom is blue. There is a bed, a wardrobe and a desk. I also have a small garden. In the garden roses and tulips grow. In summer I like to sit outside. My neighbours are kind. We sometimes talk about the garden. I am happy with my house.`
+  },
+  // ── A2 LEVEL ──────────────────────────────────────────────────────────────
+  {
+    id:'a2_1', level:'A2', title:'De nieuwe baan',
+    desc:'Starting a new job — workplace language and daily routine.',
+    words: 68,
+    dutch:`Sofie begon vorige week aan een nieuwe baan. Ze werkt nu als verpleegkundige in een ziekenhuis in Rotterdam. De eerste dag was spannend. Ze moest vroeg opstaan want ze begint om zeven uur. In het ziekenhuis stelde ze zich voor aan haar collega's. Iedereen was vriendelijk en behulpzaam. Haar manager, mevrouw Bakker, legde alles goed uit. Sofie moet patiënten helpen, medicijnen geven en rapporten schrijven. Het werk is zwaar maar ze vindt het erg zinvol. Tijdens de lunchpauze at ze met haar nieuwe collega's in de kantine. Ze praatten over het werk en vertelden grappige verhalen. Na haar dienst reed ze moe maar blij naar huis. Ze belde haar vriend om alles te vertellen. "Het gaat goed," zei ze. "Ik denk dat ik dit werk geweldig ga vinden."`,
+    translation:`Sofie started a new job last week. She now works as a nurse in a hospital in Rotterdam. The first day was exciting. She had to get up early because she starts at seven o'clock. At the hospital she introduced herself to her colleagues. Everyone was friendly and helpful. Her manager, Mrs Bakker, explained everything well. Sofie has to help patients, give medicines and write reports. The work is hard but she finds it very meaningful. During the lunch break she ate with her new colleagues in the canteen. They talked about work and told funny stories. After her shift she drove home tired but happy. She called her boyfriend to tell him everything. "It's going well," she said. "I think I'm going to love this work."`
+  },
+  {
+    id:'a2_2', level:'A2', title:'Een weekend in Leiden',
+    desc:'A weekend trip — travel, sightseeing and Dutch culture.',
+    words: 72,
+    dutch:`Vorig weekend gingen Bas en zijn vriendin Noor naar Leiden. Ze namen de trein vanuit Den Haag. De reis duurde maar twintig minuten. In Leiden bezochten ze eerst het Rijksmuseum van Oudheden. Het museum was heel interessant. Ze zagen oude Egyptische mummies en Griekse beelden. Daarna wandelden ze langs de grachten. Leiden heeft heel mooie historische gebouwen. Ze kochten stroopwafels bij een marktkoopman en aten ze onderweg. In de middag bezochten ze de Pieterskerk, een oude kerk uit de veertiende eeuw. Bas vertelde dat de Pilgrims in 1620 vanuit Leiden naar Amerika vertrokken. Na de kerk vonden ze een gezellig café. Ze bestelden koffie en appeltaart. De appeltaart was heerlijk. Om zes uur namen ze de trein terug. "We moeten hier vaker naartoe," zei Noor. Bas was het er helemaal mee eens.`,
+    translation:`Last weekend Bas and his girlfriend Noor went to Leiden. They took the train from The Hague. The journey took just twenty minutes. In Leiden they first visited the National Museum of Antiquities. The museum was very interesting. They saw old Egyptian mummies and Greek statues. Afterwards they walked along the canals. Leiden has very beautiful historic buildings. They bought stroopwafels from a market vendor and ate them on the way. In the afternoon they visited the Pieterskerk, an old church from the fourteenth century. Bas told her that the Pilgrims left for America from Leiden in 1620. After the church they found a cosy café. They ordered coffee and apple cake. The apple cake was delicious. At six o'clock they took the train back. "We should come here more often," said Noor. Bas completely agreed.`
+  },
+  {
+    id:'a2_3', level:'A2', title:'Het weer in Nederland',
+    desc:'Dutch weather — complaining about rain like a true Dutchman.',
+    words: 65,
+    dutch:`Nederlanders praten veel over het weer. Dat is niet zo gek, want het weer in Nederland verandert heel snel. 's Ochtends kan de zon schijnen, maar 's middags regent het alweer. Nederlanders zeggen dan: "Als je het weer niet bevalt, wacht dan vijf minuten." In de winter is het vaak grijs en koud. Het regent veel en soms sneeuwt het. In de zomer kan het heel warm worden, soms zelfs dertig graden. Dan gaan mensen naar het strand of zitten ze in de tuin. De lente is misschien het mooiste seizoen. Dan bloeien de tulpen en is de lucht fris. De herfst brengt veel bladeren en wind. Nederlanders zijn gewend aan het natte weer. Ze hebben altijd een regenjas en een fietsponcho klaarstaan. Zonder paraplu de deur uit? Dat doen ze bijna nooit.`,
+    translation:`Dutch people talk a lot about the weather. That is not so strange, because the weather in the Netherlands changes very quickly. In the morning the sun can shine, but by the afternoon it is already raining again. Dutch people say then: "If you don't like the weather, just wait five minutes." In winter it is often grey and cold. It rains a lot and sometimes it snows. In summer it can get very warm, sometimes even thirty degrees. Then people go to the beach or sit in the garden. Spring is perhaps the most beautiful season. Then the tulips bloom and the air is fresh. Autumn brings many leaves and wind. Dutch people are used to the wet weather. They always have a raincoat and a cycling poncho ready. Going out without an umbrella? They almost never do that.`
+  },
+  {
+    id:'a2_4', level:'A2', title:'Typisch Nederlands',
+    desc:'Dutch customs and habits — culture and daily life in the Netherlands.',
+    words: 70,
+    dutch:`Wat maakt Nederland zo bijzonder? Er zijn veel dingen die typisch Nederlands zijn. Ten eerste de fiets. Bijna iedereen in Nederland rijdt fiets. Er zijn meer fietsen dan mensen! Nederlanders fietsen naar werk, school en de supermarkt. Ten tweede het eten. Een typisch Nederlands ontbijt bestaat uit boterhammen met hagelslag of pindakaas. 's Middags eten veel Nederlanders ook boterhammen. Pas 's avonds eten ze een warme maaltijd. Dan eten ze aardappels, groente en vlees, ook wel bekend als "aardappels, groenten en vlees." Nederlanders zijn ook bekend om hun directheid. Ze zeggen precies wat ze denken. Dat kan voor buitenlanders soms raar zijn. Maar het betekent niet dat ze onvriendelijk zijn. Integendeel, Nederlanders helpen graag. En ten slotte de gezelligheid. Met vrienden en familie samenkomen, koffiedrinken en klessen: dat is echt Nederlands.`,
+    translation:`What makes the Netherlands so special? There are many things that are typically Dutch. Firstly the bicycle. Almost everyone in the Netherlands cycles. There are more bicycles than people! Dutch people cycle to work, school and the supermarket. Secondly the food. A typical Dutch breakfast consists of slices of bread with chocolate sprinkles or peanut butter. At lunchtime many Dutch people also eat sandwiches. Only in the evening do they eat a hot meal. Then they eat potatoes, vegetables and meat, also known as "potatoes, vegetables and meat." Dutch people are also known for their directness. They say exactly what they think. That can sometimes seem strange to foreigners. But it does not mean they are unfriendly. On the contrary, Dutch people are happy to help. And finally the cosiness. Getting together with friends and family, drinking coffee and chatting: that is truly Dutch.`
+  },
+  // ── B1 LEVEL ──────────────────────────────────────────────────────────────
+  {
+    id:'b1_1', level:'B1', title:'De vergadering',
+    desc:'A workplace meeting — professional Dutch and office culture.',
+    words: 85,
+    dutch:`Maandagochtend om negen uur begon de wekelijkse vergadering van het marketingteam. Iedereen zat al aan de vergadertafel toen directeur Van den Berg binnenkwam. Hij verontschuldigde zich voor zijn late komst; er was oponthoud geweest op de snelweg. De vergadering begon met een terugblik op de resultaten van afgelopen kwartaal. De verkoopcijfers waren teleurstellend geweest, maar de online campagne had onverwacht goed gepresteerd. Marketingmanager De Wit presenteerde de nieuwe strategie voor het komende halfjaar. Ze stelde voor om meer te investeren in sociale media en minder in traditionele reclame. Collega Jansen was het er niet mee eens. Hij vond dat televisiereclame nog steeds effectief was voor hun doelgroep. Er ontstond een levendige discussie. Uiteindelijk besloot het team een compromis te zoeken: zestig procent van het budget ging naar digitale kanalen en veertig procent naar traditionele media. De vergadering eindigde na anderhalf uur. Iedereen verliet de kamer met een duidelijke takenlijst. Van den Berg was tevreden. "Zo werken we goed samen," zei hij.`,
+    translation:`Monday morning at nine o'clock the weekly meeting of the marketing team began. Everyone was already sitting at the conference table when director Van den Berg came in. He apologised for his late arrival; there had been a delay on the motorway. The meeting began with a review of last quarter's results. The sales figures had been disappointing, but the online campaign had performed unexpectedly well. Marketing manager De Wit presented the new strategy for the coming half year. She proposed investing more in social media and less in traditional advertising. Colleague Jansen disagreed. He felt that television advertising was still effective for their target group. A lively discussion arose. Eventually the team decided to seek a compromise: sixty percent of the budget would go to digital channels and forty percent to traditional media. The meeting ended after an hour and a half. Everyone left the room with a clear task list. Van den Berg was satisfied. "This is how we work well together," he said.`
+  },
+  {
+    id:'b1_2', level:'B1', title:'De klimaatdiscussie',
+    desc:'Talking about climate change — opinions, environment and debate.',
+    words: 88,
+    dutch:`Klimaatverandering is een van de grootste uitdagingen van onze tijd. In Nederland merken mensen de gevolgen steeds meer. De winters worden milder, de zomers heter en de zeespiegel stijgt gestaag. Voor een land dat voor een groot deel onder zeeniveau ligt, is dat een serieuze zorg. De Nederlandse overheid heeft ambitieuze plannen om de CO2-uitstoot te verminderen. Er wordt geïnvesteerd in windenergie, zonnepanelen en elektrisch vervoer. Toch is niet iedereen het eens met het tempo van de veranderingen. Sommige bedrijven vinden de regels te streng en vrezen voor hun concurrentiepositie. Milieuactivisten daarentegen vinden dat er veel te langzaam wordt gehandeld. Ze protesteren regelmatig voor het parlement in Den Haag. Op straat hoor je mensen van alle kanten. Een gepensioneerde man zegt: "Vroeger hadden we ook koude winters. Dit is gewoon het weer." Een jonge studente reageert: "De wetenschap is duidelijk. We moeten nu actie ondernemen, anders is het te laat voor mijn generatie." Het debat gaat verder, maar één ding is zeker: Nederland zal zich moeten aanpassen aan een veranderend klimaat.`,
+    translation:`Climate change is one of the greatest challenges of our time. In the Netherlands people are noticing the consequences more and more. Winters are becoming milder, summers hotter and the sea level is steadily rising. For a country that lies largely below sea level, that is a serious concern. The Dutch government has ambitious plans to reduce CO2 emissions. Investment is being made in wind energy, solar panels and electric transport. Yet not everyone agrees with the pace of the changes. Some companies find the rules too strict and fear for their competitive position. Environmental activists, on the other hand, feel that action is being taken far too slowly. They regularly protest in front of parliament in The Hague. On the street you hear people from all sides. A retired man says: "We used to have cold winters too. This is just the weather." A young female student responds: "The science is clear. We need to take action now, otherwise it is too late for my generation." The debate continues, but one thing is certain: the Netherlands will have to adapt to a changing climate.`
+  },
+  {
+    id:'b1_3', level:'B1', title:'Wonen in de stad of op het platteland?',
+    desc:'City vs countryside — lifestyle choices and Dutch housing debate.',
+    words: 80,
+    dutch:`Steeds meer Nederlanders stellen zichzelf de vraag: wil ik in de stad wonen of liever op het platteland? Beide opties hebben hun voor- en nadelen. Het stadsleven biedt gemak en dynamiek. Je hebt alles dichtbij: winkels, restaurants, culturele evenementen en openbaar vervoer. Maar het is ook druk, luidruchtig en de huizenprijzen zijn de laatste jaren explosief gestegen. Voor starters op de woningmarkt is een betaalbare woning in Amsterdam of Utrecht bijna onmogelijk geworden. Het platteland biedt rust, ruimte en natuur. Huizen zijn er groter en goedkoper. Kinderen kunnen veilig buiten spelen. Maar er zijn ook nadelen. Je bent afhankelijker van de auto, er zijn minder voorzieningen en sociaal kan het soms eenzamer aanvoelen. Veel jonge mensen verhuizen na hun studie naar de stad, maar keren later terug naar het platteland als ze kinderen krijgen. De ideale situatie bestaat misschien uit het beste van twee werelden: een huis buiten de stad, maar met goede verbindingen naar het werk. De vraag is alleen of die situatie voor iedereen bereikbaar is.`,
+    translation:`More and more Dutch people are asking themselves the question: do I want to live in the city or would I prefer the countryside? Both options have their pros and cons. City life offers convenience and dynamism. You have everything nearby: shops, restaurants, cultural events and public transport. But it is also busy, noisy and house prices have risen explosively in recent years. For first-time buyers the housing market, an affordable home in Amsterdam or Utrecht has become almost impossible. The countryside offers peace, space and nature. Houses are larger and cheaper. Children can play safely outside. But there are also disadvantages. You are more dependent on the car, there are fewer facilities and socially it can sometimes feel lonelier. Many young people move to the city after their studies, but return to the countryside later when they have children. The ideal situation perhaps consists of the best of both worlds: a house outside the city, but with good connections to work. The question is only whether that situation is achievable for everyone.`
+  },
+  {
+    id:'b1_4', level:'B1', title:'Een brief aan de toekomst',
+    desc:'A letter to the future — reflections on life, hopes and Dutch values.',
+    words: 78,
+    dutch:`Lieve toekomstige lezer, ik schrijf deze brief in het jaar 2024 vanuit Rotterdam. Ik vraag me vaak af hoe de wereld er over twintig of dertig jaar uitziet. Zullen mensen dan nog steeds op dezelfde manier werken, wonen en leven? Of zal technologie alles veranderd hebben? Ik hoop dat jullie in de toekomst geleerd hebben van de fouten van mijn generatie. We hebben te lang gewacht met het aanpakken van klimaatproblemen. We hebben ongelijkheid laten groeien. En we zijn soms vergeten om echt naar elkaar te luisteren. Maar er zijn ook dingen die me hoop geven. Ik zie jonge mensen die zich inzetten voor een betere wereld. Ik zie uitvindingen die levens redden. En ik zie gemeenschappen die elkaar helpen in moeilijke tijden. Als ik één wens mocht doen voor jullie toekomst, dan zou het zijn: blijf nieuwsgierig. Blijf vragen stellen. En zorg goed voor elkaar en voor de aarde die jullie bewonen. Want uiteindelijk is dat wat het leven de moeite waard maakt. Met vriendelijke groet, een Nederlander uit het verleden.`,
+    translation:`Dear future reader, I am writing this letter in the year 2024 from Rotterdam. I often wonder what the world will look like in twenty or thirty years. Will people still work, live and exist in the same way then? Or will technology have changed everything? I hope that you in the future have learned from the mistakes of my generation. We waited too long to tackle climate problems. We allowed inequality to grow. And we sometimes forgot to truly listen to each other. But there are also things that give me hope. I see young people who are committed to a better world. I see inventions that save lives. And I see communities that help each other in difficult times. If I were allowed one wish for your future, it would be this: stay curious. Keep asking questions. And take good care of each other and of the earth you inhabit. Because ultimately that is what makes life worthwhile. Kind regards, a Dutch person from the past.`
+  },
+];
+
+let currentStory = null;
+let showTranslation = false;
+let storyLevelFilter = 'All';
+let currentPopupWord = null;
+const USER_STORIES_KEY = 'user_stories_v1';
+let userStories = [];
+
+function loadUserStories(){
+  try{
+    const s = localStorage.getItem(USER_STORIES_KEY);
+    userStories = s ? JSON.parse(s) : [];
+  }catch(e){ userStories=[]; }
+}
+
+function saveUserStories(){
+  localStorage.setItem(USER_STORIES_KEY, JSON.stringify(userStories));
+}
+
+function getAllStories(){
+  return [...STORIES, ...userStories];
+}
+
+function initStories(){
+  loadUserStories();
+  renderStoriesList();
+}
+
+function renderStoriesList(){
+  const c = document.getElementById('stories-container');
+  if(!c) return;
+  currentStory = null;
+
+  const levels = ['All','A1','A2','B1'];
+  const allS = getAllStories();
+  const filtered = storyLevelFilter === 'All' ? allS : allS.filter(s=>s.level===storyLevelFilter);
+
+  c.innerHTML = `
+    <div style="margin-bottom:16px;">
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;">📖 Short Stories</div>
+      <div style="font-size:13px;color:var(--muted);">Tap any word while reading to see its meaning</div>
+    </div>
+    <div class="story-level-bar">
+      ${levels.map(l=>`<button class="pill${storyLevelFilter===l?' on':''}" onclick="filterStoryLevel('${l}')">${l==='All'?'All levels':l}</button>`).join('')}
+    </div>
+    <div class="story-list">
+      ${filtered.map(s=>`
+        <div class="story-card${s.isUser?' user-story':''}" onclick="openStory('${s.id}')">
+          <div class="story-card-top">
+            <div class="story-card-title">${x(s.title)}</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+              <span class="story-level ${s.level}">${s.level}</span>
+              ${s.isUser?`<button class="story-delete-btn" onclick="event.stopPropagation();deleteUserStory('${s.id}')" title="Delete story">🗑️</button>`:''}
+            </div>
+          </div>
+          <div class="story-card-desc">${x(s.desc)}</div>
+          <div class="story-card-meta">
+            <span>~${s.words} words</span>
+            <span>Tap words for meaning</span>
+            <span>🔊 TTS audio</span>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Upload your own story -->
+    <div class="story-upload-box">
+      <div class="story-upload-title">✍️ Add Your Own Story</div>
+      <div class="story-upload-btns">
+        <button class="story-upload-btn" onclick="showStoryForm()">📝 Type / paste a story</button>
+        <button class="story-upload-btn" onclick="document.getElementById('story-file-input').click()">📂 Upload a text file</button>
+        <input type="file" id="story-file-input" accept=".txt,.md" style="display:none;" onchange="loadStoryFile(event)"/>
+      </div>
+      <div class="story-upload-note">Add any Dutch text — paste from a book, newspaper, website or write your own.<br>All words will be tappable for instant meaning lookup.</div>
+      <div class="story-form" id="story-add-form">
+        <div class="story-form-row">
+          <div class="story-form-label">Title</div>
+          <input type="text" class="story-form-input" id="sf-title" placeholder="e.g. Mijn eerste dag in Nederland"/>
+        </div>
+        <div class="story-form-row">
+          <div class="story-form-label">Level</div>
+          <select class="story-form-select" id="sf-level">
+            <option value="A1">A1 — Beginner</option>
+            <option value="A2" selected>A2 — Elementary</option>
+            <option value="B1">B1 — Intermediate</option>
+            <option value="B2">B2 — Upper Intermediate</option>
+          </select>
+        </div>
+        <div class="story-form-row">
+          <div class="story-form-label">Dutch text</div>
+          <textarea class="story-form-textarea" id="sf-dutch" placeholder="Paste or type your Dutch story here..."></textarea>
+        </div>
+        <div class="story-form-row">
+          <div class="story-form-label">English translation (optional)</div>
+          <textarea class="story-form-textarea" id="sf-english" placeholder="Paste the English translation here (optional)..." style="min-height:80px;"></textarea>
+        </div>
+        <div>
+          <button class="story-form-submit" onclick="submitUserStory()">✅ Add story</button>
+          <button class="story-form-cancel" onclick="hideStoryForm()">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function filterStoryLevel(level){
+  storyLevelFilter = level;
+  renderStoriesList();
+}
+
+function openStory(id){
+  currentStory = getAllStories().find(s=>s.id===id);
+  if(!currentStory) return;
+  showTranslation = false;
+  renderStoryReader();
+}
+
+function renderStoryReader(){
+  const c = document.getElementById('stories-container');
+  if(!c || !currentStory) return;
+  const s = currentStory;
+
+  // Build interactive word tokens
+  const tokens = s.dutch.split(/(\s+|[.,!?;:'"-])/);
+  const wordHtml = tokens.map(tok => {
+    const clean = tok.replace(/[.,!?;:'"()-]/g,'').toLowerCase();
+    if(!clean || tok.trim()==='') return (tok==='\n'?'<br>':x(tok));
+    const inDict = phrases.find(p=>p.d.toLowerCase()===clean);
+    const isLearned = learned.has(clean) || (inDict && learned.has(inDict.d));
+    return `<span class="story-word${isLearned?' known-word':''}" onclick="showWordPopup('${x(tok.replace(/'/g,"\'"))}')">${x(tok)}</span>`;
+  }).join('');
+
+  c.innerHTML = `
+    <button class="story-back-btn" onclick="renderStoriesList()">← Back to stories</button>
+    <div class="story-reader-title">${x(s.title)}</div>
+    <div class="story-reader-meta">
+      <span class="story-level ${s.level}">${s.level}</span>
+      <span style="font-size:12px;color:var(--dim);">~${s.words} words</span>
+    </div>
+    <div class="story-controls">
+      <button class="story-ctrl-btn" onclick="speakStory()">🔊 Read aloud</button>
+      <button class="story-ctrl-btn${showTranslation?' on':''}" id="trans-btn" onclick="toggleStoryTranslation()">🇬🇧 Translation</button>
+    </div>
+    <div style="font-size:12px;color:var(--dim);margin-bottom:12px;">💡 Tap any word to see its meaning</div>
+    <div class="story-text" id="story-text">${wordHtml}</div>
+    <div class="story-translation${showTranslation?' show':''}" id="story-translation">
+      <div class="story-translation-title">English Translation</div>
+      ${x(s.translation)}
+    </div>`;
+}
+
+function toggleStoryTranslation(){
+  showTranslation = !showTranslation;
+  const el = document.getElementById('story-translation');
+  const btn = document.getElementById('trans-btn');
+  if(el) el.classList.toggle('show', showTranslation);
+  if(btn) btn.classList.toggle('on', showTranslation);
+}
+
+function speakStory(){
+  if(!currentStory) return;
+  speak(currentStory.dutch, null);
+  toast('🔊 Reading story aloud...');
+}
+
+function showWordPopup(word){
+  const clean = word.replace(/[.,!?;:'"()-]/g,'').toLowerCase();
+  if(!clean) return;
+
+  // Highlight tapped word
+  document.querySelectorAll('.story-word').forEach(el=>{
+    el.classList.toggle('highlighted', el.textContent.replace(/[.,!?;:'"()-]/g,'').toLowerCase()===clean);
+  });
+
+  // Look up in dictionary
+  const entry = phrases.find(p=>p.d.toLowerCase()===clean);
+  currentPopupWord = entry ? entry.d : clean;
+
+  const artEl = document.getElementById('wp-art');
+  const dutchEl = document.getElementById('wp-dutch');
+  const meaningEl = document.getElementById('wp-meaning');
+  const exampleEl = document.getElementById('wp-example');
+  const learnBtn = document.getElementById('wp-learn');
+
+  if(artEl) artEl.textContent = entry && entry.art ? entry.art : '';
+  if(dutchEl) dutchEl.textContent = entry ? entry.d : clean;
+  if(meaningEl) meaningEl.textContent = entry ? entry.m : '(not in dictionary)';
+  if(exampleEl) exampleEl.textContent = entry && entry.sn ? entry.sn + (entry.se ? ' — ' + entry.se : '') : '';
+
+  if(learnBtn){
+    const isLearned = learned.has(currentPopupWord);
+    learnBtn.textContent = isLearned ? '✅ Learned!' : '✅ Mark learned';
+    learnBtn.style.opacity = isLearned ? '0.5' : '1';
+  }
+
+  // Show popup
+  document.getElementById('word-popup').classList.add('show');
+  document.getElementById('word-overlay').classList.add('show');
+
+  // Speak word
+  speak(clean, null);
+}
+
+function closeWordPopup(){
+  document.getElementById('word-popup').classList.remove('show');
+  document.getElementById('word-overlay').classList.remove('show');
+  document.querySelectorAll('.story-word').forEach(el=>el.classList.remove('highlighted'));
+  window.speechSynthesis && window.speechSynthesis.cancel();
+}
+
+function speakPopupWord(){
+  if(currentPopupWord) speak(currentPopupWord, document.getElementById('wp-speak'));
+}
+
+function learnPopupWord(){
+  if(!currentPopupWord) return;
+  if(learned.has(currentPopupWord)){
+    learned.delete(currentPopupWord);
+  } else {
+    learned.add(currentPopupWord);
+    toast('✅ Marked as learned: ' + currentPopupWord);
+  }
+  localStorage.setItem(LRN_KEY, JSON.stringify([...learned]));
+  updateLearnedStats();
+  const learnBtn = document.getElementById('wp-learn');
+  if(learnBtn){
+    const isLearned = learned.has(currentPopupWord);
+    learnBtn.textContent = isLearned ? '✅ Learned!' : '✅ Mark learned';
+    learnBtn.style.opacity = isLearned ? '0.5' : '1';
+  }
+  // Update word colour in story
+  document.querySelectorAll('.story-word').forEach(el=>{
+    const clean = el.textContent.replace(/[.,!?;:'"()-]/g,'').toLowerCase();
+    if(clean === currentPopupWord.toLowerCase()){
+      el.classList.toggle('known-word', learned.has(currentPopupWord));
+    }
+  });
+}
+
+function showStoryForm(){
+  const form = document.getElementById('story-add-form');
+  if(form) form.classList.add('show');
+  // Scroll to form
+  setTimeout(()=>{ if(form) form.scrollIntoView({behavior:'smooth',block:'start'}); }, 100);
+}
+
+function hideStoryForm(){
+  const form = document.getElementById('story-add-form');
+  if(form){ form.classList.remove('show'); }
+  // Clear fields
+  ['sf-title','sf-dutch','sf-english'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+}
+
+function loadStoryFile(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    const text = ev.target.result;
+    showStoryForm();
+    // Pre-fill title from filename
+    const titleEl = document.getElementById('sf-title');
+    const dutchEl = document.getElementById('sf-dutch');
+    if(titleEl && !titleEl.value) titleEl.value = file.name.replace(/\.txt$|\.md$/,'').replace(/_/g,' ');
+    if(dutchEl) dutchEl.value = text;
+    setTimeout(()=>{
+      const form = document.getElementById('story-add-form');
+      if(form) form.scrollIntoView({behavior:'smooth',block:'start'});
+    }, 200);
+  };
+  reader.readAsText(file, 'UTF-8');
+  e.target.value = '';
+}
+
+function submitUserStory(){
+  const title = (document.getElementById('sf-title').value||'').trim();
+  const level = document.getElementById('sf-level').value || 'A2';
+  const dutch = (document.getElementById('sf-dutch').value||'').trim();
+  const english = (document.getElementById('sf-english').value||'').trim();
+
+  if(!title){ toast('Please enter a title'); return; }
+  if(!dutch){ toast('Please enter the Dutch text'); return; }
+
+  const wordCount = dutch.split(/\s+/).filter(w=>w.length>0).length;
+  const id = 'user_' + Date.now();
+
+  const story = {
+    id, level, title,
+    desc: dutch.substring(0,100) + (dutch.length>100?'...':''),
+    words: wordCount,
+    dutch,
+    translation: english || '',
+    isUser: true
+  };
+
+  userStories.push(story);
+  saveUserStories();
+  hideStoryForm();
+  toast('✅ Story "' + title + '" added!');
+
+  // Reload the list
+  renderStoriesList();
+
+  // Auto open the new story
+  setTimeout(()=>openStory(id), 300);
+}
+
+function deleteUserStory(id){
+  if(!confirm('Delete this story?')) return;
+  userStories = userStories.filter(s=>s.id!==id);
+  saveUserStories();
+  renderStoriesList();
+  toast('Story deleted');
+}
+
+// ── FLASHCARD QUIZ ────────────────────────────────────────────────────────────
+const QUIZ_STATS_KEY = 'quiz_stats_v1';
+let quizMode = null;       // 'flashcard' or 'multichoice'
+let quizSource = null;     // 'all', 'unlearned', 'daily'
+let quizDeck = [];
+let quizIdx = 0;
+let quizCorrect = 0;
+let quizWrong = 0;
+let quizFlipped = false;
+let quizAnswered = false;
+
+function initQuiz(){
+  renderQuizSetup();
+}
+
+function getQuizPool(source){
+  if(!phrases.length) return [];
+  if(source === 'unlearned') return phrases.filter(p=>!learned.has(p.d)&&p.m);
+  if(source === 'daily'){
+    const state = loadDailyState();
+    return state && state.words ? state.words.filter(p=>p.m) : [];
+  }
+  return phrases.filter(p=>p.m);
+}
+
+function shuffleArr(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(){
+  const modeEl = document.querySelector('.quiz-opt[data-type="mode"].selected');
+  const srcEl  = document.querySelector('.quiz-opt[data-type="src"].selected');
+  if(!modeEl || !srcEl){ toast('Please select a mode and word source'); return; }
+  quizMode   = modeEl.dataset.val;
+  quizSource = srcEl.dataset.val;
+  const pool = getQuizPool(quizSource);
+  if(pool.length < 2){ toast('Not enough words in this pool. Import more words first!'); return; }
+  quizDeck = shuffleArr(pool).slice(0, Math.min(20, pool.length));
+  quizIdx = 0; quizCorrect = 0; quizWrong = 0; quizFlipped = false; quizAnswered = false;
+  renderQuizCard();
+}
+
+function renderQuizSetup(){
+  const c = document.getElementById('quiz-container');
+  if(!c) return;
+  const unlearnedCount = phrases.filter(p=>!learned.has(p.d)).length;
+  const state = loadDailyState();
+  const dailyCount = state && state.words ? state.words.length : 0;
+  c.innerHTML = `
+  <div class="quiz-setup">
+    <div class="quiz-setup-title">🃏 Flashcard Quiz</div>
+    <div class="quiz-setup-sub">Test your Dutch vocabulary</div>
+
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px;text-align:left;">Quiz mode</div>
+    <div class="quiz-options" style="margin-bottom:20px;">
+      <div class="quiz-opt selected" data-type="mode" data-val="flashcard" onclick="selectQuizOpt(this,'mode')">
+        <div class="quiz-opt-icon">🃏</div>
+        <div class="quiz-opt-label">Flashcard</div>
+        <div class="quiz-opt-desc">Tap to flip · mark right or wrong</div>
+      </div>
+      <div class="quiz-opt" data-type="mode" data-val="multichoice" onclick="selectQuizOpt(this,'mode')">
+        <div class="quiz-opt-icon">🎯</div>
+        <div class="quiz-opt-label">Multiple Choice</div>
+        <div class="quiz-opt-desc">Pick the right meaning</div>
+      </div>
+    </div>
+
+    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:10px;text-align:left;">Word source</div>
+    <div class="quiz-options" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:24px;">
+      <div class="quiz-opt selected" data-type="src" data-val="all" onclick="selectQuizOpt(this,'src')">
+        <div class="quiz-opt-icon">📚</div>
+        <div class="quiz-opt-label">All words</div>
+        <div class="quiz-opt-desc">${phrases.length} words</div>
+      </div>
+      <div class="quiz-opt" data-type="src" data-val="unlearned" onclick="selectQuizOpt(this,'src')">
+        <div class="quiz-opt-icon">🎯</div>
+        <div class="quiz-opt-label">To learn</div>
+        <div class="quiz-opt-desc">${unlearnedCount} words</div>
+      </div>
+      <div class="quiz-opt" data-type="src" data-val="daily" onclick="selectQuizOpt(this,'src')">
+        <div class="quiz-opt-icon">🌟</div>
+        <div class="quiz-opt-label">Today's 5</div>
+        <div class="quiz-opt-desc">${dailyCount} words</div>
+      </div>
+    </div>
+
+    <button class="quiz-start-btn" onclick="startQuiz()">Start Quiz →</button>
+  </div>`;
+}
+
+function selectQuizOpt(el, type){
+  document.querySelectorAll(`.quiz-opt[data-type="${type}"]`).forEach(e=>e.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function renderQuizCard(){
+  const c = document.getElementById('quiz-container');
+  if(!c) return;
+  if(quizIdx >= quizDeck.length){ renderQuizResults(); return; }
+
+  const p = quizDeck[quizIdx];
+  const pct = (quizIdx / quizDeck.length) * 100;
+
+  if(quizMode === 'multichoice'){
+    renderMultiChoice(p, pct);
+  } else {
+    renderFlashcard(p, pct);
+  }
+}
+
+function renderFlashcard(p, pct){
+  const c = document.getElementById('quiz-container');
+  quizFlipped = false;
+  quizAnswered = false;
+  c.innerHTML = `
+    <div class="quiz-progress-row">
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" style="width:${pct}%"></div></div>
+      <div class="quiz-prog-txt">${quizIdx+1} / ${quizDeck.length}</div>
+      <div style="font-size:12px;color:#2ecc71;font-weight:700;">✓${quizCorrect}</div>
+      <div style="font-size:12px;color:#ff8a93;font-weight:700;">✗${quizWrong}</div>
+    </div>
+
+    <div class="quiz-flip-hint">👆 Tap the card to reveal the meaning</div>
+
+    <div class="quiz-card-wrap" onclick="flipCard()" id="card-wrap">
+      <div class="quiz-card" id="quiz-card">
+        <div class="quiz-card-front">
+          <div class="quiz-card-hint">Dutch word</div>
+          ${p.art?`<div class="quiz-card-art">${x(p.art)}</div>`:''}
+          <div class="quiz-card-dutch">${x(p.d)}</div>
+          ${p.typ?`<div class="quiz-card-type">[${x(p.typ)}]</div>`:''}
+          <button class="quiz-card-speak" onclick="event.stopPropagation();speak('${x(p.d)}',this)">🔊 Listen</button>
+        </div>
+        <div class="quiz-card-back">
+          <div class="quiz-card-hint">English meaning</div>
+          <div class="quiz-card-meaning">${x(p.m)}</div>
+          ${p.sn?`<div class="quiz-card-example">${x(p.sn)}<br><span style="color:rgba(168,218,220,0.5)">${x(p.se||'')}</span></div>`:''}
+          <button class="quiz-card-speak" onclick="event.stopPropagation();speak('${x(p.d)}',this)">🔊 Listen</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="quiz-btns" id="quiz-answer-btns" style="display:none;">
+      <button class="quiz-btn quiz-btn-wrong" onclick="answerQuiz(false)">✗ Didn't know</button>
+      <button class="quiz-btn quiz-btn-right" onclick="answerQuiz(true)">✓ Got it!</button>
+    </div>
+    <button class="quiz-skip" onclick="skipQuiz()">Skip →</button>`;
+}
+
+function flipCard(){
+  if(quizAnswered) return;
+  quizFlipped = !quizFlipped;
+  const card = document.getElementById('quiz-card');
+  const btns = document.getElementById('quiz-answer-btns');
+  const hint = document.querySelector('.quiz-flip-hint');
+  if(card) card.classList.toggle('flipped', quizFlipped);
+  if(btns) btns.style.display = quizFlipped ? 'grid' : 'none';
+  if(hint) hint.textContent = quizFlipped ? 'Did you know this word?' : '👆 Tap the card to reveal the meaning';
+}
+
+function answerQuiz(correct){
+  if(correct){ quizCorrect++; }
+  else { quizWrong++; }
+  // Auto-mark as learned if got it right
+  const p = quizDeck[quizIdx];
+  if(correct && p && !learned.has(p.d)){
+    // Don't auto-mark — let user decide in words tab
+  }
+  quizIdx++;
+  setTimeout(renderQuizCard, 300);
+}
+
+function skipQuiz(){
+  quizIdx++;
+  renderQuizCard();
+}
+
+function renderMultiChoice(p, pct){
+  const c = document.getElementById('quiz-container');
+  quizAnswered = false;
+  // Pick 3 wrong answers from pool
+  const others = quizDeck.filter((_,i)=>i!==quizIdx);
+  const wrongs = shuffleArr(others).slice(0,3);
+  const choices = shuffleArr([p, ...wrongs]);
+
+  c.innerHTML = `
+    <div class="quiz-progress-row">
+      <div class="quiz-prog-bar"><div class="quiz-prog-fill" style="width:${pct}%"></div></div>
+      <div class="quiz-prog-txt">${quizIdx+1} / ${quizDeck.length}</div>
+      <div style="font-size:12px;color:#2ecc71;font-weight:700;">✓${quizCorrect}</div>
+      <div style="font-size:12px;color:#ff8a93;font-weight:700;">✗${quizWrong}</div>
+    </div>
+
+    <div class="quiz-card-front" style="border-radius:18px;margin-bottom:16px;padding:28px 24px;min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a2e42,#1f3a55);border:1px solid rgba(255,255,255,0.12);">
+      <div class="quiz-card-hint">What does this mean?</div>
+      ${p.art?`<div class="quiz-card-art">${x(p.art)}</div>`:''}
+      <div class="quiz-card-dutch">${x(p.d)}</div>
+      ${p.typ?`<div class="quiz-card-type">[${x(p.typ)}]</div>`:''}
+      <button class="quiz-card-speak" onclick="speak('${x(p.d)}',this)" style="margin-top:10px;">🔊 Listen</button>
+    </div>
+
+    <div class="mc-choices" id="mc-choices">
+      ${choices.map((ch,i)=>`
+        <button class="mc-btn" id="mc-${i}" onclick="answerMC(${i},'${x(ch.d)}','${x(p.d)}')">
+          ${x(ch.m)}
+        </button>`).join('')}
+    </div>
+    <button class="quiz-skip" onclick="skipQuiz()">Skip →</button>`;
+}
+
+function answerMC(idx, chosen, correct){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const isRight = chosen === correct;
+  if(isRight) quizCorrect++; else quizWrong++;
+
+  // Show right/wrong on all buttons
+  document.querySelectorAll('.mc-btn').forEach((btn,i)=>{
+    const btnWord = quizDeck.find(p=>x(p.m)===btn.textContent.trim());
+    btn.onclick = null;
+    if(i === idx){
+      btn.classList.add(isRight ? 'correct' : 'wrong');
+    }
+    if(!isRight){
+      // Reveal correct answer
+      const correctWord = quizDeck[quizIdx];
+      if(btn.textContent.trim() === correctWord.m){
+        btn.classList.add('reveal');
+      }
+    }
+  });
+
+  setTimeout(()=>{ quizIdx++; renderQuizCard(); }, 1200);
+}
+
+function renderQuizResults(){
+  const c = document.getElementById('quiz-container');
+  const total = quizCorrect + quizWrong;
+  const pct = total > 0 ? Math.round((quizCorrect/total)*100) : 0;
+  const icon = pct >= 80 ? '🏆' : pct >= 60 ? '⭐' : pct >= 40 ? '💪' : '📖';
+  const title = pct >= 80 ? 'Uitstekend!' : pct >= 60 ? 'Goed gedaan!' : pct >= 40 ? 'Blijf oefenen!' : 'Meer oefening nodig!';
+
+  c.innerHTML = `
+    <div class="quiz-results">
+      <div class="quiz-result-icon">${icon}</div>
+      <div class="quiz-result-title">${title}</div>
+      <div class="quiz-result-sub">You completed ${quizDeck.length} flashcards</div>
+      <div class="quiz-result-stats">
+        <div class="quiz-result-stat">
+          <div class="quiz-result-num" style="color:#2ecc71;">${quizCorrect}</div>
+          <div class="quiz-result-lbl">Correct</div>
+        </div>
+        <div class="quiz-result-stat">
+          <div class="quiz-result-num" style="color:#ff8a93;">${quizWrong}</div>
+          <div class="quiz-result-lbl">Missed</div>
+        </div>
+        <div class="quiz-result-stat">
+          <div class="quiz-result-num" style="color:#f4a261;">${pct}%</div>
+          <div class="quiz-result-lbl">Score</div>
+        </div>
+      </div>
+      <button class="quiz-result-again" onclick="startQuiz()">🔄 Play again</button>
+      <button class="quiz-result-menu" onclick="renderQuizSetup()">← Change settings</button>
+    </div>`;
+}
+
+// ── GRAMMAR GUIDE ─────────────────────────────────────────────────────────────
+const GRAMMAR_TOPICS = [
+  {
+    id:'de_het', cat:'Basics', icon:'🔵', title:'De vs Het — The Dutch Articles',
+    content:`
+      <div class="grammar-rule">Dutch has two definite articles: <em>de</em> and <em>het</em>. This is one of the hardest things about Dutch — even native speakers sometimes get it wrong!</div>
+
+      <div class="grammar-tip">The safest strategy: when in doubt, use <em>de</em>. About 75% of Dutch nouns use <em>de</em>.</div>
+
+      <div class="grammar-rule"><strong>Use DE for:</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">de man</span><span class="grammar-en">the man</span><button class="grammar-speak" onclick="speak('de man',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">de vrouw</span><span class="grammar-en">the woman</span><button class="grammar-speak" onclick="speak('de vrouw',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">de tafel</span><span class="grammar-en">the table</span><button class="grammar-speak" onclick="speak('de tafel',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">de fiets</span><span class="grammar-en">the bicycle</span><button class="grammar-speak" onclick="speak('de fiets',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>Use HET for:</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">het huis</span><span class="grammar-en">the house</span><button class="grammar-speak" onclick="speak('het huis',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">het kind</span><span class="grammar-en">the child</span><button class="grammar-speak" onclick="speak('het kind',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">het boek</span><span class="grammar-en">the book</span><button class="grammar-speak" onclick="speak('het boek',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">het water</span><span class="grammar-en">the water</span><button class="grammar-speak" onclick="speak('het water',this)">🔊</button></div>
+      </div>
+
+      <table class="grammar-table">
+        <tr><th>Rule</th><th>Example</th></tr>
+        <tr><td>ALL plurals use <em>de</em></td><td class="nl">de huizen, de kinderen</td></tr>
+        <tr><td>Diminutives (-je/-tje) always use <em>het</em></td><td class="nl">het huisje, het hondje</td></tr>
+        <tr><td>Words ending in -ing use <em>de</em></td><td class="nl">de vergadering, de oefening</td></tr>
+        <tr><td>Words ending in -heid/-nis/-st use <em>de</em></td><td class="nl">de vrijheid, de kennis</td></tr>
+        <tr><td>Words ending in -ment/-sel use <em>het</em></td><td class="nl">het appartement, het baksel</td></tr>
+        <tr><td>Languages and sports use <em>het</em></td><td class="nl">het Nederlands, het voetbal</td></tr>
+        <tr><td>Infinitives used as nouns use <em>het</em></td><td class="nl">het lopen, het eten</td></tr>
+      </table>
+
+      <div class="grammar-warning">There is no perfect rule that works every time. The best approach is to learn the article together with every new noun.</div>
+
+      <div class="grammar-rule"><strong>Indefinite article:</strong> Both de and het words use <em>een</em> (a/an).<br>
+      <em>een man</em> · <em>een huis</em> · <em>een kind</em></div>`
+  },
+  {
+    id:'word_order', cat:'Basics', icon:'📐', title:'Word Order — The V2 Rule',
+    content:`
+      <div class="grammar-rule">Dutch word order follows the <em>V2 rule</em>: the verb is always the <em>second element</em> in a main clause, no matter what comes first.</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik drink koffie.</span><span class="grammar-en">I drink coffee.</span><button class="grammar-speak" onclick="speak('Ik drink koffie',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Morgen drink ik koffie.</span><span class="grammar-en">Tomorrow I drink coffee.</span><button class="grammar-speak" onclick="speak('Morgen drink ik koffie',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">In Amsterdam drink ik koffie.</span><span class="grammar-en">In Amsterdam I drink coffee.</span><button class="grammar-speak" onclick="speak('In Amsterdam drink ik koffie',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-tip">Notice that when something other than the subject starts the sentence, the subject and verb <em>swap</em> (inversion). The verb stays in second position!</div>
+
+      <div class="grammar-rule"><strong>The verb sandwich in subclauses:</strong><br>
+      In subclauses (after words like <em>omdat, dat, als, toen</em>), the verb goes to the <em>END</em>.</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik drink koffie omdat ik moe <em>ben</em>.</span><span class="grammar-en">I drink coffee because I am tired.</span><button class="grammar-speak" onclick="speak('Ik drink koffie omdat ik moe ben',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Hij zegt dat hij morgen <em>komt</em>.</span><span class="grammar-en">He says that he is coming tomorrow.</span><button class="grammar-speak" onclick="speak('Hij zegt dat hij morgen komt',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Als het regent, blijf ik <em>thuis</em>.</span><span class="grammar-en">If it rains, I stay home.</span><button class="grammar-speak" onclick="speak('Als het regent blijf ik thuis',this)">🔊</button></div>
+      </div>
+
+      <table class="grammar-table">
+        <tr><th>Subclause words</th><th>Meaning</th></tr>
+        <tr><td class="nl">omdat</td><td class="en">because</td></tr>
+        <tr><td class="nl">dat</td><td class="en">that</td></tr>
+        <tr><td class="nl">als / wanneer</td><td class="en">if / when</td></tr>
+        <tr><td class="nl">toen</td><td class="en">when (past)</td></tr>
+        <tr><td class="nl">hoewel</td><td class="en">although</td></tr>
+        <tr><td class="nl">terwijl</td><td class="en">while</td></tr>
+      </table>`
+  },
+  {
+    id:'verbs_present', cat:'Verbs', icon:'⚡', title:'Present Tense — Regular Verbs',
+    content:`
+      <div class="grammar-rule">Most Dutch verbs follow a regular pattern. Start with the <em>stem</em> (infinitive minus -en), then add the endings.</div>
+
+      <div class="grammar-rule"><strong>Finding the stem:</strong> remove -en from the infinitive.<br>
+      <em>werken → werk</em> · <em>leven → leef</em> (spelling rule) · <em>rijden → rijd</em></div>
+
+      <table class="grammar-table">
+        <tr><th>Pronoun</th><th>Ending</th><th>werken (to work)</th><th>leven (to live)</th></tr>
+        <tr><td class="nl">ik</td><td>stem</td><td class="nl">werk</td><td class="nl">leef</td></tr>
+        <tr><td class="nl">jij/je</td><td>stem + t*</td><td class="nl">werkt</td><td class="nl">leeft</td></tr>
+        <tr><td class="nl">hij/zij/het</td><td>stem + t</td><td class="nl">werkt</td><td class="nl">leeft</td></tr>
+        <tr><td class="nl">wij/we</td><td>infinitive</td><td class="nl">werken</td><td class="nl">leven</td></tr>
+        <tr><td class="nl">jullie</td><td>infinitive</td><td class="nl">werken</td><td class="nl">leven</td></tr>
+        <tr><td class="nl">zij/ze</td><td>infinitive</td><td class="nl">werken</td><td class="nl">leven</td></tr>
+      </table>
+
+      <div class="grammar-tip">*Exception: jij/je does NOT get -t when it comes AFTER the verb (inversion).<br>
+      <em>Jij werkt hard.</em> BUT: <em>Werk jij hard?</em></div>
+
+      <div class="grammar-rule"><strong>Spelling rules for the stem:</strong></div>
+      <table class="grammar-table">
+        <tr><th>Rule</th><th>Example</th></tr>
+        <tr><td>Double vowel in open syllable → single before consonant</td><td class="nl">leven → leef · lopen → loop</td></tr>
+        <tr><td>z → s, v → f at end of stem</td><td class="nl">reizen → reis · leven → leef</td></tr>
+        <tr><td>Double consonant after short vowel</td><td class="nl">stoppen → stop</td></tr>
+      </table>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik werk elke dag.</span><span class="grammar-en">I work every day.</span><button class="grammar-speak" onclick="speak('Ik werk elke dag',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Zij werkt in Rotterdam.</span><span class="grammar-en">She works in Rotterdam.</span><button class="grammar-speak" onclick="speak('Zij werkt in Rotterdam',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Wij werken samen.</span><span class="grammar-en">We work together.</span><button class="grammar-speak" onclick="speak('Wij werken samen',this)">🔊</button></div>
+      </div>`
+  },
+  {
+    id:'verbs_past', cat:'Verbs', icon:'⏪', title:'Past Tense — Perfect & Simple Past',
+    content:`
+      <div class="grammar-rule">Dutch has two past tenses: the <em>voltooid tegenwoordige tijd</em> (perfect) and the <em>onvoltooid verleden tijd</em> (simple past). In everyday speech, the perfect is used most.</div>
+
+      <div class="grammar-rule"><strong>Perfect tense:</strong> hebben/zijn + past participle</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik heb gewerkt.</span><span class="grammar-en">I have worked / I worked.</span><button class="grammar-speak" onclick="speak('Ik heb gewerkt',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Zij heeft gegeten.</span><span class="grammar-en">She has eaten / She ate.</span><button class="grammar-speak" onclick="speak('Zij heeft gegeten',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Wij zijn gegaan.</span><span class="grammar-en">We have gone / We went.</span><button class="grammar-speak" onclick="speak('Wij zijn gegaan',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>Forming the past participle:</strong><br>
+      Regular: <em>ge + stem + d/t</em><br>
+      Use <em>'t kofschip</em> rule: if the stem ends in t, k, f, s, ch, p → add <em>t</em>, otherwise add <em>d</em>.</div>
+
+      <table class="grammar-table">
+        <tr><th>Infinitive</th><th>Stem</th><th>Participle</th></tr>
+        <tr><td class="nl">werken</td><td class="nl">werk</td><td class="nl">gewerkt (k = 't kofschip)</td></tr>
+        <tr><td class="nl">leven</td><td class="nl">leef</td><td class="nl">geleefd (not in 't kofschip)</td></tr>
+        <tr><td class="nl">stoppen</td><td class="nl">stop</td><td class="nl">gestopt (p = 't kofschip)</td></tr>
+        <tr><td class="nl">reizen</td><td class="nl">reis</td><td class="nl">gereisd (s... wait, s IS in 't kofschip → but reis ends in s from z, so gereisd)</td></tr>
+      </table>
+
+      <div class="grammar-tip">'t kofschip = the letters t, k, f, s, ch, p. If the stem ends in one of these → past participle gets -t. Otherwise -d.</div>
+
+      <div class="grammar-rule"><strong>Use ZIJN instead of hebben for:</strong> verbs of motion/change of state (gaan, komen, rijden, worden, blijven, zijn)</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Hij is gekomen.</span><span class="grammar-en">He came.</span><button class="grammar-speak" onclick="speak('Hij is gekomen',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Ze zijn gebleven.</span><span class="grammar-en">They stayed.</span><button class="grammar-speak" onclick="speak('Ze zijn gebleven',this)">🔊</button></div>
+      </div>`
+  },
+  {
+    id:'separable_grammar', cat:'Verbs', icon:'✂️', title:'Separable Verbs in Sentences',
+    content:`
+      <div class="grammar-rule">Separable verbs (scheidbare werkwoorden) split apart in simple sentences. The <em>prefix</em> moves to the <em>end</em> of the clause.</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">uitgaan → Ik ga vanavond <em>uit</em>.</span><span class="grammar-en">to go out → I go out tonight.</span><button class="grammar-speak" onclick="speak('Ik ga vanavond uit',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">opbellen → Hij belt haar <em>op</em>.</span><span class="grammar-en">to call → He calls her.</span><button class="grammar-speak" onclick="speak('Hij belt haar op',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">meenemen → Neem een paraplu <em>mee</em>.</span><span class="grammar-en">to take along → Take an umbrella along.</span><button class="grammar-speak" onclick="speak('Neem een paraplu mee',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>In subclauses:</strong> they stay together at the end.</div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik weet dat hij haar <em>opbelt</em>.</span><span class="grammar-en">I know that he calls her.</span><button class="grammar-speak" onclick="speak('Ik weet dat hij haar opbelt',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>In perfect tense:</strong> ge- goes between prefix and verb.</div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">uitgaan → Hij is <em>uitgegaan</em>.</span><span class="grammar-en">He went out.</span><button class="grammar-speak" onclick="speak('Hij is uitgegaan',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">opbellen → Ze heeft hem <em>opgebeld</em>.</span><span class="grammar-en">She called him.</span><button class="grammar-speak" onclick="speak('Ze heeft hem opgebeld',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>With infinitives (modal verbs):</strong> stay together.</div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik wil vanavond <em>uitgaan</em>.</span><span class="grammar-en">I want to go out tonight.</span><button class="grammar-speak" onclick="speak('Ik wil vanavond uitgaan',this)">🔊</button></div>
+      </div>
+
+      <table class="grammar-table">
+        <tr><th>Situation</th><th>Form</th></tr>
+        <tr><td>Main clause (simple present/past)</td><td class="nl">prefix → end of sentence</td></tr>
+        <tr><td>Subclause (dat, omdat, als...)</td><td class="nl">prefix stays attached, verb goes to end</td></tr>
+        <tr><td>Perfect tense</td><td class="nl">prefix + ge + stem + d/t</td></tr>
+        <tr><td>After modal verb</td><td class="nl">infinitive stays whole</td></tr>
+      </table>`
+  },
+  {
+    id:'adjectives', cat:'Basics', icon:'🎨', title:'Adjective Endings',
+    content:`
+      <div class="grammar-rule">Adjectives before nouns usually get an <em>-e</em> ending — but not always. The rule depends on the article and noun type.</div>
+
+      <table class="grammar-table">
+        <tr><th>Context</th><th>Ending</th><th>Example</th></tr>
+        <tr><td>de-word with de/een</td><td>-e</td><td class="nl">de grote man · een grote man</td></tr>
+        <tr><td>het-word with het</td><td>-e</td><td class="nl">het grote huis</td></tr>
+        <tr><td>het-word with een</td><td>NO -e</td><td class="nl">een groot huis</td></tr>
+        <tr><td>het-word with no article</td><td>NO -e</td><td class="nl">groot huis</td></tr>
+        <tr><td>Predicate (after zijn)</td><td>NO -e</td><td class="nl">Het huis is groot.</td></tr>
+      </table>
+
+      <div class="grammar-tip">The tricky one: <em>een groot huis</em> (no -e) but <em>het grote huis</em> (with -e). The indefinite article with het-words is the exception!</div>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">de mooie bloem</span><span class="grammar-en">the beautiful flower (de-word)</span><button class="grammar-speak" onclick="speak('de mooie bloem',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">een mooie bloem</span><span class="grammar-en">a beautiful flower (de-word + een)</span><button class="grammar-speak" onclick="speak('een mooie bloem',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">het mooie huis</span><span class="grammar-en">the beautiful house (het-word)</span><button class="grammar-speak" onclick="speak('het mooie huis',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">een mooi huis</span><span class="grammar-en">a beautiful house (het-word + een = NO -e!)</span><button class="grammar-speak" onclick="speak('een mooi huis',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Het huis is mooi.</span><span class="grammar-en">The house is beautiful. (predicate)</span><button class="grammar-speak" onclick="speak('Het huis is mooi',this)">🔊</button></div>
+      </div>`
+  },
+  {
+    id:'modal_verbs', cat:'Verbs', icon:'🔧', title:'Modal Verbs',
+    content:`
+      <div class="grammar-rule">Modal verbs express ability, permission, obligation or possibility. They are always followed by an <em>infinitive at the end</em> of the clause.</div>
+
+      <table class="grammar-table">
+        <tr><th>Dutch</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td class="nl">kunnen</td><td class="en">can / be able to</td><td class="nl">Ik kan zwemmen.</td></tr>
+        <tr><td class="nl">mogen</td><td class="en">may / be allowed to</td><td class="nl">Jij mag hier niet parkeren.</td></tr>
+        <tr><td class="nl">moeten</td><td class="en">must / have to</td><td class="nl">Hij moet werken.</td></tr>
+        <tr><td class="nl">willen</td><td class="en">want to</td><td class="nl">Wij willen eten.</td></tr>
+        <tr><td class="nl">zullen</td><td class="en">shall / will (future)</td><td class="nl">Ik zal het doen.</td></tr>
+        <tr><td class="nl">hoeven</td><td class="en">need to (usually negative)</td><td class="nl">Je hoeft niet te komen.</td></tr>
+      </table>
+
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik kan goed Nederlands spreken.</span><span class="grammar-en">I can speak Dutch well.</span><button class="grammar-speak" onclick="speak('Ik kan goed Nederlands spreken',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Je moet nu naar huis gaan.</span><span class="grammar-en">You must go home now.</span><button class="grammar-speak" onclick="speak('Je moet nu naar huis gaan',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Mag ik hier zitten?</span><span class="grammar-en">May I sit here?</span><button class="grammar-speak" onclick="speak('Mag ik hier zitten',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-tip">hoeven is almost always used with <em>niet</em> or <em>geen</em> and requires <em>te</em> before the infinitive.<br>
+      <em>Je hoeft niet te betalen.</em> — You don't need to pay.</div>`
+  },
+  {
+    id:'pronouns', cat:'Basics', icon:'👤', title:'Personal Pronouns',
+    content:`
+      <table class="grammar-table">
+        <tr><th>Subject</th><th>Object</th><th>Meaning</th></tr>
+        <tr><td class="nl">ik</td><td class="nl">mij / me</td><td class="en">I / me</td></tr>
+        <tr><td class="nl">jij / je</td><td class="nl">jou / je</td><td class="en">you (informal)</td></tr>
+        <tr><td class="nl">u</td><td class="nl">u</td><td class="en">you (formal)</td></tr>
+        <tr><td class="nl">hij</td><td class="nl">hem</td><td class="en">he / him</td></tr>
+        <tr><td class="nl">zij / ze</td><td class="nl">haar</td><td class="en">she / her</td></tr>
+        <tr><td class="nl">het</td><td class="nl">het</td><td class="en">it</td></tr>
+        <tr><td class="nl">wij / we</td><td class="nl">ons</td><td class="en">we / us</td></tr>
+        <tr><td class="nl">jullie</td><td class="nl">jullie</td><td class="en">you (plural)</td></tr>
+        <tr><td class="nl">zij / ze</td><td class="nl">hen / hun / ze</td><td class="en">they / them</td></tr>
+      </table>
+
+      <div class="grammar-tip">The stressed forms (jij, wij, zij) are used for emphasis. The unstressed forms (je, we, ze) are used in normal speech. You will hear je/we/ze much more often in everyday Dutch.</div>
+
+      <div class="grammar-rule"><strong>Possessive pronouns:</strong></div>
+      <table class="grammar-table">
+        <tr><th>Dutch</th><th>English</th></tr>
+        <tr><td class="nl">mijn</td><td class="en">my</td></tr>
+        <tr><td class="nl">jouw / je</td><td class="en">your (informal)</td></tr>
+        <tr><td class="nl">uw</td><td class="en">your (formal)</td></tr>
+        <tr><td class="nl">zijn</td><td class="en">his / its</td></tr>
+        <tr><td class="nl">haar</td><td class="en">her / its</td></tr>
+        <tr><td class="nl">ons / onze</td><td class="en">our</td></tr>
+        <tr><td class="nl">jullie</td><td class="en">your (plural)</td></tr>
+        <tr><td class="nl">hun</td><td class="en">their</td></tr>
+      </table>
+
+      <div class="grammar-tip">ons is used with het-words, onze with de-words.<br>
+      <em>ons huis</em> (het huis) but <em>onze auto</em> (de auto)</div>`
+  },
+  {
+    id:'negation', cat:'Basics', icon:'🚫', title:'Negation — Niet & Geen',
+    content:`
+      <div class="grammar-rule">Dutch uses two negative words: <em>niet</em> and <em>geen</em>. Knowing when to use which one is very important!</div>
+
+      <div class="grammar-rule"><strong>Use GEEN to negate nouns with een or no article:</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik heb een auto. → Ik heb <em>geen</em> auto.</span><span class="grammar-en">I have a car. → I have no car.</span><button class="grammar-speak" onclick="speak('Ik heb geen auto',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Ze drinkt koffie. → Ze drinkt <em>geen</em> koffie.</span><span class="grammar-en">She drinks coffee. → She drinks no coffee.</span><button class="grammar-speak" onclick="speak('Ze drinkt geen koffie',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>Use NIET for everything else:</strong> verbs, adjectives, adverbs, nouns with de/het.</div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik werk <em>niet</em>.</span><span class="grammar-en">I don't work.</span><button class="grammar-speak" onclick="speak('Ik werk niet',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Het is <em>niet</em> mooi.</span><span class="grammar-en">It is not beautiful.</span><button class="grammar-speak" onclick="speak('Het is niet mooi',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Ik zie de man <em>niet</em>.</span><span class="grammar-en">I don't see the man.</span><button class="grammar-speak" onclick="speak('Ik zie de man niet',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>Position of niet:</strong></div>
+      <table class="grammar-table">
+        <tr><th>What is negated</th><th>Position</th><th>Example</th></tr>
+        <tr><td>Whole sentence</td><td>end of clause</td><td class="nl">Ik ga niet.</td></tr>
+        <tr><td>Adjective/adverb</td><td>before the word</td><td class="nl">niet snel</td></tr>
+        <tr><td>Infinitive/participle</td><td>before it</td><td class="nl">Ik wil niet gaan.</td></tr>
+        <tr><td>Separable verb prefix</td><td>before prefix</td><td class="nl">Ik ga niet uit.</td></tr>
+      </table>`
+  },
+  {
+    id:'common_mistakes', cat:'Tips', icon:'⚠️', title:'Common Mistakes to Avoid',
+    content:`
+      <div class="grammar-rule"><strong>1. Forgetting inversion after time/place words</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ Morgen ik ga naar school.</span><span class="grammar-en">Wrong word order!</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ Morgen ga ik naar school.</span><span class="grammar-en">Tomorrow I go to school.</span><button class="grammar-speak" onclick="speak('Morgen ga ik naar school',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>2. Putting the verb in the wrong place in subclauses</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ Ik weet dat hij komt morgen.</span><span class="grammar-en">Wrong — verb must go to end!</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ Ik weet dat hij morgen komt.</span><span class="grammar-en">I know that he is coming tomorrow.</span><button class="grammar-speak" onclick="speak('Ik weet dat hij morgen komt',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>3. Using niet instead of geen</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ Ik heb niet auto.</span><span class="grammar-en">Wrong — geen needed for nouns!</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ Ik heb geen auto.</span><span class="grammar-en">I have no car.</span><button class="grammar-speak" onclick="speak('Ik heb geen auto',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>4. Forgetting -t for jij/hij/zij in present tense</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ Hij werk hard.</span><span class="grammar-en">Missing -t ending!</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ Hij werkt hard.</span><span class="grammar-en">He works hard.</span><button class="grammar-speak" onclick="speak('Hij werkt hard',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>5. Using hebben instead of zijn for motion verbs</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ Ik heb gegaan naar Amsterdam.</span><span class="grammar-en">Wrong auxiliary!</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ Ik ben naar Amsterdam gegaan.</span><span class="grammar-en">I went to Amsterdam.</span><button class="grammar-speak" onclick="speak('Ik ben naar Amsterdam gegaan',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>6. Wrong adjective ending with een + het-word</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">❌ een grote huis</span><span class="grammar-en">Wrong! het-word + een = no -e</span></div>
+        <div class="grammar-example-row"><span class="grammar-nl">✅ een groot huis</span><span class="grammar-en">a large house</span><button class="grammar-speak" onclick="speak('een groot huis',this)">🔊</button></div>
+      </div>`
+  },
+  {
+    id:'numbers', cat:'Basics', icon:'🔢', title:'Numbers & Time',
+    content:`
+      <table class="grammar-table">
+        <tr><th>Number</th><th>Dutch</th><th>Number</th><th>Dutch</th></tr>
+        <tr><td>1</td><td class="nl">één</td><td>11</td><td class="nl">elf</td></tr>
+        <tr><td>2</td><td class="nl">twee</td><td>12</td><td class="nl">twaalf</td></tr>
+        <tr><td>3</td><td class="nl">drie</td><td>13</td><td class="nl">dertien</td></tr>
+        <tr><td>4</td><td class="nl">vier</td><td>20</td><td class="nl">twintig</td></tr>
+        <tr><td>5</td><td class="nl">vijf</td><td>21</td><td class="nl">eenentwintig</td></tr>
+        <tr><td>6</td><td class="nl">zes</td><td>30</td><td class="nl">dertig</td></tr>
+        <tr><td>7</td><td class="nl">zeven</td><td>100</td><td class="nl">honderd</td></tr>
+        <tr><td>8</td><td class="nl">acht</td><td>1000</td><td class="nl">duizend</td></tr>
+        <tr><td>9</td><td class="nl">negen</td><td>1.000.000</td><td class="nl">een miljoen</td></tr>
+        <tr><td>10</td><td class="nl">tien</td><td></td><td></td></tr>
+      </table>
+
+      <div class="grammar-tip">Dutch numbers from 21–99 say the units before the tens with <em>en</em> in between: <em>eenentwintig</em> (one-and-twenty), <em>drieëndertig</em> (three-and-thirty).</div>
+
+      <div class="grammar-rule"><strong>Telling the time:</strong></div>
+      <table class="grammar-table">
+        <tr><th>Dutch</th><th>English</th></tr>
+        <tr><td class="nl">Het is drie uur.</td><td class="en">It is three o'clock.</td></tr>
+        <tr><td class="nl">Het is half vier.</td><td class="en">It is half past three. (= half to four!)</td></tr>
+        <tr><td class="nl">Het is kwart over drie.</td><td class="en">It is quarter past three.</td></tr>
+        <tr><td class="nl">Het is kwart voor vier.</td><td class="en">It is quarter to four.</td></tr>
+        <tr><td class="nl">Het is tien over half vier.</td><td class="en">It is twenty past three. (ten past half four)</td></tr>
+      </table>
+
+      <div class="grammar-warning">Half vier means 3:30 NOT 4:30! Dutch "half" means "half way to" the next hour. This confuses almost every Dutch learner!</div>`
+  },
+  {
+    id:'er', cat:'Advanced', icon:'🔮', title:'The Word "Er" — 4 Uses',
+    content:`
+      <div class="grammar-rule"><em>Er</em> is one of the most confusing Dutch words because it has four different uses.</div>
+
+      <div class="grammar-rule"><strong>1. Er as a place word (there)</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik woon er al tien jaar.</span><span class="grammar-en">I have lived there for ten years already.</span><button class="grammar-speak" onclick="speak('Ik woon er al tien jaar',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>2. Er with numbers (existential)</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Er zijn drie kinderen.</span><span class="grammar-en">There are three children.</span><button class="grammar-speak" onclick="speak('Er zijn drie kinderen',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Er is een probleem.</span><span class="grammar-en">There is a problem.</span><button class="grammar-speak" onclick="speak('Er is een probleem',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>3. Er as part of a prepositional phrase (er + preposition)</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Ik denk eraan. (= aan het)</span><span class="grammar-en">I think about it.</span><button class="grammar-speak" onclick="speak('Ik denk eraan',this)">🔊</button></div>
+        <div class="grammar-example-row"><span class="grammar-nl">Hij houdt ervan. (= van het)</span><span class="grammar-en">He likes it.</span><button class="grammar-speak" onclick="speak('Hij houdt ervan',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-rule"><strong>4. Er replacing a passive subject</strong></div>
+      <div class="grammar-examples">
+        <div class="grammar-example-row"><span class="grammar-nl">Er wordt hier niet gerookt.</span><span class="grammar-en">Smoking is not allowed here.</span><button class="grammar-speak" onclick="speak('Er wordt hier niet gerookt',this)">🔊</button></div>
+      </div>
+
+      <div class="grammar-tip">The most common use you will hear is er zijn/er is (there is/are). Start with that and build from there!</div>`
+  },
+];
+
+let grammarCatFilter = 'All';
+let grammarOpenCards = new Set();
+
+function initGrammar(){
+  renderGrammar();
+}
+
+function renderGrammar(){
+  const c = document.getElementById('grammar-container');
+  if(!c) return;
+
+  const cats = ['All', 'Basics', 'Verbs', 'Tips', 'Advanced'];
+  const filtered = grammarCatFilter === 'All' ? GRAMMAR_TOPICS : GRAMMAR_TOPICS.filter(t=>t.cat===grammarCatFilter);
+
+  c.innerHTML = `
+    <div class="grammar-hero">
+      <div class="grammar-hero-title">📘 Grammar Guide</div>
+      <div class="grammar-hero-sub">Tap a topic to expand it · Tap examples to hear pronunciation</div>
+    </div>
+    <div class="grammar-cat-bar">
+      ${cats.map(cat=>`<button class="pill${grammarCatFilter===cat?' on':''}" onclick="filterGrammar('${cat}')">${cat}</button>`).join('')}
+    </div>
+    <div class="grammar-section">
+      ${filtered.map(topic=>`
+        <div class="grammar-card${grammarOpenCards.has(topic.id)?' open':''}" id="gc-${topic.id}">
+          <div class="grammar-card-header" onclick="toggleGrammarCard('${topic.id}')">
+            <div class="grammar-card-title">
+              <span class="grammar-card-icon">${topic.icon}</span>
+              ${x(topic.title)}
+            </div>
+            <span class="grammar-card-arrow">›</span>
+          </div>
+          <div class="grammar-card-body">${topic.content}</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function filterGrammar(cat){
+  grammarCatFilter = cat;
+  renderGrammar();
+}
+
+function toggleGrammarCard(id){
+  if(grammarOpenCards.has(id)){
+    grammarOpenCards.delete(id);
+  } else {
+    grammarOpenCards.add(id);
+  }
+  const card = document.getElementById('gc-'+id);
+  if(card) card.classList.toggle('open', grammarOpenCards.has(id));
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────────────────────────────
+const NOTIF_KEY = 'notif_v1';
+
+function getNotifSettings(){
+  try{
+    const s = localStorage.getItem(NOTIF_KEY);
+    return s ? JSON.parse(s) : {time:'09:00', enabled:false};
+  }catch(e){ return {time:'09:00', enabled:false}; }
+}
+
+function saveNotifSettings(settings){
+  localStorage.setItem(NOTIF_KEY, JSON.stringify(settings));
+}
+
+function requestNotifPermission(){
+  if(!('Notification' in window)){
+    alert('Your browser does not support notifications. Try opening the app in Chrome or Firefox.');
+    return;
+  }
+  Notification.requestPermission().then(permission => {
+    if(permission === 'granted'){
+      updateNotifUI();
+      // Show time picker
+      document.getElementById('notif-time-row').style.display='flex';
+      // Send test notification
+      setTimeout(()=>{
+        showNotification('🌟 Reminder set!','You will be reminded to learn your Dutch words daily.');
+      }, 500);
+      // Save as enabled
+      const s = getNotifSettings();
+      s.enabled = true;
+      saveNotifSettings(s);
+      scheduleNotifCheck();
+    } else {
+      // Permission denied - show in-app banner instead
+      const s = getNotifSettings();
+      s.enabled = true; // use in-app banner
+      s.useInApp = true;
+      saveNotifSettings(s);
+      updateNotifUI();
+      alert('Notification permission denied. We will show an in-app reminder instead when you open the app.');
+    }
+  });
+}
+
+function showNotification(title, body){
+  if(Notification.permission === 'granted'){
+    const n = new Notification(title, {
+      body: body,
+      icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🇳🇱</text></svg>',
+      badge: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">🌟</text></svg>',
+      tag: 'dutch-daily',
+      requireInteraction: false
+    });
+    n.onclick = () => {
+      window.focus();
+      switchTab('daily');
+      n.close();
+    };
+    return n;
+  }
+}
+
+function saveNotifTime(){
+  const input = document.getElementById('notif-time');
+  if(!input) return;
+  const s = getNotifSettings();
+  s.time = input.value;
+  s.enabled = true;
+  saveNotifSettings(s);
+  const btn = document.getElementById('notif-save-btn');
+  toast('✅ Reminder set for ' + input.value + ' every day!');
+  scheduleNotifCheck();
+}
+
+function scheduleNotifCheck(){
+  // Check every minute if it's time to show notification
+  clearInterval(window._notifInterval);
+  window._notifInterval = setInterval(checkNotifTime, 60000);
+  checkNotifTime(); // check immediately
+}
+
+function checkNotifTime(){
+  const s = getNotifSettings();
+  if(!s.enabled) return;
+
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const currentTime = hh+':'+mm;
+  const notifTime = s.time || '09:00';
+
+  // Check if we already showed today
+  const todayStr = getTodayStr();
+  const lastShown = localStorage.getItem('notif_last_shown');
+  if(lastShown === todayStr) return;
+
+  // Check if current time matches notif time
+  if(currentTime === notifTime){
+    localStorage.setItem('notif_last_shown', todayStr);
+    // Check if daily words already done
+    const state = loadDailyState();
+    if(state && state.complete) return; // already done today
+
+    if(Notification.permission === 'granted'){
+      showNotification('🌟 Time to learn your 5 words for the day!', 'Your daily Dutch practice is waiting. Tap to start! 🇳🇱');
+    } else {
+      // Show in-app banner
+      showInAppBanner();
+    }
+  }
+}
+
+function showInAppBanner(){
+  const banner = document.getElementById('notif-banner');
+  if(banner){
+    banner.style.display = 'block';
+    // Auto-hide after 10 seconds
+    setTimeout(()=>dismissBanner(), 10000);
+  }
+}
+
+function dismissBanner(){
+  const banner = document.getElementById('notif-banner');
+  if(banner) banner.style.display = 'none';
+}
+
+function goDailyFromBanner(){
+  dismissBanner();
+  switchTab('daily');
+}
+
+function updateNotifUI(){
+  const permission = 'Notification' in window ? Notification.permission : 'unsupported';
+  const s = getNotifSettings();
+  const btn = document.getElementById('notif-enable-btn');
+  const statusText = document.getElementById('notif-status-text');
+  const timeRow = document.getElementById('notif-time-row');
+  const timeInput = document.getElementById('notif-time');
+
+  if(timeInput && s.time) timeInput.value = s.time;
+
+  if(permission === 'granted' && s.enabled){
+    if(btn){ btn.textContent='✅ Reminder on'; btn.classList.add('granted'); btn.onclick=null; }
+    if(statusText) statusText.textContent = 'Daily reminder enabled at ' + (s.time||'09:00') + ' ✓';
+    if(timeRow) timeRow.style.display='flex';
+  } else if(permission === 'denied'){
+    if(btn){ btn.textContent='🔔 Use in-app reminder'; btn.classList.remove('granted'); }
+    if(statusText) statusText.textContent = 'Browser notifications blocked. Tap for in-app reminder when you open the app.';
+    if(timeRow) timeRow.style.display='flex';
+  } else if(s.useInApp){
+    if(btn){ btn.textContent='✅ In-app reminder on'; btn.classList.add('granted'); }
+    if(statusText) statusText.textContent = 'In-app reminder enabled at ' + (s.time||'09:00') + ' ✓';
+    if(timeRow) timeRow.style.display='flex';
+  } else {
+    if(btn){ btn.textContent='Enable reminder'; btn.classList.remove('granted'); }
+    if(statusText) statusText.textContent = 'Get a daily reminder to learn your 5 words.';
+    if(timeRow && !s.enabled) timeRow.style.display='none';
+  }
+}
+
+function initNotifications(){
+  updateNotifUI();
+  const s = getNotifSettings();
+  if(s.enabled) scheduleNotifCheck();
+  // Also check on app open
+  const todayStr = getTodayStr();
+  const lastShown = localStorage.getItem('notif_last_shown');
+  if(lastShown !== todayStr && s.enabled){
+    const state = loadDailyState();
+    if(!state || !state.complete){
+      // Show in-app banner if they haven't done today's words
+      const now = new Date();
+      const hh = now.getHours();
+      if(hh >= parseInt((s.time||'09:00').split(':')[0])){
+        showInAppBanner();
+        localStorage.setItem('notif_last_shown', todayStr);
+      }
+    }
+  }
+}
+
+// ── DAILY 5 WORDS ─────────────────────────────────────────────────────────────
+const DAILY_KEY = 'daily_v1';
+const STREAK_KEY = 'streak_v1';
+
+function getTodayStr(){
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+
+function loadDailyState(){
+  const saved = localStorage.getItem(DAILY_KEY);
+  return saved ? JSON.parse(saved) : null;
+}
+
+function saveDailyState(state){
+  localStorage.setItem(DAILY_KEY, JSON.stringify(state));
+}
+
+function getStreak(){
+  const saved = localStorage.getItem(STREAK_KEY);
+  return saved ? JSON.parse(saved) : {count:0, lastDate:''};
+}
+
+function updateStreak(todayStr){
+  const streak = getStreak();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate()-1);
+  const yesterdayStr = yesterday.getFullYear()+'-'+(yesterday.getMonth()+1)+'-'+yesterday.getDate();
+  if(streak.lastDate === todayStr){
+    return streak.count; // already updated today
+  } else if(streak.lastDate === yesterdayStr){
+    streak.count++;
+  } else if(streak.lastDate !== todayStr){
+    streak.count = 1; // reset or first time
+  }
+  streak.lastDate = todayStr;
+  localStorage.setItem(STREAK_KEY, JSON.stringify(streak));
+  return streak.count;
+}
+
+function pickDailyWords(){
+  // Pick 5 words from phrases array, seeded by date so same 5 all day
+  if(!phrases || phrases.length === 0) return [];
+  const today = getTodayStr();
+  // Simple date-based seed
+  const seed = today.split('-').reduce((a,b)=>a*100+parseInt(b),0);
+  const pool = phrases.filter(p => p.d && p.m && !learned.has(p.d));
+  if(pool.length === 0) return [];
+  const count = Math.min(5, pool.length);
+  const picked = [];
+  const used = new Set();
+  let i = 0;
+  while(picked.length < count && i < pool.length * 3){
+    const idx = Math.abs((seed * (i+1) * 2654435761) % pool.length);
+    if(!used.has(idx)){
+      used.add(idx);
+      picked.push(pool[idx]);
+    }
+    i++;
+  }
+  return picked;
+}
+
+function initDaily(){
+  const today = getTodayStr();
+  let state = loadDailyState();
+
+  // Reset if new day
+  if(!state || state.date !== today){
+    const words = pickDailyWords();
+    state = {
+      date: today,
+      words: words,
+      results: {}, // dutch word -> 'known' or 'practice'
+      complete: false
+    };
+    saveDailyState(state);
+  }
+  renderDaily(state);
+  updateDailyBadge(state);
+}
+
+function updateDailyBadge(state){
+  const badge = document.getElementById('daily-badge');
+  if(!badge) return;
+  const done = Object.keys(state.results).length;
+  badge.textContent = state.complete ? '✓' : done+'/5';
+}
+
+function renderDaily(state){
+  const today = getTodayStr();
+
+  // Update date display
+  const dateEl = document.getElementById('daily-date');
+  if(dateEl){
+    const d = new Date();
+    dateEl.textContent = d.toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  }
+
+  // Progress bar
+  const done = Object.keys(state.results).length;
+  const pct = (done/5)*100;
+  const fill = document.getElementById('daily-prog-fill');
+  const txt = document.getElementById('daily-prog-text');
+  if(fill) fill.style.width = pct+'%';
+  if(txt) txt.textContent = done+' / 5';
+
+  const content = document.getElementById('daily-content');
+  if(!content) return;
+
+  if(state.complete || done >= 5){
+    // Completion screen
+    const streak = getStreak();
+    const knownCount = Object.values(state.results).filter(r=>r==='known').length;
+    const practiceCount = Object.values(state.results).filter(r=>r==='practice').length;
+    content.innerHTML = `
+      <div class="daily-complete">
+        <div class="daily-complete-icon">${knownCount >= 4 ? '🏆' : knownCount >= 2 ? '⭐' : '💪'}</div>
+        <div class="daily-complete-title">Geweldig gedaan!</div>
+        <div class="daily-complete-sub">
+          You completed today's 5 words.<br>
+          <strong style="color:#2ecc71">${knownCount} known</strong> · 
+          <strong style="color:#ff8a93">${practiceCount} need practice</strong>
+        </div>
+        <div class="daily-streak">🔥 ${streak.count} day streak</div>
+        <div class="daily-word-list">
+          ${state.words.map(w=>`
+            <div class="daily-word-chip">
+              <div class="daily-status-dot ${state.results[w.d]||'pending'}"></div>
+              ${x(w.d)}
+            </div>`).join('')}
+        </div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:16px;">Come back tomorrow for 5 new words! 🇳🇱</div>
+        <button class="daily-new-btn" onclick="reviewDaily()">📖 Review Today's Words</button>
+      </div>`;
+    return;
+  }
+
+  // Show word cards
+  if(!state.words || state.words.length === 0){
+    content.innerHTML = `<div class="empty">No words available yet.<br>Import words in the Words tab first!</div>`;
+    return;
+  }
+
+  content.innerHTML = state.words.map((w,i)=>{
+    const result = state.results[w.d];
+    const cardClass = result ? ` ${result}` : '';
+    const isDone = !!result;
+    return `
+    <div class="daily-card${cardClass}" id="dcard${i}">
+      <div class="daily-card-num">Word ${i+1} of 5 ${isDone?(result==='known'?'· ✅ Known':'· 🔄 Practice'):''}</div>
+      <div class="daily-word">
+        ${w.art?`<span class="daily-art">${x(w.art)}</span>`:''}
+        <span>${x(w.d)}</span>
+        <button class="speak-btn" onclick="speakEl('${x(w.d)}',event)" title="Listen">🔊</button>
+      </div>
+      <div class="daily-meaning">${x(w.m)}</div>
+      ${w.en?`<div class="daily-example" style="color:rgba(168,218,220,0.7);font-style:normal;margin-bottom:4px;">${x(w.en)}</div>`:''}
+      ${w.exn?`<div class="daily-example">${x(w.exn)}<br><span style="color:rgba(168,218,220,0.5)">${x(w.exe||'')}</span></div>`:''}
+      ${!isDone?`
+      <div class="daily-btns">
+        <button class="daily-btn daily-btn-speak" onclick="speakEl('${x(w.d)}',event)">🔊</button>
+        <button class="daily-btn daily-btn-know" onclick="markDaily('${x(w.d)}','known',${i})">✅ I know it</button>
+        <button class="daily-btn daily-btn-practice" onclick="markDaily('${x(w.d)}','practice',${i})">🔄 Practice more</button>
+      </div>`:`
+      <div style="font-size:12px;color:var(--dim);text-align:center;padding:8px 0;">${result==='known'?'✅ Marked as known':'🔄 Needs more practice'}</div>`}
+    </div>`;
+  }).join('');
+}
+
+function markDaily(word, result, idx){
+  let state = loadDailyState();
+  if(!state) return;
+  state.results[word] = result;
+  const done = Object.keys(state.results).length;
+  if(done >= 5){
+    state.complete = true;
+    updateStreak(getTodayStr());
+  }
+  saveDailyState(state);
+  updateDailyBadge(state);
+  renderDaily(state);
+
+  // Scroll to next unanswered card
+  if(!state.complete){
+    setTimeout(()=>{
+      const cards = state.words;
+      for(let i=0;i<cards.length;i++){
+        if(!state.results[cards[i].d]){
+          const el = document.getElementById('dcard'+i);
+          if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+          break;
+        }
+      }
+    },200);
+  }
+}
+
+function reviewDaily(){
+  let state = loadDailyState();
+  if(!state) return;
+  // Reset results so they can review but keep the same words
+  state.results = {};
+  state.complete = false;
+  saveDailyState(state);
+  renderDaily(state);
 }
 
 // ── SEPARABLE VERBS ───────────────────────────────────────────────────────────
