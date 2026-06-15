@@ -55,49 +55,48 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
   /* Shell fills screen */
   .shell{flex-direction:column;height:100dvh;width:100vw;overflow:hidden;}
 
-  /* Main becomes a row: left nav | content */
+  /* Main = row: left nav | scrollable content */
   .main{
     flex:1;
     display:flex;
     flex-direction:row;
     overflow:hidden;
-    height:100%;
     min-height:0;
   }
 
-  /* Mobile left nav */
+  /* Left nav sidebar */
   .mobile-header{
     display:flex !important;
     flex-direction:column;
-    width:68px;
-    min-width:68px;
-    max-width:68px;
+    width:58px;
+    min-width:58px;
+    max-width:58px;
     height:100%;
     background:var(--bg2);
     border-right:1px solid rgba(255,255,255,0.1);
-    padding:0;
-    overflow:hidden;
     flex-shrink:0;
+    overflow:hidden;
   }
+
+  /* Flag logo at top */
   .mob-top{
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:10px 0 8px 0;
-    margin-bottom:0;
+    padding:8px 0 6px;
     border-bottom:1px solid rgba(255,255,255,0.08);
     flex-shrink:0;
   }
-  .mob-top span{font-size:24px;line-height:1;}
+  .mob-top span{font-size:22px;line-height:1;}
   #tc3{display:none;}
 
-  /* Vertical tab buttons */
+  /* Scrollable tab list */
   .mob-tabs{
     display:flex !important;
     flex-direction:column;
-    gap:2px;
-    padding:6px 4px;
+    gap:0;
+    padding:4px 3px;
     overflow-y:auto;
     overflow-x:hidden;
     flex:1;
@@ -105,46 +104,42 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
     -webkit-overflow-scrolling:touch;
   }
   .mob-tabs::-webkit-scrollbar{display:none;}
+
+  /* Each tab button: icon only, label below */
   .mob-tab{
     flex-shrink:0;
     width:100%;
-    padding:6px 2px;
+    padding:7px 0;
     border:none;
     border-radius:8px;
     cursor:pointer;
     font-family:inherit;
-    font-size:9px;
-    font-weight:700;
     background:transparent;
     color:var(--muted);
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:3px;
-    line-height:1.1;
-    text-align:center;
+    justify-content:center;
+    gap:2px;
     -webkit-tap-highlight-color:transparent;
     touch-action:manipulation;
     transition:background 0.15s;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
     box-sizing:border-box;
-  }
-  .mob-tab .tab-icon{font-size:20px;line-height:1;display:block;}
-  .mob-tab span:not(.tab-icon){
-    display:block;
-    width:60px;
     overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    font-size:8.5px;
-    padding:0 2px;
+  }
+  .mob-tab .tab-icon{
+    font-size:20px;
+    line-height:1;
+    display:block;
+  }
+  /* Hide text labels — icons only on narrow sidebar */
+  .mob-tab span:not(.tab-icon){
+    display:none;
   }
   .mob-tab.active{background:rgba(230,57,70,0.2);color:#ffffff;}
-  .mob-tab:active{background:rgba(255,255,255,0.08);}
+  .mob-tab:active{background:rgba(255,255,255,0.1);}
 
-  /* Content fills remaining width */
+  /* Scrollable content area */
   .content{
     flex:1;
     min-width:0;
@@ -154,16 +149,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
     padding:12px 10px 20px;
     -webkit-overflow-scrolling:touch;
     box-sizing:border-box;
-    display:block;
-  }
-
-  /* Ensure tab divs show correctly */
-  .content > div[id^="tab-"]{
-    display:none;
-    min-height:0;
-  }
-  .content > div[id^="tab-"][style*="block"]{
-    display:block !important;
   }
 }
 .mobile-header{display:none;background:rgba(13,24,33,0.98);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 16px 0;flex-shrink:0;}
