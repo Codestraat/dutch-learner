@@ -108,7 +108,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
   .mob-tab{
     flex-shrink:0;
     width:100%;
-    padding:8px 2px;
+    padding:6px 2px;
     border:none;
     border-radius:8px;
     cursor:pointer;
@@ -148,12 +148,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Source
   .content{
     flex:1;
     min-width:0;
-    height:100%;
+    min-height:0;
     overflow-y:auto;
     overflow-x:hidden;
     padding:12px 10px 20px;
     -webkit-overflow-scrolling:touch;
     box-sizing:border-box;
+    display:block;
+  }
+
+  /* Ensure tab divs show correctly */
+  .content > div[id^="tab-"]{
+    display:none;
+    min-height:0;
+  }
+  .content > div[id^="tab-"][style*="block"]{
+    display:block !important;
   }
 }
 .mobile-header{display:none;background:rgba(13,24,33,0.98);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.1);padding:14px 16px 0;flex-shrink:0;}
@@ -1273,6 +1283,8 @@ function init(){
   setTimeout(initNotifications, 1500);
   applyF();renderVerbs();renderScenCats();initSepVerbs();updateCounts();updateLearnedStats();
   document.getElementById('main-content').addEventListener('scroll',onScroll);
+  // Ensure correct tab is shown and active on load
+  switchTab('words');
 }
 
 function updateCounts(){
